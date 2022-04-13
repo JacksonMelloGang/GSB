@@ -51,6 +51,7 @@ body {
 }
 
 /***************************************************************************/
+
 .page-content {
     display: flex;
     width: 100%;
@@ -74,6 +75,33 @@ body {
     background-color: color;
 }
 
+#search-result {
+    width: 10% !important;
+    background-color: black !important;
+    transition: 0.5s;
+    padding: 0px 8px 8px 8px;
+    list-style: none; 
+    width: 145px;
+    overflow: scroll;
+    height: 200px;
+}
+.loading-effect:before {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+    position: absolute;
+    top: 0;
+}
+
+.loading-effect {
+    animation: loading;
+}
+
+@keyframes loading {
+
+}
+
 .content {
     padding-left: 10px;
     height: 100%;
@@ -81,6 +109,8 @@ body {
     flex-direction: column;
 }
 
+
+/***************************************************************************/
 .card-row {
     display: flex;
     flex-flow: row;
@@ -90,6 +120,7 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
 .card {
     margin-left: 2%;
     margin-right: 2%;
@@ -123,4 +154,13 @@ body {
     .sidebar a {
         font-size: 10px;
     }
+}
+
+.medicament-table {
+    overflow: scroll;
+}
+
+.medic-item td {
+    border: solid 1px black;
+    background-color: rgb(141, 133, 133);
 }
