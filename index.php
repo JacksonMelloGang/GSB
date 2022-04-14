@@ -1,22 +1,23 @@
 <?php
+    require('./middleware/auth_middleware.php');
+    if($_SESSION['allowed'] != 'true'){
+        header("Location: login.php?error=notallowed?page=". substr($_SERVER["PHP_SELF"], 1));
+    }
 
-    require("./middleware/auth_middleware.php");
-
-    $title = "Dashboard";
-
-    $content = "
-        <div class=\"card-row\">
-            <div class=\"card card-red\">
-                <canvas id=\"myChart\"></canvas>
+    ob_start();
+?>
+        <div class="card-row">
+            <div class="card card-red">
+                <canvas id="myChart"></canvas>
             </div>
-            <div class=\"card\">
-                <canvas id=\"chart2\"></canvas>
+            <div class="card">
+                <canvas id="chart2"></canvas>
             </div>
-            <div class=\"card\">
-                <canvas id=\"chart3\"></canvas>
+            <div class="card">
+                <canvas id="chart3"></canvas>
             </div>
-            <div class=\"card\">
-                <canvas id=\"chart4\"></canvas>
+            <div class="card">
+                <canvas id="chart4"></canvas>
             </div>
         </div>
 
@@ -60,6 +61,7 @@
             });
         </script>
 
-    ";
-
+<?php
+    $title = "Dashboard";
+    $content = ob_get_clean();
     require("./layout/layout.php");

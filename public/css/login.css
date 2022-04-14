@@ -2,7 +2,7 @@
 
 body {
     margin: auto;
-    display: grid;
+    display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Urbanist', sans-serif;
