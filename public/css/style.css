@@ -46,6 +46,13 @@ body {
 }
 
 .logout {
+    padding: 8px 8px 8px 8px;
+    
+    font-size: 1vw;
+    color: #818181;
+    text-decoration: none;
+    background-color: transparent;
+
     margin-top: auto !important;
     margin-bottom: 5% !important;
 }

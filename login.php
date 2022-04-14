@@ -5,7 +5,7 @@
     if(session_status() === PHP_SESSION_NONE){
         session_start();
     }
-
+    
     // When atempting to login
     if(isset($_POST['login'])){
         require_once("./middleware/auth_middleware.php");
@@ -14,8 +14,9 @@
         // Check if he is allowed to access otherwise 
         if($result[0] == true){
             $info = $result[1];
+            $_SESSION["authorization"] = "USER";
+
             header("Location: index.php");
-            $_SESSION['allowed'] = 'true';
         } else {
             $info = $result[1];
         }

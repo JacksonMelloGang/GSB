@@ -1,7 +1,7 @@
 <?php
     // Restricted Access
-    require_once("./middleware/auth_middleware.php");
-    check_if_allowed();
+    require_once("./controller/middleware/auth_middleware.php");
+    check_if_allowed('USER');
 
 
     require_once("./db/DbConnexion.php");

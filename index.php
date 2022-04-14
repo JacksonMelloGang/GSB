@@ -1,8 +1,7 @@
 <?php
-    require('./middleware/auth_middleware.php');
-    if($_SESSION['allowed'] != 'true'){
-        header("Location: login.php?error=notallowed?page=". substr($_SERVER["PHP_SELF"], 1));
-    }
+    // Restricted Access
+    require('./controller/middleware/auth_middleware.php');
+    check_if_allowed('USER');
 
     ob_start();
 ?>
@@ -62,6 +61,6 @@
         </script>
 
 <?php
-    $title = "Dashboard";
+    $title = "GSB - Dashboard";
     $content = ob_get_clean();
     require("./layout/layout.php");

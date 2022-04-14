@@ -1,9 +1,15 @@
 <?php
 
     // check if allowed
-    function check_if_allowed(){
-        if($_SESSION['allowed'] != 'true'){
-            header("Location: login.php?error=notallowed?page=". substr($_SERVER["PHP_SELF"], 1));
+    function check_if_allowed($rank){
+        if(!isset($_SESSION['authorization'])){
+            echo(session_id());
+            
+            return;
+        }
+
+        if($_SESSION['authorization'] != $rank){
+            header("Location: login.php?&error=notallowed&page=". substr($_SERVER["PHP_SELF"], 1) . "&rank=". session_id());
         }
     }
 
