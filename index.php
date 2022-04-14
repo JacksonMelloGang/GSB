@@ -1,4 +1,7 @@
 <?php
+
+    require("./middleware/auth_middleware.php");
+
     $title = "Dashboard";
 
     $content = "
@@ -14,9 +17,6 @@
             </div>
             <div class=\"card\">
                 <canvas id=\"chart4\"></canvas>
-            </div>
-            <div class=\"card\">
-                <canvas id=\"chart5\"></canvas>
             </div>
         </div>
 
@@ -59,6 +59,7 @@
                 }
             });
         </script>
+
     ";
 
     require("./layout/layout.php");

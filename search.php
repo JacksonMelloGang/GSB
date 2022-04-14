@@ -39,7 +39,7 @@ for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, pratici
     for ($j = 0; $j < sizeof($resultarray[$i]); $j++) { // row
             switch ($i) {
                 case 0:
-                    echo ("<a href='Medicaments.php?medicid={$resultarray[0][$j][0]}'>". $resultarray[0][$j][1] . "</a><br>");
+                    echo ("<a href='Medicaments.php?&action=showmedic&medic={$resultarray[0][$j][0]}'>". $resultarray[0][$j][1] . "</a><br>");
                     break;
                 case 1:
                     echo ("<a href='Praticien.php?pratid={$resultarray[1][$j][0]}'>Praticien {$resultarray[1][$j][1]} {$resultarray[1][$j][2]}</a><br>");
