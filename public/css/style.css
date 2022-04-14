@@ -1,0 +1,166 @@
+body {
+    margin: auto;
+    font-family: "Lato", sans-serif;
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    transition: 0.5s;
+
+    background-color: black;
+
+    padding: 0 8px 0 8px;
+    height: 100vh;
+    width: 10%;
+}
+/* logo sidebar */
+.sidebar img {
+    height: 10%;
+    align-self: center;
+}
+/* First element of sidebar after image*/
+.first-sidebar {
+    margin-top: 20px !important;
+}
+.sidebar li {
+    list-style: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* link routing to differents pages */
+.sidebar a {
+    padding: 8px 8px 8px 8px;
+    
+    font-size: 1vw;
+    color: #818181;
+    text-decoration: none;
+}
+
+.sidebar hr {
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.logout {
+    margin-top: auto !important;
+    margin-bottom: 5% !important;
+}
+
+/***************************************************************************/
+
+.page-content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.topbar {
+    width: 100%;
+    height: auto;
+    padding: 8px 0px 8px;
+    /*box-shadow: 1px 2px 5px black;*/
+
+    display: flex;
+    justify-content: center;
+
+    background-color: black;
+    font-size: auto;
+}
+.search-input {
+    padding: 0px 8px 0px 8px;
+    border-radius: 8px;
+    background-color: color;
+}
+
+#search-result {
+    width: 10% !important;
+    background-color: black !important;
+    transition: 0.5s;
+    padding: 0px 8px 8px 8px;
+    list-style: none; 
+    width: 145px;
+    overflow: scroll;
+    height: 200px;
+}
+.loading-effect:before {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+    position: absolute;
+    top: 0;
+}
+
+.loading-effect {
+    animation: loading;
+}
+
+@keyframes loading {
+
+}
+
+.content {
+    padding-left: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/***************************************************************************/
+.card-row {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    overflow: hidden;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.card {
+    margin-left: 2%;
+    margin-right: 2%;
+
+    width: 15%;
+    height: 100%;
+    background-color: #faeaea;
+    box-shadow: 1px 3px 5px black;
+    border-radius: 5px;
+}
+.card-red {
+    border-left: 3px solid red;
+}
+.card-blue {
+    border-left: 3px solid blue;
+}
+
+@media screen and (max-width: 500px) {
+    .sidebar {
+        width: 10vh;
+    }
+    .card-row {
+        display: flex;
+        flex-direction: column !important;
+    }
+    .card {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .sidebar a {
+        font-size: 10px;
+    }
+}
+
+.medicament-table {
+    overflow: scroll;
+}
+
+.medic-item td {
+    border: solid 1px black;
+    background-color: rgb(141, 133, 133);
+}
