@@ -17,16 +17,10 @@
 </head>
 
 <body>
-    <nav class="sidebar">
-        <img src="./public/img/gsblogo.png">
-        <li class="first-sidebar"><a href="#">Rapports</a></li>
-        <li><a href="#">Consulter</a></li>
-        <hr>
-        <li><a href="#">T</a></li>
-        <li><a href="#">TT</a></li>
-
-        <a class="logout" href="#">Se Déconnecter</a>
-    </nav>
+    <!-- Sidebar -->
+    <?php require("./views/layout/sidebar-select.php") ?>
+    
+    <!-- Content -->
     <div class="page-content">
         <nav class="topbar">
             <div id="search">
@@ -40,6 +34,8 @@
         </div>
     </div>
     
+
+    <!-- Seach Bar -->
         <script>
             $(".search-input").on("input", function() {
 

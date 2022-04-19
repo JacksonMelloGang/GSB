@@ -8,13 +8,13 @@ $rapportquery = "SELECT rapNum, praNum, rapDate FROM rapportvisite";
 $visiteurquery = "SELECT visMatricule, visNom, visPrenom, visCp, visVille FROM visiteur";
 
 $resultmedicquery = $connexion->query($medicquery);
-$resultpracticienquery = $connexion->query($practicienquery);
+$resultpraticienquery = $connexion->query($practicienquery);
 $resultrapportquery = $connexion->query($rapportquery);
 $resultvisiteurquery = $connexion->query($visiteurquery);
 
 try {
     $resultmedicquery = $resultmedicquery->fetchAll();
-    $resultpracticienquery = $resultpracticienquery->fetchAll();
+    $resultpraticienquery = $resultpraticienquery->fetchAll();
     $resultrapportquery = $resultrapportquery->fetchAll();
     $resultvisiteurquery = $resultvisiteurquery->fetchAll();
 } catch (Exception $e) {
@@ -23,7 +23,7 @@ try {
 
 
 // type -> row n°x of result -> column
-$resultarray = array(0 => $resultmedicquery, 1 => $resultpracticienquery, 2 => $resultrapportquery, 3 => $resultvisiteurquery);
+$resultarray = array(0 => $resultmedicquery, 1 => $resultpraticienquery, 2 => $resultrapportquery, 3 => $resultvisiteurquery);
 
 
 ob_start();
@@ -31,7 +31,7 @@ ob_start();
 // Generic Items
 echo ("<a href='./Rapports.php?fromsearch=true'>Rapports</a><br>");
 echo ("<a href='./Medicaments.php?fromsearch=true'>Medicaments</a><br>");
-echo ("<a href='./Practicien.php?fromsearch=true'>Praticien</a><br>");
+echo ("<a href='./Praticien.php?fromsearch=true'>Praticien</a><br>");
 echo("<br>");
 
 for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, praticien, visiteur)

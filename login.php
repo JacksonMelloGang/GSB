@@ -8,7 +8,7 @@
     
     // When atempting to login
     if(isset($_POST['login'])){
-        require_once("./middleware/auth_middleware.php");
+        require_once("./controller/middleware/auth_middleware.php");
         $result = check($_POST['username'], $_POST['password']);
                 
         // Check if he is allowed to access otherwise 
@@ -44,7 +44,7 @@
                 <input type="hidden" value="login" name="login">
                 <input type=submit value="Se connecter">
 
-                <?php echo("<br><p>$info</p>") ?>
+                <?php echo("<br><span style='color: red;'>$info</span>") ?>
             </form>
     </div>
 </body>
