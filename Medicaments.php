@@ -1,4 +1,31 @@
 <?php
+
+    function showtable($connexion)
+    {
+        $query = $connexion->query("SELECT * FROM medicament");
+        $result = $query->fetch();
+        ob_start();
+        echo ("<table class='medicament-table' style='overflow: scroll; height: 10px;'>");
+        while ($result) {
+            echo ("<tr class='medic-item'>");
+            echo ("<td><a href='" . $_SERVER['PHP_SELF'] . "?&action=showmedic&medic=$result[0]'>$result[0]</a></td>");
+            echo ("<td>$result[1]</td>");
+            echo ("<td>$result[2]</td>");
+            echo ("<td>$result[3]</td>");
+            echo ("<td>$result[4]</td>");
+            echo ("<td>$result[5]</td>");
+            echo ("<td>$result[6]</td>");
+            echo ("</tr>");
+            $result = $query->fetch();
+        }
+        echo ("</table>");
+        return ob_get_clean();
+    }
+
+
+    
+
+
     // Restricted Access
     require_once("./controller/middleware/auth_middleware.php");
     check_if_allowed('USER'); // Rank Needed
@@ -55,29 +82,5 @@
     $title="GSB - Liste des Medicaments";
     $content = showtable($connexion);
     require("./view/layout/layout.php");
-
-
-
-    function showtable($connexion)
-    {
-        $query = $connexion->query("SELECT * FROM medicament");
-        $result = $query->fetch();
-        ob_start();
-        echo ("<table class='medicament-table' style='overflow: scroll; height: 10px;'>");
-        while ($result) {
-            echo ("<tr class='medic-item'>");
-            echo ("<td><a href='" . $_SERVER['PHP_SELF'] . "?&action=showmedic&medic=$result[0]'>$result[0]</a></td>");
-            echo ("<td>$result[1]</td>");
-            echo ("<td>$result[2]</td>");
-            echo ("<td>$result[3]</td>");
-            echo ("<td>$result[4]</td>");
-            echo ("<td>$result[5]</td>");
-            echo ("<td>$result[6]</td>");
-            echo ("</tr>");
-            $result = $query->fetch();
-        }
-        echo ("</table>");
-        return ob_get_clean();
-    }
 
 ?>

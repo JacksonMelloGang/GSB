@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <?php  require("./views/layout/sidebar-select.php"); ?>
+    <?php  require("./views/components/sidebar-select.php"); ?>
     <div class="page-content">
         <nav class="topbar">
             <div id="search">

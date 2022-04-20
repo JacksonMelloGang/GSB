@@ -39,17 +39,17 @@ $resultarray = array(0 => $resultmedicquery, 1 => $resultpraticienquery, 2 => $r
 ob_start();
 
 $arrayisempty = 0; 
-// Check first if result of queries are empty
-for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, praticien, visiteur)
-    if($resultarray === false || sizeof($resultarray[$i])  == 0){
-        $arrayisempty += 1;
+// Check first if result of queries are empty if it's the case, echo "No Result Found" 
+    for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, praticien, visiteur)
+        if($resultarray === false || sizeof($resultarray[$i])  == 0){
+            $arrayisempty += 1;
+        }
     }
-}
 
-if($arrayisempty == sizeof($resultarray)){
-    echo("Pas de résultat trouvé !");
-    return;
-}
+    if($arrayisempty == sizeof($resultarray)){
+        echo("Pas de résultat trouvé !");
+        return;
+    }
 
 
 // Generic Items
