@@ -1,25 +1,34 @@
 <?php
 
 require_once("./db/DbConnexion.php");
-$searchfilter = isset($_GET['search']) ? $_GET['search'] : "1";
+$searchfilter = isset($_GET['search']) ? $_GET['search'] : "";
 
-$medicquery = "SELECT * FROM medicament";
-$practicienquery = "SELECT * FROM praticien";
-$rapportquery = "SELECT rapNum, praNum, rapDate FROM rapportvisite";
-$visiteurquery = "SELECT visMatricule, visNom, visPrenom, visCp, visVille FROM visiteur";
+$medicquery = "SELECT medDepotlegal, medNomcommercial FROM medicament WHERE medDepotlegal LIKE :userinput OR medNomcommercial LIKE :userinput";
+$practicienquery = "SELECT praNum, praNom, praPrenom FROM praticien WHERE praNom LIKE :userinput OR praPrenom LIKE :userinput";
+$rapportquery = "SELECT rapNum FROM rapportvisite WHERE rapNum LIKE :userinput";
+$visiteurquery = "SELECT visMatricule, visNom, visPrenom FROM visiteur WHERE visMatricule LIKE :userinput OR visNom LIKE :userinput OR visPrenom LIKE :userinput";
 
-$resultmedicquery = $connexion->query($medicquery);
-$resultpraticienquery = $connexion->query($practicienquery);
-$resultrapportquery = $connexion->query($rapportquery);
-$resultvisiteurquery = $connexion->query($visiteurquery);
+// we prepare each request as we get data from user input
+$resultmedicquery = $connexion->prepare($medicquery);
+$resultmedicquery->execute(array(':userinput' => "%$searchfilter%"));
 
+$resultpraticienquery = $connexion->prepare($practicienquery);
+$resultpraticienquery->execute(array(':userinput' => "%$searchfilter%"));
+
+$resultrapportquery = $connexion->prepare($rapportquery);
+$resultrapportquery->execute(array(':userinput' => "%$searchfilter%"));
+
+$resultvisiteurquery = $connexion->prepare($visiteurquery);
+$resultvisiteurquery->execute(array(':userinput' => "%$searchfilter%"));
+
+// Then we fetch all
 try {
     $resultmedicquery = $resultmedicquery->fetchAll();
     $resultpraticienquery = $resultpraticienquery->fetchAll();
     $resultrapportquery = $resultrapportquery->fetchAll();
     $resultvisiteurquery = $resultvisiteurquery->fetchAll();
 } catch (Exception $e) {
-    echo ($e);
+    echo ("Couldn't get data: <br>" . $e);
 }
 
 
@@ -29,11 +38,24 @@ $resultarray = array(0 => $resultmedicquery, 1 => $resultpraticienquery, 2 => $r
  
 ob_start();
 
+$arrayisempty = 0; 
+// Check first if result of queries are empty
+for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, praticien, visiteur)
+    if($resultarray === false || sizeof($resultarray[$i])  == 0){
+        $arrayisempty += 1;
+    }
+}
+
+if($arrayisempty == sizeof($resultarray)){
+    echo("Pas de résultat trouvé !");
+    return;
+}
+
+
 // Generic Items
 echo ("<a href='./Rapports.php?fromsearch=true'>Rapports</a><br>");
 echo ("<a href='./Medicaments.php?fromsearch=true'>Medicaments</a><br>");
 echo ("<a href='./Praticien.php?fromsearch=true'>Praticien</a><br>");
-echo("<br>");
 
 for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, praticien, visiteur)
     echo("<br>");

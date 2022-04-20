@@ -1,12 +1,9 @@
 <?php
-<<<<<<< HEAD
     // Restricted Access
     require_once("./controller/middleware/auth_middleware.php");
     check_if_allowed('USER'); // Rank Needed
 
 
-=======
->>>>>>> 0e668b16706fca5f2d29421ae79c4b157f2fa643
     require_once("./db/DbConnexion.php");
 
     if (isset($_GET['action'])) {
