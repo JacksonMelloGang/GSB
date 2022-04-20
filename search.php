@@ -1,6 +1,7 @@
 <?php
 
 require_once("./db/DbConnexion.php");
+$searchfilter = isset($_GET['search']) ? $_GET['search'] : "1";
 
 $medicquery = "SELECT * FROM medicament";
 $practicienquery = "SELECT * FROM praticien";
@@ -39,7 +40,7 @@ for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, pratici
     for ($j = 0; $j < sizeof($resultarray[$i]); $j++) { // row
             switch ($i) {
                 case 0:
-                    echo ("<a href='Medicaments.php?&action=showmedic&medic={$resultarray[$i][$j][0]}' class='search-link'>". $resultarray[$i][$j][1] . "</a><br>");
+                    echo ("<a href='Medicaments.php?&action=showmedic&medic={$resultarray[$i][$j][0]}' class='search-link'>{$resultarray[$i][$j][1]}</a><br>");
                     break;
                 case 1:
                     echo ("<a href='Praticien.php?pratid={$resultarray[$i][$j][0]}' class='search-link'>Praticien {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
@@ -48,7 +49,7 @@ for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, pratici
                     echo ("<a href='Rapports.php?rapportid={$resultarray[$i][$j][0]}' class='search-link'>Rapport N°{$resultarray[$i][$j][0]}</a><br>");
                     break;
                 case 3:
-                    echo ("<a href='Visiteurs.php?visiteurid={$resultarray[$i][$j][0]}' class='search-link'>{$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
+                    echo ("<a href='Visiteurs.php?visiteurid={$resultarray[$i][$j][0]}' class='search-link'>Visiteur {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
                     break;
                 default:
                     echo ("<a href='index.php'>Element Inconnu</a><br>");
