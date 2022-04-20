@@ -5,6 +5,10 @@ body {
     flex-direction: row;
 }
 
+/***************************************************************************/
+/*                                 SIDE BAR
+/***************************************************************************/
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -25,6 +29,8 @@ body {
 .first-sidebar {
     margin-top: 20px !important;
 }
+
+/************ DROPDOWN ************/
 .dropdown {
     display: inline-block;
     width: 100%;
@@ -32,10 +38,10 @@ body {
 .dropdown:hover .dropdown-content {
     position: absolute;
     background-color: red;
-    display: block;
 
-    margin-top: 2px;
-    z-index: 2;
+    margin-bottom: 200px;
+    display: inline-flex;
+    flex-direction: column;
 }
 .dropdown-content {
     display: none;
@@ -64,7 +70,7 @@ body {
 .logout {
     padding: 8px 8px 8px 8px;
     
-    font-size: 1vw;
+    font-size: 10px;
     color: #818181;
     text-decoration: none;
     background-color: transparent;
@@ -90,8 +96,13 @@ body {
     justify-content: center;
 
     background-color: black;
-    font-size: auto;
+    font-size: 10px;
 }
+
+/***************************************************************************/
+/*                              SEARCH BAR
+/***************************************************************************/
+
 #search {
     display: block;
 }
@@ -154,6 +165,7 @@ body {
     } 
 
 }
+/***************************************************************************/
 
 .content {
     padding-left: 10px;
@@ -208,6 +220,8 @@ body {
         font-size: 10px;
     }
 }
+
+/***************************************************************************/
 
 .medicament-table {
     overflow: scroll;

@@ -1,6 +1,6 @@
 <?php
 
-    require('./config/permissions_level.php');
+    //require('./config/permissions_level.php');
 
     function check_if_allowed($permission_needed){
         session_start();

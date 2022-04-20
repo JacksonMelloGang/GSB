@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php  header("Cache-Control: max-age=100") ?>
+    <?php  header("Cache-Control: max-age=10") ?>
     <title><?= $title ?></title>
 
     <!-- Style -->
@@ -32,35 +32,6 @@
         </div>
     </div>
     
-        <script>
-            $(".search-input").on("input", function() {
-                // empty result
-                document.getElementById("search-result").innerHTML = "";
-
-                // when search input is empty, hide result
-                if ($(".search-input").val() == "") {
-                    $('#search-result').toggle(false);
-                    return;
-                };
-
-                // otherwise show it and add loading effect & disable scrolling
-                $('#search-result').toggle(true);
-                $('#search-result').addClass('loading-effect');
-                document.getElementById('search-result').style.overflow = 'hidden';
-
-                // make ajax request to get data from search.php
-                $.ajax({
-                    async: true,
-                    url: "./search.php?search="+ $(".search-input").val(),
-                    timeout: 5000,
-                    success: function(data) {
-                        $('#search-result').removeClass('loading-effect')
-                        document.getElementById('search-result').style.overflow = 'scroll';
-                        document.getElementById("search-result").innerHTML = "<ul style='list-style: none;'>" + data + "</ul>";
-                    }
-                });
-            });
-        </script>
+    <script src="./public/js/search-bar.js"></script>
 </body>
-
 </html>

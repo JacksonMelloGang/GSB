@@ -1,5 +1,5 @@
 <?php
-require_once("./config/config.php");
+//require_once("../config/config.php");
 
 define("DB_HOST", "localhost");
 define("DB_USER", "root");

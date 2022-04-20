@@ -23,7 +23,7 @@
     }
 
 
-    
+
 
 
     // Restricted Access
@@ -81,6 +81,6 @@
     // Render default page
     $title="GSB - Liste des Medicaments";
     $content = showtable($connexion);
-    require("./view/layout/layout.php");
+    require("./views/layout/layout.php");
 
 ?>

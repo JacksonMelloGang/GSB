@@ -60,6 +60,7 @@ echo ("<a href='./Praticien.php?fromsearch=true'>Praticien</a><br>");
 for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, praticien, visiteur)
     echo("<br>");
     for ($j = 0; $j < sizeof($resultarray[$i]); $j++) { // row
+        echo("<div class='result-item'>");
             switch ($i) {
                 case 0:
                     echo ("<a href='Medicaments.php?&action=showmedic&medic={$resultarray[$i][$j][0]}' class='search-link'>{$resultarray[$i][$j][1]}</a><br>");
@@ -76,10 +77,11 @@ for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, pratici
                 default:
                     echo ("<a href='index.php'>Element Inconnu</a><br>");
                 break;
-        }
+            }
+        echo("</div>");
     }
 }
 
-echo("<br><a class='last-search-item' href='search-help.php'>Help !</a>");
+echo("<br><a class='last-search-item' href='./views/search-help.php'>Aidez moi !</a>");
 
 echo(ob_get_clean());
