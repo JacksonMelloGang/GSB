@@ -41,7 +41,7 @@
                 <input type="hidden" value="login" name="login">
                 <input type=submit value="Se connecter">
 
-                <?php echo("<br><span style='color: red;'>$info</span>") ?>
+                <?php echo("<br><span style='color: red; margin-top: 10px'>$info</span>") ?>
             </form>
     </div>
 </body>

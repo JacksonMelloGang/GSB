@@ -25,6 +25,22 @@ body {
 .first-sidebar {
     margin-top: 20px !important;
 }
+.dropdown {
+    display: inline-block;
+    width: 100%;
+}
+.dropdown:hover .dropdown-content {
+    position: absolute;
+    background-color: red;
+    display: block;
+
+    margin-top: 2px;
+    z-index: 2;
+}
+.dropdown-content {
+    display: none;
+}
+
 .sidebar li {
     list-style: none;
     margin-top: 10px;
@@ -87,8 +103,6 @@ body {
     list-style: none; 
     overflow-y: scroll;
     
-    margin-left: 50%;
-
     background-color: black !important;
     transition: 0.5s;
     height: 200px;
