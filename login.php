@@ -1,14 +1,11 @@
 <?php
     $info = "";
 
-    // only start session if user doesn't have any session already open
-    if(session_status() === PHP_SESSION_NONE){
-        session_start();
-    }
-    
+    session_start();
+
     // When atempting to login
     if(isset($_POST['login'])){
-        require_once("./middleware/auth_middleware.php");
+        require_once("./controller/middleware/auth_middleware.php");
         $result = check($_POST['username'], $_POST['password']);
                 
         // Check if he is allowed to access otherwise 
@@ -35,7 +32,7 @@
 <body>
     <div id='background'></div>
     <div id="back-login">
-            <form id="loginform" action="#" method="post">
+            <form id="loginform" action="" method="post">
                 <h1>Authentication</h1>
                 <input type="text" placeholder="Username" name="username">
                 <br>

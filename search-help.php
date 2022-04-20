@@ -1,4 +1,5 @@
 <?php
 
+    $title = "GSB - Search Help";
     $content = "T TROP RIGOLO";
-    require("./layout/layout.php");
+    require("./view/layout/layout.php");

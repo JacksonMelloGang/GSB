@@ -83,14 +83,16 @@ body {
 }
 
 #search-result {
-    width: 10% !important;
+    position: absolute;
+    list-style: none; 
+    overflow-y: scroll;
+    
+    margin-left: 50%;
+
     background-color: black !important;
     transition: 0.5s;
-    padding: 0px 8px 8px 8px;
-    list-style: none; 
-    width: 145px;
-    overflow: scroll;
     height: 200px;
+    width: 10% !important;
 }
 .loading-effect:before {
     content: " ";
@@ -100,7 +102,15 @@ body {
     position: absolute;
     top: 0;
 }
-
+.loading-effect:after {
+    content: " ";
+    width: 10%;
+    height: 10%;
+    background-color: red;
+    position: absolute;
+    top: 0;
+    transform: translate(50%, 50%);
+}
 .loading-effect {
     animation: loading;
 }

@@ -41,23 +41,29 @@
     </div>
     
         <script>
+            searchcontent = "";
+            $(document).ready(function(){
+                $.ajax({
+                    async: true,
+                    url: "./search.php",
+                    success: function(data) {
+                        $('#search-result').removeClass('loading-effect');
+                        searchcontent = data;
+                        document.getElementById("search-result").innerHTML = data;
+                    }
+                });
+            });
+
             $(".search-input").on("input", function() {
 
                 if ($(".search-input").val() == "") {
                     $('#search-result').toggle(false);
                     return;
                 };
-
                 $('#search-result').toggle(true);
-                $('#search-result').addClass('loading-effect');
-
-                $.ajax({
-                    async: true,
-                    url: "./search.php",
-                    success: function(data) {
-                        $('#search-result').removeClass('loading-effect')
-                        document.getElementById("search-result").innerHTML = "<ul style='list-style: none;'>" + data + "</ul>";
-                    }
+                
+                $('.search-link').each((i, e) => {
+                    console.log(e.innerHTML);
                 });
             });
         </script>

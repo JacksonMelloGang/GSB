@@ -1,15 +1,15 @@
 <?php
 
-    // check if allowed
-    function check_if_allowed($rank){
+    require('./config/permissions_level.php');
+
+    function check_if_allowed($permission_needed){
+        session_start();
         if(!isset($_SESSION['authorization'])){
-            echo(session_id());
-            
-            return;
+            header("Location: login.php?&error=norank&page=". $_SERVER["PHP_SELF"]);
         }
 
-        if($_SESSION['authorization'] != $rank){
-            header("Location: login.php?&error=notallowed&page=". substr($_SERVER["PHP_SELF"], 1) . "&rank=". session_id());
+        if($_SESSION['authorization'] != $permission_needed){
+            header("Location: login.php?&error=notallowed&page=". substr($_SERVER["PHP_SELF"], 1) . "&rank=". $_SESSION['authorization']);
         }
     }
 

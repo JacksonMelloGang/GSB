@@ -63,4 +63,4 @@
 <?php
     $title = "GSB - Dashboard";
     $content = ob_get_clean();
-    require("./layout/layout.php");
+    require("./view/layout/layout.php");
