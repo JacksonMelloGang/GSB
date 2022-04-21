@@ -12,7 +12,7 @@
 
     switch($userrank){
         case 'USER':
-            require("./sidebar/sidebar-user.html");
+            require("./views/components/sidebar/sidebar-user.html");
             break;
         case 'RESPONSABLE':
             break; 

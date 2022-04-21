@@ -18,22 +18,7 @@
 </head>
 
 <body>
-    <nav class="sidebar">
-            <img src="../public/img/gsblogo.png">
-            <div class="dropdown first-sidebar">
-                    <span style="color: red"><a href="Rapports.php">Rapports</a></span>
-                    <div class="dropdown-content">
-                            <a href="Rapports.php?action=new">Nouveau</a>
-                            <a href="Rapports.php?action=consult">Consulter</a>
-                    </div>
-            </div>
-            <hr>
-            <li><a href="../views/Medicaments.php">Medicaments</a></li>
-            <li><a href="../views/Praticiens.php">Praticiens</a></li>
-
-            <a class="logout" href="#">Se Déconnecter</a>
-    </nav>
-
+    <?php  require("./views/components/sidebar-select.php"); ?>
     <div class="page-content">
         <nav class="topbar">
             <div id="search">
