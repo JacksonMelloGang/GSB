@@ -1,7 +1,5 @@
 <?php
 
-    //require('./config/permissions_level.php');
-
     function check_if_allowed($permission_needed){
         session_start();
         if(!isset($_SESSION['authorization'])){
@@ -16,7 +14,7 @@
 
     // Function to check if user is into the database or not
     function check($username, $password) {
-        require_once("./db/DbConnexion.php");
+        require("./db/DbConnexion.php");
 
         // if username or password is empty return false and error message
         if(empty($username) || empty($password)){

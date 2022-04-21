@@ -1,19 +1,20 @@
 <?php
-    $info = "";
+    require("./controller/middleware/auth_middleware.php");
 
+    $info = "";
     session_start();
 
     // When atempting to login
     if(isset($_POST['login'])){
-        require_once("./controller/middleware/auth_middleware.php");
-        $result = check($_POST['username'], $_POST['password']);
-                
+        $result = check($_POST['username'], $_POST['password']); // supposed to return array(true|false, message)
+        
         // Check if he is allowed to access otherwise 
         if($result[0] == true){
             $info = $result[1];
             $_SESSION["authorization"] = "USER";
 
-            header("Location: index.php");
+            header("Location: index.php", true, 0);
+            exit();
         } else {
             $info = $result[1];
         }
