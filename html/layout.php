@@ -18,7 +18,7 @@
 
 <body>
     <nav class="sidebar">
-            <img src="../public/img/gsblogo.png">
+            <img src="gsblogo.png">
             <div class="dropdown first-sidebar">
                     <span style="color: red"><a href="Rapports.php">Rapports</a></span>
                     <div class="dropdown-content">
@@ -27,8 +27,8 @@
                     </div>
             </div>
             <hr>
-            <li><a href="../views/Medicaments.php">Medicaments</a></li>
-            <li><a href="../views/Praticiens.php">Praticiens</a></li>
+            <li><a href="Medicaments.php">Medicaments</a></li>
+            <li><a href="Praticiens.php">Praticiens</a></li>
 
             <a class="logout" href="#">Se Déconnecter</a>
     </nav>
