@@ -70,7 +70,7 @@
                     // Define values for layout.php
                     $title= "GSB - Medicament " . $_GET['medic'];
                     $content = ob_get_clean();
-                    require("./views/layout/layout.php");
+                    require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
 
                     return;
                 }

@@ -16,7 +16,7 @@ $(".search-input").on("input", function search() {
                 // make ajax request to get data from search.php
                 $.ajax({
                     async: true,
-                    url: "./search.php?search="+ $(".search-input").val(),
+                    url: window.location.host + "search.php?search="+ $(".search-input").val(),
                     timeout: 5000,
                     success: function(data) {
                         $('#search-result').removeClass('loading-effect')

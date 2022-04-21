@@ -1,6 +1,4 @@
 <?php
-    require("../db/DbConnexion.php");
-
     function showrapports($connexion){
         // Get Rapports from database & display in table
         $result = $connexion->query("SELECT * FROM rapportvisite");
@@ -18,8 +16,32 @@
             echo("</table>");
         return ob_get_clean();
     }
-    
+
+    // Restricted Access
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/controller/middleware/auth_middleware.php");
+    check_if_allowed('USER'); // Rank Needed
+
+
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/db/DbConnexion.php");
+
+
+
+    if(isset($_GET["action"])){
+        $action = $_GET["action"];
+        switch($action){
+            case "new":
+
+                    $title = "GSB - Rapports";
+                    $content = "aa";
+                    require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
+                    return;
+                break;
+            default:
+                
+        }
+    }
+
 
     $title = "GSB - Rapports";
     $content = showrapports($connexion);
-    require("./layout/layout.php");
+    require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
