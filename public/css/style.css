@@ -32,7 +32,7 @@ body {
 
 /************ DROPDOWN ************/
 .dropdown {
-    display: inline-block;
+    display: block;
     width: 100%;
 }
 .dropdown:hover .dropdown-content {

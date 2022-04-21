@@ -1,3 +1,5 @@
+<?php  header("Cache-Control: max-age=1"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,11 +7,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php  header("Cache-Control: max-age=10") ?>
     <title><?= $title ?></title>
-
     <!-- Style -->
-    <link href="./public/css/style.css" rel="stylesheet" type="text/css">
+    <link href="../public/css/style.css" rel="stylesheet" type="text/css">
     <!--Bootstrap Icons-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Dependencies -->
@@ -18,7 +18,22 @@
 </head>
 
 <body>
-    <?php  require("./views/components/sidebar-select.php"); ?>
+    <nav class="sidebar">
+            <img src="../public/img/gsblogo.png">
+            <div class="dropdown first-sidebar">
+                    <span style="color: red"><a href="Rapports.php">Rapports</a></span>
+                    <div class="dropdown-content">
+                            <a href="Rapports.php?action=new">Nouveau</a>
+                            <a href="Rapports.php?action=consult">Consulter</a>
+                    </div>
+            </div>
+            <hr>
+            <li><a href="./views/Medicaments.php">Medicaments</a></li>
+            <li><a href="./views/Praticiens.php">Praticiens</a></li>
+
+            <a class="logout" href="#">Se Déconnecter</a>
+    </nav>
+
     <div class="page-content">
         <nav class="topbar">
             <div id="search">

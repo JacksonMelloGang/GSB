@@ -27,11 +27,11 @@
 
 
     // Restricted Access
-    require_once("./controller/middleware/auth_middleware.php");
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/controller/middleware/auth_middleware.php");
     check_if_allowed('USER'); // Rank Needed
 
 
-    require_once("./db/DbConnexion.php");
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/db/DbConnexion.php");
 
     if (isset($_GET['action'])) {
         $action = $_GET['action'];
@@ -81,6 +81,6 @@
     // Render default page
     $title="GSB - Liste des Medicaments";
     $content = showtable($connexion);
-    require("./views/layout/layout.php");
+    require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
 
 ?>
