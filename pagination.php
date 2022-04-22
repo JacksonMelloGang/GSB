@@ -5,7 +5,7 @@
     // user-input, define number of elements in page
     $nbr_elements_par_page= isset($_GET["nbpage"]) ? $_GET["nbpage"] : 7;
 
-    //=============================================// 
+    //================= PAGINATION =================// 
         // if query param page is set and is an int, then set $page to $_get["page"] otherwise set to 1 (to avoid warning) 
         $page= isset($_GET["page"]) && intval($_GET["page"]) ? $_GET["page"] : 1; 
 
@@ -27,7 +27,7 @@
 
     <table>
         <?php
-
+            //display result
             while($ligne != false){
                 echo("<tr>");
                     for($i=0; $i < $result->columnCount(); $i++){
@@ -42,6 +42,7 @@
 
     <div id="pagination">
         <?php
+            // select page
             for($i=1;$i<=$nbr_de_pages-1;$i++){
                 if($page!=$i)
                     echo "<a href='?page=$i'>$i</a>&nbsp;";
@@ -49,7 +50,6 @@
                     echo"<a>$i</a>&nbsp";
             }
         ?>
-
     </div>
     
 <?php
