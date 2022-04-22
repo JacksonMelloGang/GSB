@@ -7,7 +7,7 @@
         }
 
         if($_SESSION['authorization'] != $permission_needed){
-            header("Location: login.php?&error=notallowed&page=". substr($_SERVER["PHP_SELF"], 1) . "&rank=". $_SESSION['authorization']);
+            header("Location: /login.php?&error=notallowed&page=". substr($_SERVER["PHP_SELF"], 1) . "&rank=". $_SESSION['authorization']);
         }
     }
 

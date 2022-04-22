@@ -1,7 +1,7 @@
 <?php
     function showrapports($connexion){
         // Get Rapports from database & display in table
-        $result = $connexion->query("SELECT * FROM rapportvisite");
+        $result = $connexion->query("SELECT rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule");
         ob_start();
             echo("<table>");
                 $row = $result->fetch();
@@ -30,7 +30,6 @@
         $action = $_GET["action"];
         switch($action){
             case "new":
-
                     $title = "GSB - Rapports";
                     $content = "aa";
                     require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");

@@ -12,11 +12,11 @@ $(".search-input").on("input", function search() {
                 $('#search-result').toggle(true);
                 $('#search-result').addClass('loading-effect');
                 document.getElementById('search-result').style.overflow = 'hidden';
-
+                console.log(window.location.host);
                 // make ajax request to get data from search.php
                 $.ajax({
                     async: true,
-                    url: window.location.host + "search.php?search="+ $(".search-input").val(),
+                    url: "search.php?search="+ $(".search-input").val(),
                     timeout: 5000,
                     success: function(data) {
                         $('#search-result').removeClass('loading-effect')
