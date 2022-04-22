@@ -31,7 +31,7 @@
             <li><a href="./Medicaments.php">Medicaments</a></li>
             <li><a href="./Praticiens.php">Praticiens</a></li>
 
-            <a class="logout" href="#">Se Déconnecter</a>
+            <a class="logout" onclick="logout()" href="#">Se Déconnecter</a>
     </nav>
 
     <div class="page-content">
@@ -48,5 +48,7 @@
     </div>
     
     <script src="/public/js/search-bar.js"></script>
+    <script src="/public/js/app.js"></script>
+
 </body>
 </html>

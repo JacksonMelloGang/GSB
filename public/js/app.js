@@ -1,3 +1,3 @@
 function logout(){
-    window.location = "/logout.php"
+    window.location = "/logout.php";
 }

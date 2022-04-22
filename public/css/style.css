@@ -165,12 +165,16 @@ body {
 .content {
     margin-top: 10px;
     padding-left: 10px;
+    padding-right: 10px;
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /*align-items: center;*/
 }
 
+#pagination {
+    text-align: center;
+}
 
 /***************************************************************************/
 .card-row {
