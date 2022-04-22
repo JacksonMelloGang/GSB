@@ -2,11 +2,37 @@
 
     function check_if_allowed($permission_needed){
         session_start();
+        $allowed = false;
+
         if(!isset($_SESSION['authorization'])){
             header("Location: login.php?&error=norank&page=". $_SERVER["PHP_SELF"]);
+            exit;
         }
 
-        if($_SESSION['authorization'] != $permission_needed){
+        // $permission_needed can be an array or a string so we have to check if it's an array or a string
+
+        // check if it's an array
+        if(is_array($permission_needed)){
+            $i = 0;
+            while($i < sizeof($permission_needed) || $allowed == false){
+                if($_SESSION['authorization'] == $permission_needed[$i]){
+                    $allowed = true;   
+                }
+                $i++;
+            }
+        } 
+
+        // check if $permission_needed is a string otherwise 'error'
+        if(is_string($permission_needed)){
+            if($_SESSION['authorization'] == $permission_needed){
+                $allowed = true;
+            }
+        } else {
+            die("value permission_needed($permission_needed) is not a string or an array !");
+        }
+
+        // if not allowed redirect to login.php otherwise do nothing 
+        if($allowed == false){
             header("Location: /login.php?&error=notallowed&page=". substr($_SERVER["PHP_SELF"], 1) . "&rank=". $_SESSION['authorization']);
         }
     }

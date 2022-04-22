@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Cache-Control" content="max-age=1">
     <title><?= $title ?></title>
     <!-- Style -->
     <link href="/public/css/style.css" rel="stylesheet" type="text/css">
@@ -31,7 +32,7 @@
             <li><a href="./views/Medicaments.php">Medicaments</a></li>
             <li><a href="./views/Praticiens.php">Praticiens</a></li>
 
-            <a class="logout" href="#">Se Déconnecter</a>
+            <a class="logout" onclick="logout()" href="#">Se Déconnecter</a>
     </nav>
 
     <div class="page-content">
@@ -48,5 +49,6 @@
     </div>
     
     <script src="/public/js/search-bar.js"></script>
+    <script src="/public/js/app.js"></script>
 </body>
 </html>
