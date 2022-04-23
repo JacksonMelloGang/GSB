@@ -1,6 +1,6 @@
 <?php
     // Restricted Access
-    require('./controller/middleware/auth_middleware.php');
+    require('./includes/auth_middleware.php');
     check_if_allowed("USER");
 
     ob_start();

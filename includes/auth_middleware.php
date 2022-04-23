@@ -5,7 +5,7 @@
         $allowed = false;
 
         if(!isset($_SESSION['authorization'])){
-            header("Location: login.php?&error=norank&page=". $_SERVER["PHP_SELF"]);
+            header("Location: /login.php?&error=norank&page=". $_SERVER["PHP_SELF"]);
             exit;
         }
 

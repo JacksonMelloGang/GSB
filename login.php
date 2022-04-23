@@ -1,5 +1,5 @@
 <?php
-    require("./controller/middleware/auth_middleware.php");
+    require($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
 
     $info = "";
     session_start();

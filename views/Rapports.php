@@ -18,7 +18,7 @@
     }
 
     // Restricted Access
-    require_once($_SERVER["DOCUMENT_ROOT"]. "/controller/middleware/auth_middleware.php");
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
     check_if_allowed('USER'); // Rank Needed
 
 
