@@ -14,9 +14,10 @@
     <!--Bootstrap Icons-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Dependencies -->
+    <script src="/public/js/jquery-3.6.0.min.js"></script>
+
     <!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     -->
 </head>
 
@@ -31,6 +32,7 @@
                     </div>
             </div>
             <hr>
+            <li><a href="./views/Visiteurs.php">Visiteurs</a></li>
             <li><a href="./views/Medicaments.php">Medicaments</a></li>
             <li><a href="./views/Praticiens.php">Praticiens</a></li>
 

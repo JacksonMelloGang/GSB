@@ -29,6 +29,7 @@
     if (isset($_GET['action'])) {
         $action = $_GET['action'];
         switch ($action) {
+            // show a informations about a specific medicament ONLY if (&action=showmedic) and (&medic is set)
             case "showmedic":
                 if (isset($_GET['medic'])) {
                     // Prepare Request to avoid SQL Injection
@@ -39,6 +40,7 @@
                     $result = $stmt->fetch();
 
                     // if result empty
+                    
                     if ($stmt->rowCount() === 0) {
                         echo ("Aucun résultat ne correspond");
                         return;

@@ -5,9 +5,7 @@ body {
     flex-direction: row;
 }
 
-a:visited {
-    color: black;
-}
+
 
 /***************************************************************************/
 /*                                 SIDE BAR
@@ -114,11 +112,15 @@ a:visited {
 #search-result {
     overflow-y: scroll;
     
-    background-color: black !important;
+    background-color: rgb(24, 24, 92) !important;
     transition: 0.5s;
 
     height: 200px;
     width: 20% !important;
+}
+#search-result a {
+    font-size: 20px;
+    color:#77AADD
 }
 
 .loading-effect {
@@ -208,13 +210,9 @@ a:visited {
     border-left: 3px solid blue;
 }
 
-.table {
-    overflow: hidden;
-    height: 95vh;
-}
-#pagination {
-    height: 5vh;
-}
+/********************************** MOBILE *********************************/
+
+
 @media screen and (max-width: 500px) {
     .sidebar {
         width: 10vh;
@@ -235,11 +233,26 @@ a:visited {
 
 /***************************************************************************/
 
+.table {
+    overflow: hidden;
+    height: 95%;
+    text-align: center;
+}
+#pagination {
+    height: 5%;
+}
+
 .medicament-table {
     overflow: scroll;
 }
 
-.medic-item td {
+.medic-item {
     border: solid 1px black;
     background-color: rgb(141, 133, 133);
 }
+
+.medic-item a {
+    color: rgb(24, 24, 92);
+    text-decoration: none;
+}
+

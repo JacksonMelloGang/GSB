@@ -1,11 +1,11 @@
 <?php
-    // require sql connection
-    require($_SERVER["DOCUMENT_ROOT"]."/db/DbConnexion.php");
 
     // Restricted Access
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
     check_if_allowed('USER'); // Rank Needed
 
+    // require sql connection
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
     function showtable($connexion){
         // user-input, define number of elements in page
@@ -31,13 +31,14 @@
         ob_start();
     ?>  
         <div class="table">
-            <table>
+            <span style='color: black; font-size: 32px; text-align: center;'>Listes des médicaments</span>
+            <table class='medicament-table'>
                 <?php
                     //display result from query
                     while($ligne != false){
                         echo("<tr>");
                             for($i=0; $i < $result->columnCount(); $i++){
-                                echo("<td><a href='?action=showmedic&medic=$ligne[0]'>$ligne[$i]</td>");
+                                echo("<td class='medic-item'><a href='?action=showmedic&medic=$ligne[0]'>$ligne[$i]</td>");
                             }
                         echo("</tr>");
                         $ligne = $result->fetch();
@@ -77,29 +78,26 @@
                 // Fetch data, supposed to have one row 
                 $result = $stmt->fetch();
 
-                // if result empty
-                if ($stmt->rowCount() === 0) {
-                    echo ("Aucun résultat ne correspond");
-                    return;
-                }
-
-                // Start Temp
+                // if result from query is not empty, then start tempo & create table filled with data from the result set
+                // else, display, "no result"
                 ob_start();
-                echo ("<table>");
-                for ($i = 0; $i < $stmt->columnCount(); $i++) {
-                    // if result[$i] is empty, set text to Non définie dans la base de donnée
-                    $columndata = empty($result[$i]) == true ? "<strong>Non définie dans la base de donnée.</strong>" : $result[$i]; // check if data is not null --> Variable Conditonnel
+                if ($stmt->rowCount() !== 0) {
+                    // Start Temp
+                    echo ("<table>");
+                    for ($i = 0; $i < $stmt->columnCount(); $i++) {
+                        $columndata = empty($result[$i]) == true ? "<b>Non définie dans la base de donnée.</b>" : $result[$i]; // check if data is not null --> Variable Conditonnel
 
+                        $columnname = substr($stmt->getColumnMeta($i)['name'], 3);
 
-                    // Remove the med prefix
-                    $columnname = substr($stmt->getColumnMeta($i)['name'], 3);
-
-                    echo ("<tr>");
-                    echo ("<td>$columnname</td>");
-                    echo ("<td>$columndata</td>");
-                    echo ("</tr>");
+                        echo ("<tr>");
+                        echo ("<td>$columnname</td>");
+                        echo ("<td>$columndata</td>");
+                        echo ("</tr>");
+                    }
+                    echo ("</table>");
+                } else {
+                    echo("Aucun résultat ne correspond à votre recherche.");
                 }
-                echo ("</table>");
 
                 // Define values for layout.php
                 $title= "GSB - Medicament " . $_GET['medic'];

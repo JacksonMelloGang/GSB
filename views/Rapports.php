@@ -22,7 +22,7 @@
     check_if_allowed('USER'); // Rank Needed
 
 
-    require_once($_SERVER["DOCUMENT_ROOT"]. "/db/DbConnexion.php");
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
 
 

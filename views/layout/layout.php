@@ -31,6 +31,7 @@
                     </div>
             </div>
             <hr>
+            <li><a href="./Visiteurs.php">Visiteurs</a></li>
             <li><a href="./Medicaments.php">Medicaments</a></li>
             <li><a href="./Praticiens.php">Praticiens</a></li>
 

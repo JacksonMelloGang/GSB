@@ -1,6 +1,6 @@
 <?php
 
-require_once("./db/DbConnexion.php");
+require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 $searchfilter = isset($_GET['search']) ? $_GET['search'] : "";
 
 $medicquery = "SELECT medDepotlegal, medNomcommercial FROM medicament WHERE medDepotlegal LIKE :userinput OR medNomcommercial LIKE :userinput";
@@ -47,7 +47,7 @@ $arrayisempty = 0;
     }
 
     if($arrayisempty == sizeof($resultarray)){
-        echo("Pas de résultat trouvé !");
+        echo("<a>Pas de résultat trouvé !</a>");
         return;
     }
 
