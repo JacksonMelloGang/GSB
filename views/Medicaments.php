@@ -9,7 +9,7 @@
 
     function showtable($connexion){
         // user-input, define number of elements in page
-        $nbr_elements_par_page= isset($_GET["nbpage"]) ? intval($_GET["nbpage"]) : 7;
+        $nbr_elements_par_page= isset($_GET["nbpage"]) ? intval($_GET["nbpage"]) : 10;
         
         //================= PAGINATION =================// 
             // if query param page is set and is an int, then set $page to $_get["page"] otherwise set to 1 (to avoid warning) 
@@ -30,21 +30,22 @@
         $ligne = $result->fetch();
         ob_start();
     ?>  
+        <div class="table">
+            <table>
+                <?php
+                    //display result from query
+                    while($ligne != false){
+                        echo("<tr>");
+                            for($i=0; $i < $result->columnCount(); $i++){
+                                echo("<td><a href='?action=showmedic&medic=$ligne[0]'>$ligne[$i]</td>");
+                            }
+                        echo("</tr>");
+                        $ligne = $result->fetch();
+                    }
 
-        <table>
-            <?php
-                //display result
-                while($ligne != false){
-                    echo("<tr>");
-                        for($i=0; $i < $result->columnCount(); $i++){
-                            echo("<td>$ligne[$i]</td>");
-                        }
-                    echo("</tr>");
-                    $ligne = $result->fetch();
-                }
-
-            ?>
-        </table>
+                ?>
+            </table>
+        </div>
 
         <div id="pagination">
             <?php
@@ -86,9 +87,11 @@
                 ob_start();
                 echo ("<table>");
                 for ($i = 0; $i < $stmt->columnCount(); $i++) {
-                    $columndata = $result[$i] ? $result[$i] : "Non définie dans la base de donnée."; // check if data is not null --> Variable Conditonnel
+                    // if result[$i] is empty, set text to Non définie dans la base de donnée
+                    $columndata = empty($result[$i]) == true ? "<strong>Non définie dans la base de donnée.</strong>" : $result[$i]; // check if data is not null --> Variable Conditonnel
 
 
+                    // Remove the med prefix
                     $columnname = substr($stmt->getColumnMeta($i)['name'], 3);
 
                     echo ("<tr>");

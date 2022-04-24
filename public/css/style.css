@@ -5,6 +5,10 @@ body {
     flex-direction: row;
 }
 
+a:visited {
+    color: black;
+}
+
 /***************************************************************************/
 /*                                 SIDE BAR
 /***************************************************************************/
@@ -204,6 +208,13 @@ body {
     border-left: 3px solid blue;
 }
 
+.table {
+    overflow: hidden;
+    height: 95vh;
+}
+#pagination {
+    height: 5vh;
+}
 @media screen and (max-width: 500px) {
     .sidebar {
         width: 10vh;
