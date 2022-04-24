@@ -66,12 +66,12 @@
                 <label class="titre">REMPLACANT :</label>
                 <input type="checkbox" class="zone" checked="false" onClick="selectionne(true,this.checked,'PRA_REMPLACANT');"/>
                     <select name="PRA_REMPLACANT" disabled="disabled" class="zone">
-
+  
                     </select>
                 <br>
 
                 <label class="titre">DATE :</label>
-                <input type="text" size="19" name="RAP_DATE" class="zone" /><br>
+                <input type="date" size="19" name="RAP_DATE" class="zone" /><br>
                 
                 <label class="titre">MOTIF :</label>
                 <select name="RAP_MOTIF" class="zone" onClick="selectionne('AUT',this.value,'RAP_MOTIFAUTRE');">

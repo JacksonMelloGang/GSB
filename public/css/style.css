@@ -237,29 +237,26 @@ body {
 
 .table {
     overflow: hidden;
-    height: 95%;
     text-align: center;
+    height: 95%;
+    width: 100%;
 }
 #pagination {
     text-align: center;
     height: 5%;
 }
 
-.medicament-table {
-    overflow: scroll;
-}
-
-.medic-item {
+.table-item {
     border: solid 1px black;
     background-color: rgb(141, 133, 133);
 }
 
-.medic-item a {
+.table-item a {
     color: rgb(24, 24, 92);
     text-decoration: none;
 }
 
-#medic-info {
+#table-info {
     border: 1px solid black;
     display: flex;
     align-items: center;
@@ -267,7 +264,7 @@ body {
     width: 50%;
 }
 
-.medic-info-item {
+.table-info-item {
     background-color: rgb(141, 133, 133);   
 }
 

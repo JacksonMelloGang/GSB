@@ -34,7 +34,7 @@
     
             <span style='color: black; font-size: 32px; text-align: center;'>Listes des médicaments</span>
             
-            <table class='medicament-table'>
+            <table class='table'>
                <th>Depot Legal</th><th>Nom</th><th>Famille</th><th>Composition</th><th>Effets</th><th>Contre Indication</th><th>Prix</th>
                 <?php
                         //display result from query
@@ -42,7 +42,7 @@
                             echo("<tr>");
                                 for($i=0; $i < $result->columnCount(); $i++){
                                     $columndata = empty($ligne[$i]) == true ? "<b>NR</b>" : $ligne[$i]; // check if data is not 'null' --> Variable Conditonnel
-                                    echo("<td class='medic-item'><a href='?action=showmedic&medic=$ligne[0]'>$columndata</td>");
+                                    echo("<td class='table-item'><a href='?action=showmedic&medic=$ligne[0]'>$columndata</td>");
                                 }
                             echo("</tr>");
                             $ligne = $result->fetch();
@@ -87,12 +87,12 @@
                 ob_start(); // start temp
                 if ($stmt->rowCount() !== 0) {
                     echo("<div style='display: flex; justify-content: center'>");
-                        echo("<table id='medic-info'>");
+                        echo("<table id='table-info'>");
                             for ($i = 0; $i < $stmt->columnCount(); $i++) {
                                 $columndata = empty($result[$i]) == true ? "<b>Non définie dans la base de donnée.</b>" : $result[$i]; // check if data is not null --> Variable Conditonnel
                                 $columnname = substr($stmt->getColumnMeta($i)['name'], 3);
                                 
-                                echo ("<tr class='medic-info-item'>");
+                                echo ("<tr class='table-info-item'>");
                                 echo ("<td>$columnname</td>");
                                 echo ("<td>$columndata</td>");
                                 echo ("</tr>");
