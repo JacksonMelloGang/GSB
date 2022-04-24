@@ -41,7 +41,7 @@
                         while($ligne != false){
                             echo("<tr>");
                                 for($i=0; $i < $result->columnCount(); $i++){
-                                    $columndata = empty($ligne[$i]) == true ? "<b>NR</b>" : $ligne[$i]; // check if data is not null --> Variable Conditonnel
+                                    $columndata = empty($ligne[$i]) == true ? "<b>NR</b>" : $ligne[$i]; // check if data is not 'null' --> Variable Conditonnel
                                     echo("<td class='medic-item'><a href='?action=showmedic&medic=$ligne[0]'>$columndata</td>");
                                 }
                             echo("</tr>");
@@ -84,20 +84,21 @@
 
                 // if result from query is not empty, then start tempo & create table filled with data from the result set
                 // else, display, "no result"
-                ob_start();
+                ob_start(); // start temp
                 if ($stmt->rowCount() !== 0) {
-                    // Start Temp
-                    echo("<table>");
-                    for ($i = 0; $i < $stmt->columnCount(); $i++) {
-                        $columndata = empty($result[$i]) == true ? "<b>Non définie dans la base de donnée.</b>" : $result[$i]; // check if data is not null --> Variable Conditonnel
-                        $columnname = substr($stmt->getColumnMeta($i)['name'], 3);
-                        
-                        echo ("<tr>");
-                        echo ("<td>$columnname</td>");
-                        echo ("<td>$columndata</td>");
-                        echo ("</tr>");
-                    }
-                    echo ("</table>");
+                    echo("<div style='display: flex; justify-content: center'>");
+                        echo("<table id='medic-info'>");
+                            for ($i = 0; $i < $stmt->columnCount(); $i++) {
+                                $columndata = empty($result[$i]) == true ? "<b>Non définie dans la base de donnée.</b>" : $result[$i]; // check if data is not null --> Variable Conditonnel
+                                $columnname = substr($stmt->getColumnMeta($i)['name'], 3);
+                                
+                                echo ("<tr class='medic-info-item'>");
+                                echo ("<td>$columnname</td>");
+                                echo ("<td>$columndata</td>");
+                                echo ("</tr>");
+                            }
+                        echo ("</table>");
+                    echo("</div");
                 } else {
                     // if no medic id (code legal)
                     echo("Aucun résultat ne correspond à votre recherche.");

@@ -51,11 +51,19 @@ $arrayisempty = 0;
         return;
     }
 
-
-// Generic Items
-echo ("<a href='/views/Rapports.php?fromsearch=true'>Rapports</a><br>");
-echo ("<a href='/views/Medicaments.php?fromsearch=true'>Medicaments</a><br>");
-echo ("<a href='/views/Praticiens.php?fromsearch=true'>Praticien</a><br>");
+// Generic Items appears only if fetch data from query is not empty
+if(sizeof($resultrapportquery) != 0){
+    echo ("<a href='/views/Rapports.php?fromsearch=true'>Rapports</a><br>");
+}
+if(sizeof($resultmedicquery) != 0){
+    echo ("<a href='/views/Medicaments.php?fromsearch=true'>Medicaments</a><br>");
+}
+if(sizeof($resultpraticienquery) != 0){
+    echo ("<a href='/views/Praticiens.php?fromsearch=true'>Praticiens</a><br>");
+}
+if(sizeof($resultvisiteurquery) != 0){
+    echo ("<a href='/views/Visiteurs.php?fromsearch=true'>Visiteurs</a><br>");
+}
 
 for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, praticien, visiteur)
     echo("<br>");

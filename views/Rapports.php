@@ -1,4 +1,13 @@
 <?php
+
+    // Restricted Access
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
+    check_if_allowed('USER'); // Rank Needed
+
+    // require sql connection
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
+
+
     function showrapports($connexion){
         // Get Rapports from database & display in table
         $result = $connexion->query("SELECT rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule");
@@ -16,14 +25,6 @@
             echo("</table>");
         return ob_get_clean();
     }
-
-    // Restricted Access
-    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
-    check_if_allowed('USER'); // Rank Needed
-
-    // require sql connection
-    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
-
 
     $action = "";
     if(isset($_GET["action"])){
@@ -46,7 +47,17 @@
                 
                 <label class="titre">PRATICIEN :</label>
                 <select name="PRA_NUM" class="zone">
+                    <option value='*' selected>Choisisez un praticien</option>
+                    <?php
 
+                        $query = $connexion->query("SELECT praNum, praNom, praPrenom FROM praticien");
+                        $result = $query->fetch();
+                        while($result != false){
+                            echo("<option value='{$result['praNum']}'>{$result['praNom']} {$result['praPrenom']}</option>");
+                            
+                            $result = $query->fetch();
+                        }
+                    ?>
                 </select><br>
                 
                 <label class="titre">COEFFICIENT :</label>

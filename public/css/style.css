@@ -20,7 +20,7 @@ body {
 
     padding: 0 8px 0 8px;   
     height: 100vh;
-    width: 10%;
+    /*width: 10%;*/
 }
 
 /* logo sidebar */
@@ -28,6 +28,7 @@ body {
     height: 10%;
     align-self: center;
 }
+
 /* First element of sidebar after image*/
 .first-sidebar {
     margin-top: 20px !important;
@@ -83,6 +84,7 @@ body {
     display: flex;
     width: 100%;
     flex-direction: column;
+    background-color: rgb(247, 224, 224);
 }
 /*                  TOPBAR                  */
 .topbar {
@@ -255,6 +257,18 @@ body {
 .medic-item a {
     color: rgb(24, 24, 92);
     text-decoration: none;
+}
+
+#medic-info {
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+}
+
+.medic-info-item {
+    background-color: rgb(141, 133, 133);   
 }
 
 #new_rapportvisite {
