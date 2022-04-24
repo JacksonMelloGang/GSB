@@ -1,4 +1,11 @@
-<?php  header("Cache-Control: max-age=1"); ?>
+<?php  
+
+    header("Cache-Control: max-age=1"); 
+    $sql = "SELECT ";
+
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,17 +22,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Dependencies -->
     <script src="/public/js/jquery-3.6.0.min.js"></script>
-
-    <!--
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    -->
+    <script src="/public/js/chart.js"></script>
 </head>
 
 <body>
     <nav class="sidebar">
             <img src="/public/img/gsblogo.png">
             <div class="dropdown first-sidebar">
-                    <span style="color: red"><a href="./views/Rapports.php">Rapports</a></span>
+                    <span><a href="./views/Rapports.php">Rapports</a></span>
                     <div class="dropdown-content">
                             <a href="./views/Rapports.php?action=new">Nouveau</a>
                             <a href="./views/Rapports.php?action=consult">Consulter</a>
@@ -46,7 +50,7 @@
                 <div id="search-result" class='loading-effect' style="display:none; position: absolute; color: white; background-color: red;  "></div>
             </div>
             <div id="username">
-                
+                <span><?= $user ?></span>
             </div>
         </nav>
         

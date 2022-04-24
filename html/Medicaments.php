@@ -39,8 +39,7 @@
                     // Fetch data, supposed to have one row 
                     $result = $stmt->fetch();
 
-                    // if result empty
-                    
+                    // if result empty                    
                     if ($stmt->rowCount() === 0) {
                         echo ("Aucun résultat ne correspond");
                         return;

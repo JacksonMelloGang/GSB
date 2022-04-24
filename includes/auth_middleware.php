@@ -40,7 +40,7 @@
 
     // Function to check if user is into the database or not
     function check($username, $password) {
-        require("./db/DbConnexion.php");
+        require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
         // if username or password is empty return false and error message
         if(empty($username) || empty($password)){

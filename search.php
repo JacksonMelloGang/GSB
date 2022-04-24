@@ -55,7 +55,7 @@ $arrayisempty = 0;
 // Generic Items
 echo ("<a href='/views/Rapports.php?fromsearch=true'>Rapports</a><br>");
 echo ("<a href='/views/Medicaments.php?fromsearch=true'>Medicaments</a><br>");
-echo ("<a href='/views/Praticien.php?fromsearch=true'>Praticien</a><br>");
+echo ("<a href='/views/Praticiens.php?fromsearch=true'>Praticien</a><br>");
 
 for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, praticien, visiteur)
     echo("<br>");
@@ -66,7 +66,7 @@ for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, pratici
                     echo ("<a href='/views/Medicaments.php?&action=showmedic&medic={$resultarray[$i][$j][0]}' class='search-link'>{$resultarray[$i][$j][1]}</a><br>");
                     break;
                 case 1:
-                    echo ("<a href='/views/Praticien.php?pratid={$resultarray[$i][$j][0]}' class='search-link'>Praticien {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
+                    echo ("<a href='/views/Praticiens.php?pratid={$resultarray[$i][$j][0]}' class='search-link'>Praticien {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
                     break;
                 case 2:
                     echo ("<a href='/views/Rapports.php?rapportid={$resultarray[$i][$j][0]}' class='search-link'>Rapport N°{$resultarray[$i][$j][0]}</a><br>");
