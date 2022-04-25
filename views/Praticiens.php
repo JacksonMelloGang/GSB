@@ -92,7 +92,7 @@
     }
 
     switch ($action) {
-        case "showprac":
+        case "showprac": // show info about a prat
             if(isset($_GET['pratid'])) {
                 // Prepare Request to avoid SQL Injection
                 $stmt = $connexion->prepare("SELECT * FROM praticien WHERE praNum = :pranum");

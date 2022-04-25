@@ -90,6 +90,6 @@ for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, pratici
     }
 }
 
-echo("<br><a class='last-search-item' href='./views/search-help.php'>Aidez moi !</a>");
+echo("<br><a class='last-search-item' href='/views/search-help.php'>Aidez moi !</a>");
 
 echo(ob_get_clean());

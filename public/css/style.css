@@ -73,6 +73,7 @@ body {
     margin-bottom: 200px;
     display: inline-flex;
     flex-direction: column;
+    border-radius: 5px;
 }
 .dropdown-content {
     display: none;
@@ -236,7 +237,6 @@ body {
 }
 
 .table {
-    overflow: hidden;
     text-align: center;
     height: 95%;
     width: 100%;
@@ -261,7 +261,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    width: auto;
 }
 
 .table-info-item {

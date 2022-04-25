@@ -43,7 +43,7 @@
                 <input type="text" size="10" name="RAP_NUM" class="zone"/><br>
                 
                 <label class="titre">DATE VISITE :</label>
-                <input type="text" size="10" name="RAP_DATEVISITE" class="zone"/><br>
+                <input type="date" size="10" name="RAP_DATEVISITE" class="zone"/><br>
                 
                 <label class="titre">PRATICIEN :</label>
                 <select name="PRA_NUM" class="zone">
