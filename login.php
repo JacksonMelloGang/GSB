@@ -8,10 +8,13 @@
     if(isset($_POST['login'])){
         $result = check($_POST['username'], $_POST['password']); // supposed to return array(true|false, message)
         
-        // Check if he is allowed to access otherwise 
+        // Check if he is allowed to access if true, set auth & userid else, display invalid user/password 
         if($result[0] == true){
-            $info = $result[1];
-            $_SESSION["authorization"] = "USER";
+            $info = $result[1]; // success
+            $_SESSION["authorization"] = "USER"; // set user auth
+
+
+            $_SESSION["visiteurId"] = "";
 
             header("Location: index.php", true, 0);
             exit();
