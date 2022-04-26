@@ -20,17 +20,19 @@
 <body>
     <nav class="sidebar">
             <img src="../public/img/gsblogo.png">
-            <div class="dropdown first-sidebar">
+            <li class="first-sidebar"><a href="/index.php">Acceuil</a></li>
+            <hr>
+            <div class="dropdown">
                     <span style="color: red"><a href="Rapports.php">Rapports</a></span>
                     <div class="dropdown-content">
-                            <a href="./Rapports.php?action=new">Nouveau</a>
-                            <a href="./Rapports.php?action=consult">Consulter</a>
+                            <a href="/views/Rapports.php?action=new">Nouveau</a>
+                            <a href="/views/Rapports.php?action=consult">Consulter</a>
                     </div>
             </div>
             <hr>
-            <li><a href="./Visiteurs.php">Visiteurs</a></li>
-            <li><a href="./Medicaments.php">Medicaments</a></li>
-            <li><a href="./Praticiens.php">Praticiens</a></li>
+            <li><a href="/views/Visiteurs.php">Visiteurs</a></li>
+            <li><a href="/views/Medicaments.php">Medicaments</a></li>
+            <li><a href="/views/Praticiens.php">Praticiens</a></li>
 
             <a class="logout" onclick="logout()" href="#">Se Déconnecter</a>
     </nav>

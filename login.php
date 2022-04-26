@@ -1,18 +1,22 @@
 <?php
     require($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
     $info = "";
     session_start();
 
     // When atempting to login
     if(isset($_POST['login'])){
-        $result = check($_POST['username'], $_POST['password']); // supposed to return array(true|false, message)
+        $result = check($_POST['username'], $_POST['password'], $connexion); // supposed to return array(true|false, message)
         
         // Check if he is allowed to access if true, set auth & userid else, display invalid user/password 
         if($result[0] == true){
             $info = $result[1]; // success
-            $_SESSION["authorization"] = "USER"; // set user auth
-            
+            $_SESSION["authorization"] = "USER"; // set user level
+
+            //set user id if we later, want to get information from the user like it's name or whatever
+            setUserId($_POST['username'], $_POST['password'], $connexion);
+
             if(isset($_GET["page"])){
                 header("Location: {$_GET["page"]}");
             } else {

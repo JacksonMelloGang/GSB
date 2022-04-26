@@ -281,3 +281,16 @@ body {
 #lignes {
     display: block;
 }
+.table-recap-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-recap {
+    text-align: center;
+    width: 50%;
+}
+.table-recap tr, td {
+    border: 1px solid black;
+}

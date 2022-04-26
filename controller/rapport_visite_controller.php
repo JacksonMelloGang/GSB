@@ -37,14 +37,14 @@
     */
 
     // 1ere partie
-    $num = htmlspecialchars($_POST['RAP_NUM']);
+    $num = filter_var($_POST['RAP_NUM'], FILTER_VALIDATE_INT) ? filter_var($_POST['RAP_NUM'], FILTER_SANITIZE_NUMBER_INT) : die("Numéro Non Valide"); // verify if it's an int first, and if yes convert value into sanitize to convert into valid INT 
     $datevisite = converttodate($_POST['RAP_DATEVISITE']);
-    $practicien = htmlspecialchars($_POST['PRA_NUM']);
-    $coefficient = filter_var($_POST['PRA_COEFF'], FILTER_SANITIZE_NUMBER_INT);
+    $practicien = filter_var($_POST['PRA_NUM'], FILTER_VALIDATE_INT) ? filter_var($_POST['PRA_NUM'], FILTER_SANITIZE_NUMBER_INT) : die("Numéro Practicien Non Valide");
+    $coefficient = filter_var($_POST['PRA_COEFF'], FILTER_VALIDATE_INT) ? filter_var($_POST['PRA_COEFF'], FILTER_SANITIZE_NUMBER_INT) : die("Coefficient Non valide");
     $remplacant = isset($_POST['PRA_REMPLACANT']) == true ? htmlspecialchars($_POST['PRA_REMPLACANT']) : "Pas de Remplacant";
-    $date = converttodate($_POST['RAP_DATE']);
-    $motif = htmlspecialchars($_POST['RAP_MOTIF']);
-    $bilan = htmlspecialchars($_POST['RAP_BILAN']);
+    $date = converttodate($_POST['RAP_DATE']); // convert into date
+    $motif = htmlspecialchars($_POST['RAP_MOTIF']); // sanitize motif
+    $bilan = htmlspecialchars($_POST['RAP_BILAN']); // sanitize bilan
 
     // 2e partie
     $produit1 = htmlspecialchars($_POST['PROD1']);
@@ -63,67 +63,67 @@
 
     ob_start();
 ?>  
-    <table>
-        <th>Donnée</th><th>User-Input</th>
-        <tr>
-            <td>Numéro</td>
-            <td><?= $num ?></td>
-        </tr>
-        <tr>
-            <td>Date de visite</td>
-            <td><?= $datevisite ?></td>
-        </tr>
-        <tr>
-            <td>Praticien</td>
-            <td><?= $practicien ?></td>
-        </tr>
-        <tr>
-            <td>Coefficient</td>
-            <td><?= $coefficient ?></td>
-        </tr>
-        <tr>
-            <td>Remplacant</td>
-            <td><?= $remplacant ?></td>
-        </tr>
-        <tr>
-            <td>Date</td>
-            <td><?= $date ?></td>
-        </tr>
-        <tr>
-            <td>Motif</td>
-            <td><?= $motif ?></td>
-        </tr>
-        <tr>
-            <td>Bilan</td>
-            <td><?= $bilan ?></td>
-        </tr>
-        <tr>
-            <td>produit1</td>
-            <td><?= $produit1 ?></td>
-        </tr>
-        <tr>
-            <td>Produit N°2</td>
-            <td><?= $produit2 ?></td>
-        </tr>
-        <tr>
-            <td>Docummentation Offerte</td>
-            <td><?= $documentation ?></td>
-        </tr>
-        <?php
-            for($i=0; $i < sizeof($prodarray); $i++){
-                $echantillon = empty($prodarray[$i]) ? "Pas d'échantillon proposé" : $prodarray[$i];
-                echo("<tr>");
-                echo("<td>Echantillon N°". intval($i+1) ."</td><td>{$echantillon}</td>");
-                echo("</td>");
-            }
-        ?>
-        <tr>
-            <td>Saisie Definitif</td>
-            <td><?= $saisiedef ?></td>
-        </tr>
-    </table>
-    
-
+    <div class="table-recap-div">
+        <table class="table-recap">
+            <th>Donnée</th><th>User-Input</th>
+            <tr>
+                <td>Numéro</td>
+                <td><?= $num ?></td>
+            </tr>
+            <tr>
+                <td>Date de visite</td>
+                <td><?= $datevisite ?></td>
+            </tr>
+            <tr>
+                <td>Praticien</td>
+                <td><?= $practicien ?></td>
+            </tr>
+            <tr>
+                <td>Coefficient</td>
+                <td><?= $coefficient ?></td>
+            </tr>
+            <tr>
+                <td>Remplacant</td>
+                <td><?= $remplacant ?></td>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td><?= $date ?></td>
+            </tr>
+            <tr>
+                <td>Motif</td>
+                <td><?= $motif ?></td>
+            </tr>
+            <tr>
+                <td>Bilan</td>
+                <td><?= $bilan ?></td>
+            </tr>
+            <tr>
+                <td>produit1</td>
+                <td><?= $produit1 ?></td>
+            </tr>
+            <tr>
+                <td>Produit N°2</td>
+                <td><?= $produit2 ?></td>
+            </tr>
+            <tr>
+                <td>Docummentation Offerte</td>
+                <td><?= $documentation ?></td>
+            </tr>
+            <?php
+                for($i=0; $i < sizeof($prodarray); $i++){
+                    $echantillon = empty($prodarray[$i]) ? "Pas d'échantillon proposé" : $prodarray[$i];
+                    echo("<tr>");
+                    echo("<td>Echantillon N°". intval($i+1) ."</td><td>{$echantillon}</td>");
+                    echo("</td>");
+                }
+            ?>
+            <tr>
+                <td>Saisie Definitif</td>
+                <td><?= $saisiedef ?></td>
+            </tr>
+        </table>
+    </div>
 
 <?php
     // Render default page

@@ -39,14 +39,13 @@
 
 
     // Function to check if user is into the database or not
-    function check($username, $password) {
-        require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
+    function check($username, $password, $connexion) {
 
         // if username or password is empty return false and error message
         if(empty($username) || empty($password)){
             return array(false, "Username or Password is required !");
         }
-
+        
         // otherwise executer request to check if user is in the database
         $query = $connexion->prepare("SELECT * FROM visiteur WHERE visNom = ? AND visDateembauche = ?");
         $query->execute([$username, $password]);
@@ -61,3 +60,18 @@
         return array(true, "Success");
     }
     
+    function setUserId($username, $password, $connexion){
+
+        $query = $connexion->prepare("SELECT * FROM visiteur WHERE visNom = ? AND visDateembauche = ?");
+        $query->execute([$username, $password]);
+        $result = $query->fetch();
+        
+        // if result empty / false return false & error message
+        if($result === false){
+            return array(false, "Invalid Username / Password");
+        }
+
+        $_SESSION["userId"] = $result['visMatricule'];
+        return array(true, null);
+
+    }
