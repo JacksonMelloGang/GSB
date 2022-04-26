@@ -63,7 +63,7 @@
 
     ob_start();
 ?>  
-    <div class="table-recap-div">
+    <div id="table-recap-div">
         <table class="table-recap">
             <th>Donnée</th><th>User-Input</th>
             <tr>
@@ -123,6 +123,8 @@
                 <td><?= $saisiedef ?></td>
             </tr>
         </table>
+        <button onclick="history.go(-1)">Annuler l'envoi</button>
+        <button onclick="">Confirmer l'envoi</button>
     </div>
 
 <?php
