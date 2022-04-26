@@ -74,7 +74,7 @@ for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, pratici
                     echo ("<a href='/views/Medicaments.php?&action=showmedic&medic={$resultarray[$i][$j][0]}' class='search-link'>{$resultarray[$i][$j][1]}</a><br>");
                     break;
                 case 1:
-                    echo ("<a href='/views/Praticiens.php?pratid={$resultarray[$i][$j][0]}' class='search-link'>Praticien {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
+                    echo ("<a href='/views/Praticiens.php?action=showprac&pratid={$resultarray[$i][$j][0]}' class='search-link'>Praticien {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
                     break;
                 case 2:
                     echo ("<a href='/views/Rapports.php?rapportid={$resultarray[$i][$j][0]}' class='search-link'>Rapport N°{$resultarray[$i][$j][0]}</a><br>");

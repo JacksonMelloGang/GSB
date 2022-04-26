@@ -12,11 +12,12 @@
         if($result[0] == true){
             $info = $result[1]; // success
             $_SESSION["authorization"] = "USER"; // set user auth
-
-
-            $_SESSION["visiteurId"] = "";
-
-            header("Location: index.php", true, 0);
+            
+            if(isset($_GET["page"])){
+                header("Location: {$_GET["page"]}");
+            } else {
+                header("Location: index.php", true, 0);
+            }
             exit();
         } else {
             $info = $result[1];

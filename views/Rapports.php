@@ -40,16 +40,15 @@
             <form name="formRAPPORT_VISITE" method="post" action="/controller/rapport_visite_controller.php" >
                 <h1> Rapport de visite </h1>
                 <label class="titre">NUMERO :</label>
-                <input type="text" size="10" name="RAP_NUM" class="zone"/><br>
+                <input type="text" size="10" name="RAP_NUM" class="zone" required/><br>
                 
                 <label class="titre">DATE VISITE :</label>
-                <input type="date" size="10" name="RAP_DATEVISITE" class="zone"/><br>
+                <input type="date" size="10" name="RAP_DATEVISITE" class="zone" required/><br>
                 
                 <label class="titre">PRATICIEN :</label>
-                <select name="PRA_NUM" class="zone">
+                <select name="PRA_NUM" class="zone" required>
                     <option value='*' selected>Choisisez un praticien</option>
                     <?php
-
                         $query = $connexion->query("SELECT praNum, praNom, praPrenom FROM praticien");
                         $result = $query->fetch();
                         while($result != false){
@@ -61,7 +60,7 @@
                 </select><br>
                 
                 <label class="titre">COEFFICIENT :</label>
-                <input type="text" size="6" name="PRA_COEFF" class="zone"/><br>
+                <input type="text" size="6" name="PRA_COEFF" class="zone" required/><br>
                 
                 <label class="titre">REMPLACANT :</label>
                 <input type="checkbox" class="zone" checked="false" onClick="selectionne(true,this.checked,'PRA_REMPLACANT');"/>
@@ -71,10 +70,10 @@
                 <br>
 
                 <label class="titre">DATE :</label>
-                <input type="date" size="19" name="RAP_DATE" class="zone" /><br>
+                <input type="date" size="19" name="RAP_DATE" class="zone" required/><br>
                 
                 <label class="titre">MOTIF :</label>
-                <select name="RAP_MOTIF" class="zone" onClick="selectionne('AUT',this.value,'RAP_MOTIFAUTRE');">
+                <select name="RAP_MOTIF" class="zone" onClick="selectionne('AUT',this.value,'RAP_MOTIFAUTRE');" required> 
                     <option value="PRD">Périodicité</option>
                     <option value="ACT">Actualisation</option>
                     <option value="REL">Relance</option>
@@ -93,13 +92,31 @@
                 
                 <label class="titre">PRODUIT 1 : </label>
                 <select name="PROD1" class="zone">
-
+                    <option value='NONE' selected>Medicament</option>
+                    <?php
+                            $query = $connexion->query("SELECT medNomCommercial, medDepotLegal FROM medicament");
+                            $result = $query->fetch();
+                            while($result != false){
+                                echo("<option value='{$result['medDepotLegal']}'>{$result['medNomCommercial']} - {$result['medDepotLegal']}</option>");
+                                
+                                $result = $query->fetch();
+                            }
+                    ?>
                 </select>
                 <br>
 
                 <label class="titre">PRODUIT 2 : </label>
                 <select name="PROD2" class="zone">
-
+                    <option value='NONE' selected>Medicament</option>
+                        <?php
+                                $query = $connexion->query("SELECT medNomCommercial, medDepotLegal FROM medicament");
+                                $result = $query->fetch();
+                                while($result != false){
+                                    echo("<option value='{$result['medDepotLegal']}'>{$result['medNomCommercial']} - {$result['medDepotLegal']}</option>");
+                                    
+                                    $result = $query->fetch();
+                                }
+                        ?>
                 </select>
                 <br>
 
@@ -114,9 +131,11 @@
                     <label class="titre">Produit : </label>
                     <select name="PRA_ECH1" class="zone">
                         <option>Produits</option>
-                    </select><input type="text" name="PRA_QTE1" size="2" class="zone" />
+                    </select>
+                    <input type="text" name="PRA_QTE1" size="2" class="zone" />
                     <input type="button" id="but1" value="+" onclick="ajoutLigne(1);" class="zone" />
                 </div>
+                <input type="hidden" value="1" name="nbechantillon">
 
                 <label class="titre">SAISIE DEFINITIVE :</label>
                 <input name="RAP_LOCK" type="checkbox" class="zone" checked="false" /><br>

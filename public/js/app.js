@@ -13,7 +13,8 @@ function ajoutLigne(pNumero){//ajoute une ligne de produits/qt� � la div "li
     //masque le bouton en cours
     document.getElementById("but"+pNumero).setAttribute("hidden","true");	
     pNumero++;										//incr�mente le num�ro de ligne
-    
+    document.getElementsByName("nbechantillon")[0].value = pNumero;
+
     var laDiv = document.getElementById("lignes");	//recupere l'objet DOM qui contient les donn�es
     var titre = document.createElement("label") ;	//cree un label
     laDiv.appendChild(titre) ;						//l'ajoute à la DIV
@@ -26,7 +27,7 @@ function ajoutLigne(pNumero){//ajoute une ligne de produits/qt� � la div "li
     liste.setAttribute("class","zone");
 
     //remplit la liste avec les valeurs de la premiere liste construite en PHP à partir de la base
-    liste.innerHTML=formRAPPORT_VISITE.elements["PRA_ECH1"].innerHTML;
+    liste.innerHTML = formRAPPORT_VISITE.elements["PRA_ECH1"].innerHTML;
     var qte = document.createElement("input");
     laDiv.appendChild(qte);
     qte.setAttribute("name","PRA_QTE"+pNumero);
