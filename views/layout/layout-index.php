@@ -1,11 +1,17 @@
 <?php  
 
     header("Cache-Control: max-age=1"); 
-    $sql = "SELECT ";
-
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
+    $sql = "SELECT visNom, visPrenom FROM visiteur WHERE visMatricule = '{$_SESSION["userId"]}'";
+    $result = $connexion->query($sql);
+    $ligne = $result->fetch();
+    if($result->rowCount() == 0){
+        $user = "ERROR";
+        echo("<script>console.error(\"Couldn't get username from database.\")</script>");
+    } else {
+        $user = "{$ligne['visNom']} {$ligne['visPrenom']}";
+    }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">

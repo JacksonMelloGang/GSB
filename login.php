@@ -27,6 +27,8 @@
             $info = $result[1];
         }
     }
+    // close connexion
+    $connexion=null;
 ?>
 
 <!DOCTYPE html>

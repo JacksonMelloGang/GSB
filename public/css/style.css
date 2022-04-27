@@ -285,6 +285,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .table-recap {
@@ -293,4 +294,13 @@ body {
 }
 .table-recap tr, td {
     border: 1px solid black;
+}
+#username {
+    display: flex;
+    align-items: center;
+    float: left;
+    position: absolute;
+    left: 90%;
+    font-size: 20px;
+    color: #77AADD;
 }
