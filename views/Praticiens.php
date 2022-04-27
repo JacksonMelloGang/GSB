@@ -7,7 +7,6 @@
     // require sql connection
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
-
     function showtable($connexion){
         // user-input, define number of elements in page
         $nbr_elements_par_page= isset($_GET["nbpage"]) ? intval($_GET["nbpage"]) : 10;
@@ -93,12 +92,6 @@
                 $praCoefNotoriete = $result['praCoefNotoriete'];
                 $pratypCode = $result['typLibelle'];
 
-                /* == 2nd Part, Rapports == */
-                // Prepare Request to avoid SQL Injection
-                $rapport_stmt = $connexion->prepare("SELECT id, rapDate FROM praticien, rapportvisite WHERE praticien.praNum = rapportvisite.praNum AND rapportvisite.praNum = :pranum");
-                $rapport_stmt->execute(array(':pranum' => $_GET['pratid']));
-                $rapport_result = $rapport_stmt->fetch();
-
                 // if result from query is not empty, then start tempo & create table filled with data from the result set
                 // else, display, "no result"
                 ob_start(); // start temp
@@ -115,6 +108,12 @@
                                 echo("<tr><td>Type Praticien</td><td>{$pratypCode}</td></tr>");
                         echo ("</table>");
                     echo("<br>");
+
+                    /* == 2nd Part, Rapports == */
+                    // Prepare Request to avoid SQL Injection
+                    $rapport_stmt = $connexion->prepare("SELECT id, rapDate FROM praticien, rapportvisite WHERE praticien.praNum = rapportvisite.praNum AND rapportvisite.praNum = :pranum");
+                    $rapport_stmt->execute(array(':pranum' => $_GET['pratid']));
+                    $rapport_result = $rapport_stmt->fetch();
                     
                     echo("<h2>Rapports le concernant</h2>");
                         if($rapport_stmt->rowCount() !== 0){

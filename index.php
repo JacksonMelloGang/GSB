@@ -3,6 +3,9 @@
     require('./includes/auth_middleware.php');
     check_if_allowed("USER");
 
+    // require sql connection
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
+
     ob_start();
 ?>
         <div class="card-row">
@@ -18,6 +21,26 @@
             <div class="card">
                 <canvas id="chart4"></canvas>
             </div>
+        </div>
+
+        <div id="stylish-table">
+            <table>
+                <th>Vos Derniers Rapports</th>
+                <?php 
+                
+                    $result = $connexion->query("SELECT * FROM rapportvisite WHERE visMatricule='{$_SESSION['userId']}' ORDER BY rapDate");
+                    $ligne = $result->fetch();
+
+                    while($ligne != false){
+                        echo("<tr>");
+                            echo("<td><a href='/views/Rapports.php?action=consult&rapid={$ligne['rapNum']}'>Rapport N°{$ligne['rapNum']}</a></td>");
+                        echo("</tr>");
+
+                        $ligne = $result->fetch();
+                    }
+
+                ?>
+            </table>
         </div>
 
         <script>

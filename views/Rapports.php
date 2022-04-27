@@ -148,10 +148,13 @@
         </div>
 
         <?php
+            // still action = new
             $title = "GSB - Rapports";
             $content = ob_get_clean();
             require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
         break;
+
+
         default:
             $title = "GSB - Rapports";
             $content = showrapports($connexion);

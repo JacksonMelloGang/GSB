@@ -169,27 +169,6 @@ body {
     border-left: 3px solid blue;
 }
 
-/********************************** MOBILE *********************************/
-
-
-@media screen and (max-width: 500px) {
-    .sidebar {
-        width: 10vh;
-    }
-    .card-row {
-        display: flex;
-        flex-direction: column !important;
-    }
-    .card {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        width: 100%;
-    }
-    .sidebar a {
-        font-size: 10px;
-    }
-}
-
 /***************************************************************************/
 
 .loading-effect {
@@ -292,15 +271,43 @@ body {
     text-align: center;
     width: 50%;
 }
-.table-recap tr, td {
+.table-recap tr, .table-recap td {
     border: 1px solid black;
 }
 #username {
     display: flex;
     align-items: center;
-    float: left;
     position: absolute;
-    left: 90%;
-    font-size: 20px;
+    right: calc(.5em + 1vw);
+    font-size: calc(.5em + 1vw);
     color: #77AADD;
+}
+
+#stylish-table {
+    width: auto;
+}
+
+/********************************** MOBILE *********************************/
+
+
+@media screen and (max-width: 500px) {
+    .sidebar {
+        width: 10vh;
+    }
+    .card-row {
+        display: flex;
+        flex-direction: column !important;
+    }
+    .card {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .sidebar a {
+        font-size: 10px;
+    }
+
+    #username {
+        display: none;
+    }
 }
