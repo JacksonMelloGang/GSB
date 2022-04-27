@@ -109,7 +109,7 @@
             <tr>
                 <td>Docummentation Offerte</td>
                 <td><?= $documentation ?></td>
-            </tr>
+            </tr> 
             <?php
                 for($i=0; $i < sizeof($prodarray); $i++){
                     $echantillon = empty($prodarray[$i]) ? "Pas d'échantillon proposé" : $prodarray[$i];
