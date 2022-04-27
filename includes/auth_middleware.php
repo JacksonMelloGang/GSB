@@ -51,6 +51,9 @@
         $query->execute([$username, $password]);
         $result = $query->fetch();
         
+        // close sql connexion
+        $connexion = null;
+
         // if result empty / false return false & error message
         if($result === false){
             return array(false, "Invalid Username / Password");
@@ -66,6 +69,9 @@
         $query->execute([$username, $password]);
         $result = $query->fetch();
         
+        // close sql connexion
+        $connexion = null;
+
         // if result empty / false return false & error message
         if($result === false){
             return array(false, "Invalid Username / Password");

@@ -27,8 +27,9 @@
             $info = $result[1];
         }
     }
-    // close connexion
-    $connexion=null;
+
+    // close sql connexion
+    $connexion = null;
 ?>
 
 <!DOCTYPE html>

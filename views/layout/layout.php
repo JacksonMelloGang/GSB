@@ -43,9 +43,9 @@
                     </div>
             </div>
             <hr>
-            <li><a href="/views/Visiteurs.php">Visiteurs</a></li>
-            <li><a href="/views/Medicaments.php">Medicaments</a></li>
-            <li><a href="/views/Praticiens.php">Praticiens</a></li>
+            <li><a href="/views/Visiteurs.php?action=consult">Visiteurs</a></li>
+            <li><a href="/views/Medicaments.php?action=consult">Medicaments</a></li>
+            <li><a href="/views/Praticiens.php?action=consult">Praticiens</a></li>
 
             <a class="logout" onclick="logout()" href="#">Se Déconnecter</a>
     </nav>
