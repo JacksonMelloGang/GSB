@@ -196,7 +196,10 @@
             $stmt->execute(array(":param1" => $variable1, ":param2" => $variable2)); ou $stlt->execute([$variable1, $variable2]);
         
             $result = $stmt->fetch();
-    
+
+
+        // EDIT: je viens de me rendre compte que c'est pas nécessaire, tu peux directement utilisé la fonction exec tel que:
+            $result = $connexion->exec("INSERT INTO...");
     */
 
 
