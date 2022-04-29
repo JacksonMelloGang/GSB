@@ -17,30 +17,40 @@ function ajoutLigne(pNumero){//ajoute une ligne de produits/qt� � la div "li
 
     var laDiv = document.getElementById("lignes");	//recupere l'objet DOM qui contient les donn�es
     var titre = document.createElement("label") ;	//cree un label
-    laDiv.appendChild(titre) ;						//l'ajoute à la DIV
     titre.setAttribute("class","titre") ;			//definit les proprietes
     titre.innerHTML= "   Produit : ";
     
     var liste = document.createElement("select");	//ajoute une liste pour proposer les produits
-    laDiv.appendChild(liste) ;
     liste.setAttribute("name","PRA_ECH"+pNumero) ;
     liste.setAttribute("class","zone");
-
     //remplit la liste avec les valeurs de la premiere liste construite en PHP à partir de la base
     liste.innerHTML = formRAPPORT_VISITE.elements["PRA_ECH1"].innerHTML;
+
+    var qtetitre = document.createElement("label") ;	//cree un label
+    qtetitre.setAttribute("class","titre") ;			//definit les proprietes
+    qtetitre.setAttribute("id", "qte")
+    qtetitre.innerHTML = "   Qté : ";
+    
     var qte = document.createElement("input");
-    laDiv.appendChild(qte);
     qte.setAttribute("name","PRA_QTE"+pNumero);
     qte.setAttribute("size","2"); 
     qte.setAttribute("class","zone");
     qte.setAttribute("type","text");
+    
+    // Bouton +
     var bouton = document.createElement("input");
-    laDiv.appendChild(bouton);
-
     //ajoute une gestion evenementielle en faisant evoluer le numero de la ligne
     bouton.setAttribute("onClick","ajoutLigne("+ pNumero +");");
     bouton.setAttribute("type","button");
     bouton.setAttribute("value","+");
     bouton.setAttribute("class","zone");	
-    bouton.setAttribute("id","but"+ pNumero);				
+    bouton.setAttribute("id","but"+ pNumero);
+    
+    
+    // Ajout dans la div
+    laDiv.appendChild(titre); // Produit : 						
+    laDiv.appendChild(liste); // input select
+    laDiv.appendChild(qtetitre); // Qté : 
+    laDiv.appendChild(qte); // input text
+    laDiv.appendChild(bouton); // Ajouter
 }

@@ -9,20 +9,40 @@
 
 
     function showrapports($connexion){
+        // 2 Query
+        $sqlourrapport = "SELECT rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND visiteur.visMatricule = '{$_SESSION["userId"]}'";
+        $sqlrapport = "SELECT rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND NOT visiteur.visMatricule = '{$_SESSION["userId"]}'";
+
         // Get Rapports from database & display in table
-        $result = $connexion->query("SELECT rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule");
+        $resultourrapport = $connexion->query($sqlourrapport);
         ob_start();
+            echo("<h1>Vos Rapports</h1>");
             echo("<table>");
-                $row = $result->fetch();
+                $row = $resultourrapport->fetch();
                 while($row){
                     echo("<tr>");
-                    for($i =0; $i < $result->columnCount(); $i++){
+                    for($i =0; $i < $resultourrapport->columnCount(); $i++){
                         echo("<td>$row[$i]<br></td>");
                     }
                     echo("</tr>");
-                    $row = $result->fetch();
+                    $row = $resultourrapport->fetch();
                 }
             echo("</table>");
+
+            echo("<h2>Autres Rapports</h2>");
+            $resultrapport = $connexion->query($sqlrapport);
+            echo("<table>");
+            $row = $resultrapport->fetch();
+            while($row){
+                echo("<tr>");
+                for($i =0; $i < $resultrapport->columnCount(); $i++){
+                    echo("<td>$row[$i]<br></td>");
+                }
+                echo("</tr>");
+                $row = $resultrapport->fetch();
+            }
+        echo("</table>");
+
         return ob_get_clean();
     }
 
@@ -84,7 +104,7 @@
                 <br>
                 
                 <label class="titre">BILAN :</label>
-                <br><textarea rows="5" cols="50" name="RAP_BILAN" class="zone"></textarea><br>
+                <br><textarea rows="5" cols="50" name="RAP_BILAN" class="zone" spellcheck="true" required ></textarea><br>
                 
                 <label class="titre">
                     <h3> Eléments présentés </h3>
@@ -130,8 +150,18 @@
                 <div class="titre" id="lignes">
                     <label class="titre">Produit : </label>
                     <select name="PRA_ECH1" class="zone">
-                        <option>Produits</option>
+                        <option value='NONE' selected>Medicament</option>
+                            <?php
+                                    $query = $connexion->query("SELECT medNomCommercial, medDepotLegal FROM medicament");
+                                    $result = $query->fetch();
+                                    while($result != false){
+                                        echo("<option value='{$result['medDepotLegal']}'>{$result['medNomCommercial']} - {$result['medDepotLegal']}</option>");
+                                        
+                                        $result = $query->fetch();
+                                    }
+                            ?>
                     </select>
+                    <label for="PRA_QTE1">Qté : </label>
                     <input type="text" name="PRA_QTE1" size="2" class="zone" />
                     <input type="button" id="but1" value="+" onclick="ajoutLigne(1);" class="zone" />
                 </div>
@@ -142,7 +172,8 @@
 
                 <label class="titre"></label>
                 <div class="zone">
-                    <input type="reset" value="annuler"></input>    <input type="submit"></input>
+                    <input type="reset" value="Annuler"></input>    
+                    <input type="submit" value="Envoyer"></input>
                 </div>
             </form>
         </div>
@@ -154,6 +185,13 @@
             require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
         break;
 
+        case "consult":
+
+
+            $title = "GSB - Rapports";
+            $content = showrapports($connexion);
+            require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
+        break;
 
         default:
             $title = "GSB - Rapports";

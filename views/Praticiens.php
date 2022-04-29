@@ -42,7 +42,7 @@
                             echo("<tr>");
                                 for($i=0; $i < $result->columnCount(); $i++){
                                     $columndata = empty($ligne[$i]) == true ? "<b>NR</b>" : $ligne[$i]; // check if data is not 'null' --> Variable Conditonnel
-                                    $columndata = str_replace(array(" r ", " av ", " pl "), array(" Rue ", " Avenue ", " Place "), $ligne[$i]);
+                                    $columndata = str_replace(array(" r ", " av ", " pl ", " bd ", "résid"), array(" Rue ", " Avenue ", " Place ", " Boulevard ", " Résidence "), $ligne[$i]);
                                     echo("<td class='table-item'><a href='?action=showprac&pratid=$ligne[0]'>". $columndata ."</td>");
                                 }
                             echo("</tr>");

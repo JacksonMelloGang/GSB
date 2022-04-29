@@ -12,10 +12,10 @@
             <div class="card card-red">
                 <canvas id="myChart"></canvas>
             </div>
-            <div class="card">
+            <div class="card card-blue">
                 <canvas id="chart2"></canvas>
             </div>
-            <div class="card">
+            <div class="card card-purple">
                 <canvas id="chart3"></canvas>
             </div>
             <div class="card">
@@ -81,6 +81,40 @@
                     responsive: true,
                 }
             });
+
+            const chart2 = document.getElementById('chart2');
+            const data_chart2 = {
+                labels: [
+                    'Red',
+                    'Blue',
+                    'Yellow'
+                ],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [300, 50, 100],
+                    backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            const config = {
+                type: 'pie',
+                data: data_chart2,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true,
+                }
+            };
+            new Chart(chart2, config);
+
         </script>
 
 <?php
