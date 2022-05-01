@@ -47,6 +47,10 @@ body {
     color: #77AADD;
     text-decoration: none;
 }
+.sidebar span > a:hover,
+.sidebar li > a:hover {
+    border-bottom: 2px solid #77AADD;
+}
 
 .sidebar hr {
     margin-top: 10px;
@@ -75,6 +79,10 @@ body {
     flex-direction: column;
     border-radius: 5px;
 }
+.dropdown:hover .dropdown-content > a:hover {
+    border-bottom: 2px solid #77AADD;
+}
+
 .dropdown-content {
     display: none;
 }
@@ -223,6 +231,13 @@ body {
     height: 95%;
     width: 100%;
 }
+.table-center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
 #pagination {
     text-align: center;
     height: 5%;

@@ -51,7 +51,7 @@ $arrayisempty = 0;
         return;
     }
 
-// Generic Items appears only if fetch data from query is not empty
+// Generic Items appears only if data fetched from query is not empty
 if(sizeof($resultrapportquery) != 0){
     echo ("<a href='/views/Rapports.php?fromsearch=true'>Rapports</a><br>");
 }

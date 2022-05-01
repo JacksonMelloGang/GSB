@@ -59,7 +59,7 @@
     $prodarray = [];
     $saisiedef = "";
 
-    // verify if it's an int first, and if yes convert value into sanitize to convert into valid INT 
+    // verify if it's an int first, and if yes, sanitize to convert into valid INT 
     if(filter_var($_POST['RAP_NUM'], FILTER_VALIDATE_INT) == true){
         $num = filter_var($_POST['RAP_NUM'], FILTER_SANITIZE_NUMBER_INT);
     } else {
@@ -70,7 +70,7 @@
     // Conversion en format date sql (US)
     $datevisite = converttodate($_POST['RAP_DATEVISITE']);
     
-    // verify if it's an int first, and if yes convert value into sanitize to convert into valid INT 
+    // verify if it's an int first, and if yes, sanitize to convert into valid INT 
     if(filter_var($_POST['PRA_NUM'], FILTER_VALIDATE_INT) == true){
         $practicien = filter_var($_POST['PRA_NUM'], FILTER_SANITIZE_NUMBER_INT);
     } else {
@@ -78,7 +78,7 @@
         die("Numéro du praticien Non Valide");
     }
     
-    // verify if it's an int first, and if yes convert value into sanitize to convert into valid INT 
+    // verify if it's an int first, and if yes, sanitize to convert into valid INT 
     if(filter_var($_POST['PRA_COEFF'], FILTER_VALIDATE_INT) == true){
         $coefficient = filter_var($_POST['PRA_COEFF'], FILTER_SANITIZE_NUMBER_INT);
     } else {

@@ -7,7 +7,6 @@
     // require sql connection
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
-
     function showrapports($connexion){
         // 2 Query
         $sqlourrapport = "SELECT rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND visiteur.visMatricule = '{$_SESSION["userId"]}'";
@@ -16,33 +15,36 @@
         // Get Rapports from database & display in table
         $resultourrapport = $connexion->query($sqlourrapport);
         ob_start();
-            echo("<h1>Vos Rapports</h1>");
-            echo("<table>");
-                $row = $resultourrapport->fetch();
-                while($row){
-                    echo("<tr>");
-                    for($i =0; $i < $resultourrapport->columnCount(); $i++){
-                        echo("<td>$row[$i]<br></td>");
-                    }
-                    echo("</tr>");
-                    $row = $resultourrapport->fetch();
-                }
-            echo("</table>");
+                echo("<h1>Vos Rapports</h1>");
+                echo("<div class='table-center'>");
+                    echo("<table>");
+                        $row = $resultourrapport->fetch();
+                        while($row){
+                            echo("<tr>");
+                            for($i =0; $i < $resultourrapport->columnCount(); $i++){
+                                echo("<td>$row[$i]<br></td>");
+                            }
+                            echo("</tr>");
+                            $row = $resultourrapport->fetch();
+                        }
+                    echo("</table>");
+                echo("</div>");
 
-            echo("<h2>Autres Rapports</h2>");
-            $resultrapport = $connexion->query($sqlrapport);
-            echo("<table>");
-            $row = $resultrapport->fetch();
-            while($row){
-                echo("<tr>");
-                for($i =0; $i < $resultrapport->columnCount(); $i++){
-                    echo("<td>$row[$i]<br></td>");
-                }
-                echo("</tr>");
-                $row = $resultrapport->fetch();
-            }
-        echo("</table>");
-
+                echo("<h2>Autres Rapports</h2>");
+                echo("<div>");
+                    $resultrapport = $connexion->query($sqlrapport);
+                        echo("<table>");
+                            $row = $resultrapport->fetch();
+                            while($row){
+                                echo("<tr>");
+                                for($i =0; $i < $resultrapport->columnCount(); $i++){
+                                    echo("<td>$row[$i]<br></td>");
+                                }
+                                echo("</tr>");
+                                $row = $resultrapport->fetch();
+                        }
+                    echo("</table>");
+                echo("</div>");
         return ob_get_clean();
     }
 
@@ -152,7 +154,8 @@
                     <select name="PRA_ECH1" class="zone">
                         <option value='NONE' selected>Medicament</option>
                             <?php
-                                    $query = $connexion->query("SELECT medNomCommercial, medDepotLegal FROM medicament");
+                                    $sql = "SELECT medNomCommercial, medDepotLegal FROM medicament";
+                                    $query = $connexion->query($sql);
                                     $result = $query->fetch();
                                     while($result != false){
                                         echo("<option value='{$result['medDepotLegal']}'>{$result['medNomCommercial']} - {$result['medDepotLegal']}</option>");
@@ -182,14 +185,6 @@
             // still action = new
             $title = "GSB - Rapports";
             $content = ob_get_clean();
-            require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
-        break;
-
-        case "consult":
-
-
-            $title = "GSB - Rapports";
-            $content = showrapports($connexion);
             require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
         break;
 

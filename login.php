@@ -28,8 +28,7 @@
         }
     }
 
-    // close sql connexion
-    $connexion = null;
+    
 ?>
 
 <!DOCTYPE html>
@@ -40,18 +39,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="public/css/login.css" type="text/css" rel="stylesheet">
     <title>Se Connecter</title>
+    <style>
+        #submit:hover {
+            cursor:pointer;
+        }
+    </style>
 </head>
 <body>
     <div id='background'></div>
     <div id="back-login">
             <form id="loginform" action="" method="post">
                 <h1>Authentication</h1>
-                <input type="text" placeholder="Username" name="username">
+                <input type="text" placeholder="Nom d'utilisateur" name="username">
                 <br>
-                <input type="password" placeholder="Password" name="password">
+                <input type="password" placeholder="Mot de passe" name="password">
                 <hr>
                 <input type="hidden" value="login" name="login">
-                <input type=submit value="Se connecter">
+                <input id='submit' type=submit value="Se connecter">
 
                 <?php echo("<br><span style='color: red; margin-top: 10px'>$info</span>") ?>
             </form>
