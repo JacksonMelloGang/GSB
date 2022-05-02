@@ -6,6 +6,9 @@
     session_start();
 
     // When atempting to login
+    /* It's checking if the user is trying to login, if so, it will check if the user is allowed to
+    login, if so, it will set the user level to USER and set the userid, if not, it will display an
+    error message. */
     if(isset($_POST['login'])){
         $result = check($_POST['username'], $_POST['password'], $connexion); // supposed to return array(true|false, message)
         
@@ -14,7 +17,7 @@
             $info = $result[1]; // success
             $_SESSION["authorization"] = "USER"; // set user level
 
-            //set user id if we later, want to get information from the user like it's name or whatever
+            //set userid if we later, want to get information from the user like it's name from the database
             setUserId($_POST['username'], $_POST['password'], $connexion);
 
             if(isset($_GET["page"])){
@@ -28,7 +31,7 @@
         }
     }
 
-    
+
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +50,8 @@
 </head>
 <body>
     <div id='background'></div>
-    <div id="back-login">
+    <div id="back-login" style="color: white;">
+            <!-- It's the form that the user will fill to login. -->
             <form id="loginform" action="" method="post">
                 <h1>Authentication</h1>
                 <input type="text" placeholder="Nom d'utilisateur" name="username">
@@ -57,7 +61,12 @@
                 <input type="hidden" value="login" name="login">
                 <input id='submit' type=submit value="Se connecter">
 
-                <?php echo("<br><span style='color: red; margin-top: 10px'>$info</span>") ?>
+                <?php 
+                echo("<br><span style='color: red; margin-top: 10px'>$info</span>");
+                if(isset($_GET["error"])){
+                    echo("<span>Vous avez été déconnecté: ". htmlspecialchars($_GET["error"]) ."</span>");
+                }
+                ?>
             </form>
     </div>
 </body>

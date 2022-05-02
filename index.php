@@ -13,21 +13,22 @@
                 <canvas id="myChart"></canvas>
             </div>
             <div class="card card-blue">
-                <canvas id="chart2"></canvas>
+                <canvas id="chart2" width="50px" height="50px"></canvas>
             </div>
             <div class="card card-purple">
-                <canvas id="chart3"></canvas>
+                <canvas id="chart3" width="50px" height="50px"></canvas>
             </div>
             <div class="card">
-                <canvas id="chart4"></canvas>
+                <canvas id="chart4" width="50px" height="50px"></canvas>
             </div>
         </div>
 
         <div id="stylish-table">
             <table>
                 <th>Vos Derniers Rapports</th>
+
                 <?php 
-                
+                    /* A php code that is fetching rapports from the database and displaying it in a table. */
                     $result = $connexion->query("SELECT * FROM rapportvisite WHERE visMatricule='{$_SESSION['userId']}' ORDER BY rapDate");
                     $ligne = $result->fetch();
 

@@ -109,12 +109,13 @@
     } else {
         $nbechantillon = 1;
     } 
+
     $prodarray = [];
     // insert each samples into an array
     for($i = 1; $i <= $nbechantillon; $i++){
         array_push($prodarray, $_POST["PRA_QTE{$i}"]);
     } 
-
+    
     $saisiedef = isset($_POST['RAP_LOCK']) ? "true" : "false";
 
     ob_start();
@@ -202,6 +203,9 @@
             $result = $connexion->exec("INSERT INTO...");
     */
 
+    // query to insert database
+    $sql = "";
+    $connexion->query("");
 
     // Render default page
     $title="GSB - Enregistrement du rapport..";
