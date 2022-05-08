@@ -12,7 +12,7 @@
         $month = substr($datetoconvert, 5, 2);
         $day = substr($datetoconvert, 8, 2);
         $date = "$year-$month-$day";
-        return date_format(new DateTime("{$date}T00:00:00"), "m-d-Y");
+        return date_format(new DateTime("{$date}"), "Y-m-d");
     }
 
     // validate & sanitize user-inputs to avoid sql injection or exploits with filter_var() or htmlspecialchars()
@@ -46,7 +46,7 @@
     
     $num = "";
     $datevisite = "";
-    $practicien = "";
+    $praticien = "";
     $coefficient = "";
     $remplacant = "";
     $date = "";
@@ -72,7 +72,7 @@
     
     // verify if it's an int first, and if yes, sanitize to convert into valid INT 
     if(filter_var($_POST['PRA_NUM'], FILTER_VALIDATE_INT) == true){
-        $practicien = filter_var($_POST['PRA_NUM'], FILTER_SANITIZE_NUMBER_INT);
+        $praticien = filter_var($_POST['PRA_NUM'], FILTER_SANITIZE_NUMBER_INT);
     } else {
         echo("<a href='#' onClick='history.go(-1)'>Retour en arriere</a><br>");
         die("Numéro du praticien Non Valide");
@@ -85,7 +85,6 @@
         echo("<a href='#' onClick='history.go(-1)'>Retour en arriere</a><br>");
         die("Coefficient Non Valide");
     }
-
     if(isset($_POST['PRA_REMPLACANT']) == true){
         $remplacant = htmlspecialchars($_POST['PRA_REMPLACANT']);
     } else {
@@ -95,7 +94,13 @@
     // Conversion en format date sql (US)
     $date = converttodate($_POST['RAP_DATE']);
 
-    $motif = htmlspecialchars($_POST['RAP_MOTIF']); // sanitize motif
+    // motif
+    if($_POST["RAP_MOTIF"] == "AUT"){
+        $motif = htmlspecialchars($_POST["RAP_MOTIFAUTRE"]);
+    } else {
+        $motif = htmlspecialchars($_POST['RAP_MOTIF']); // sanitize motif
+    }
+    
     $bilan = empty($_POST['RAP_BILAN']) == true ? die("Bilan obligatoire") : htmlspecialchars($_POST['RAP_BILAN']); // sanitize bilan
 
     // 2e partie
@@ -107,12 +112,13 @@
     if(filter_var($_POST['nbechantillon'], FILTER_VALIDATE_INT)){
         $nbechantillon = $_POST['nbechantillon'];
     } else {
-        $nbechantillon = 1;
+        $nbechantillon = 0;
     } 
 
     $prodarray = [];
     // insert each samples into an array
     for($i = 1; $i <= $nbechantillon; $i++){
+        array_push($prodarray, $_POST["PRA_ECH{$i}"]);
         array_push($prodarray, $_POST["PRA_QTE{$i}"]);
     } 
     
@@ -121,6 +127,7 @@
     ob_start();
 ?>  
     <div id="table-recap-div">
+    <h1>Récapitulatif de votre rapport</h1>
         <table class="table-recap">
             <th>Donnée</th><th>Entrée Utilisateur</th>
             <tr>
@@ -131,9 +138,9 @@
                 <td>Date de visite</td>
                 <td><?= $datevisite ?></td>
             </tr>
-            <tr>
+            <tr> 
                 <td>Praticien</td>
-                <td><?= $practicien ?></td>
+                <td><?= $praticien ?></td>
             </tr>
             <tr>
                 <td>Coefficient</td>
@@ -168,11 +175,14 @@
                 <td><?= $documentation ?></td>
             </tr> 
             <?php
-                for($i=0; $i < sizeof($prodarray); $i++){
+                $numeroechantillon = 1;
+                for($i=0; $i < sizeof($prodarray); $i+=2){
                     $echantillon = empty($prodarray[$i]) ? "Pas d'échantillon proposé" : $prodarray[$i];
+                    $qte = intval($prodarray[$i+1]);
                     echo("<tr>");
-                    echo("<td>Echantillon N°". intval($i+1) ."</td><td>{$echantillon}</td>");
+                    echo("<td>Echantillon N°". intval($numeroechantillon) ."</td><td>{$echantillon}, Qté: {$qte}</td>");
                     echo("</td>");
+                    $numeroechantillon+=1;
                 }
             ?>
             <tr>
@@ -180,6 +190,7 @@
                 <td><?= $saisiedef ?></td>
             </tr>
         </table>
+        <button onclick="history.go(-1)">Retour</button>
     </div>
 
 <?php
@@ -196,22 +207,30 @@
             $stmt = $connexion->prepare($sql);
             $stmt->execute(array(":param1" => $variable1, ":param2" => $variable2)); ou $stlt->execute([$variable1, $variable2]);
         
-            $result = $stmt->fetch();
-
-
-        // EDIT: je viens de me rendre compte que c'est pas nécessaire, tu peux directement utilisé la fonction exec tel que:
-            $result = $connexion->exec("INSERT INTO...");
+            $result = $stmt->exec();
     */
 
     // query to insert database
-    $sql = "";
-    $connexion->query("");
+    $connexion->beginTransaction(); // permet d'effectuer un commit sur la db, et s'il n'y a pas eu d'erreur, push le commit 
 
+        // Insert Rapport
+        $sql = "INSERT INTO rapportvisite(visMatricule, rapNum, praNum, rapDate, rapBilan, rapMotif) VALUES(?, ?, ?, ?, ?, ?);";
+        $stmt = $connexion->prepare($sql);
+        $stmt->execute([$_SESSION["userId"], $num, $praticien, $datevisite, $bilan, $motif]);
+
+        /* It's inserting the samples into the database */
+        $prodsql = "INSERT INTO offrir(visMatricule, rapNum, medDepotlegal, offQte) VALUES(?, ?, ?, ?);";
+        $echantillonnumeroqte = 0;
+        for($i = 0; $i < sizeof($prodarray); $i+=2){
+            $stmt = $connexion->prepare($prodsql);
+            $stmt->execute([$_SESSION["userId"], $num, $echantillon, $prodarray[$i+1]]);
+        }
+    $connexion->commit();
+    
     // Render default page
     $title="GSB - Enregistrement du rapport..";
     $content = ob_get_clean();
     require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
 
     
-
 ?>

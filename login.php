@@ -1,6 +1,6 @@
 <?php
     require($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
-    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
+    require($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
     $info = "";
     session_start();
@@ -14,7 +14,7 @@
         
         // Check if he is allowed to access if true, set auth & userid else, display invalid user/password 
         if($result[0] == true){
-            $info = $result[1]; // success
+            $info = $result[1]; // = "success"
             $_SESSION["authorization"] = "USER"; // set user level
 
             //set userid if we later, want to get information from the user like it's name from the database
@@ -63,8 +63,9 @@
 
                 <?php 
                 echo("<br><span style='color: red; margin-top: 10px'>$info</span>");
+                
                 if(isset($_GET["error"])){
-                    echo("<span>Vous avez été déconnecté: ". htmlspecialchars($_GET["error"]) ."</span>");
+                    echo("<span>Une erreur est survenue: <b>ERR-". strtoupper(htmlspecialchars($_GET["error"])) ."</b></span>");
                 }
                 ?>
             </form>

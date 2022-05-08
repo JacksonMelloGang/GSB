@@ -18,7 +18,7 @@
             <div class="card card-purple">
                 <canvas id="chart3" width="50px" height="50px"></canvas>
             </div>
-            <div class="card">
+            <div class="card card-green">
                 <canvas id="chart4" width="50px" height="50px"></canvas>
             </div>
         </div>

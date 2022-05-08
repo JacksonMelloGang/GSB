@@ -166,7 +166,7 @@ body {
 
     width: 15%;
     height: 100%;
-    background-color: #faeaea;
+    background-color: rgb(233, 222, 222);
     box-shadow: 1px 3px 5px black;
     border-radius: 5px;
 }
@@ -179,7 +179,9 @@ body {
 .card-purple {
     border-left: 3px solid purple;
 }
-
+.card-green {
+    border-left: 3px solid green;
+}
 /***************************************************************************/
 
 .loading-effect {
@@ -325,6 +327,7 @@ body {
         margin-top: 10px;
         margin-bottom: 10px;
         width: 100%;
+        background-color: #77AADD;
     }
     .sidebar a {
         font-size: 10px;

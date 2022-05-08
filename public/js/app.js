@@ -48,9 +48,11 @@ function ajoutLigne(pNumero){//ajoute une ligne de produits/qt� � la div "li
     
     
     // Ajout dans la div
+    laDiv.appendChild(document.createElement("br")); // Ajouter
     laDiv.appendChild(titre); // Produit : 						
     laDiv.appendChild(liste); // input select
     laDiv.appendChild(qtetitre); // Qté : 
     laDiv.appendChild(qte); // input text
     laDiv.appendChild(bouton); // Ajouter
+
 }

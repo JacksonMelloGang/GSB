@@ -18,12 +18,11 @@
                 echo("<h1>Vos Rapports</h1>");
                 echo("<div class='table-center'>");
                     echo("<table>");
+                        echo("<th>Numéro Rapport</th><th>Date</th><th>Bilan</th><th>Motif</th>");
                         $row = $resultourrapport->fetch();
                         while($row){
                             echo("<tr>");
-                            for($i =0; $i < $resultourrapport->columnCount(); $i++){
-                                echo("<td>$row[$i]<br></td>");
-                            }
+                                echo("<td>{$row['rapNum']}</td><td>{$row['rapDate']}</td><td>{$row['rapBilan']}</td><td>{$row['rapMotif']}</td>");
                             echo("</tr>");
                             $row = $resultourrapport->fetch();
                         }
@@ -31,15 +30,14 @@
                 echo("</div>");
 
                 echo("<h2>Autres Rapports</h2>");
-                echo("<div>");
+                echo("<div class='table-center'>");
                     $resultrapport = $connexion->query($sqlrapport);
                         echo("<table>");
+                            echo("<th>Numéro Rapport</th><th>Nom</th><th>Prénom</th><th>Date</th><th>Bilan</th><th>Motif</th>");
                             $row = $resultrapport->fetch();
                             while($row){
                                 echo("<tr>");
-                                for($i =0; $i < $resultrapport->columnCount(); $i++){
-                                    echo("<td>$row[$i]<br></td>");
-                                }
+                                    echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td>{$row['rapBilan']}</td><td>{$row['rapMotif']}</td>");
                                 echo("</tr>");
                                 $row = $resultrapport->fetch();
                         }
@@ -56,8 +54,8 @@
     switch($action){
         case "new":
             ob_start();
-        ?>
             /* Creating a form to add a new rapport de visite. */
+        ?>
             <div id="new_rapportvisite">
                 <form name="formRAPPORT_VISITE" method="post" action="/controller/rapport_visite_controller.php" >
                     <h1> Rapport de visite </h1>
@@ -87,7 +85,15 @@
                     <label class="titre">REMPLACANT :</label>
                     <input type="checkbox" class="zone" checked="false" onClick="selectionne(true,this.checked,'PRA_REMPLACANT');"/>
                         <select name="PRA_REMPLACANT" disabled="disabled" class="zone">
-    
+                            <?php
+                                $query = $connexion->query("SELECT praNum, praNom, praPrenom FROM praticien");
+                                $result = $query->fetch();
+                                while($result != false){
+                                    echo("<option value='{$result['praNum']}'>{$result['praNom']} {$result['praPrenom']}</option>");
+                                    
+                                    $result = $query->fetch();
+                                }
+                            ?>
                         </select>
                     <br>
 
