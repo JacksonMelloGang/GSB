@@ -54,5 +54,15 @@ function ajoutLigne(pNumero){//ajoute une ligne de produits/qt� � la div "li
     laDiv.appendChild(qtetitre); // Qté : 
     laDiv.appendChild(qte); // input text
     laDiv.appendChild(bouton); // Ajouter
+}
 
+function askcookie(){
+    var acceptcookies = $("#cookieaccept");
+    var refusecookies = $("#cookiedeny");
+
+    
+
+    acceptcookies.on("click", function(){
+
+    });
 }

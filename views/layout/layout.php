@@ -43,7 +43,11 @@
                     </div>
             </div>
             <hr>
-            <li><a href="/views/Visiteurs.php?action=consult">Visiteurs</a></li>
+            <?php
+                if($_SESSION['authorization'] == "RESP"){
+                    echo("<li><a href='/views/Visiteurs.php?action=consult'>Visiteurs</a></li>");
+                }
+            ?>
             <li><a href="/views/Medicaments.php?action=consult">Medicaments</a></li>
             <li><a href="/views/Praticiens.php?action=consult">Praticiens</a></li>
 

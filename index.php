@@ -1,124 +1,81 @@
 <?php
-    // Restricted Access
-    require('./includes/auth_middleware.php');
-    check_if_allowed("USER");
+    require($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
+    require($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
-    // require sql connection
-    require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
+    $info = "";
+    session_start();
 
-    ob_start();
+    // When atempting to login
+    /* It's checking if the user is trying to login, if so, it will check if the user is allowed to
+    login, if so, it will set the user level to USER and set the userid, if not, it will display an
+    error message. */
+    if(isset($_POST['login'])){
+        $username = htmlspecialchars($_POST['username']);
+        $password = htmlspecialchars($_POST['password']);
+
+        $result = check($username, $password, $connexion); // supposed to return array(true|false, message)
+        
+        // Check if he is allowed to access if true, set auth & userid else, display invalid user/password 
+        if($result[0] == true){
+            $info = $result[1]; // = "success"
+            $_SESSION["authorization"] = "USER"; // set user level
+
+            //set userid if we later, want to get information from the user like it's name from the database
+            setUserId($username, $password, $connexion);
+
+            if(isset($_GET["page"])){
+                header("Location: {$_GET["page"]}");
+            } else {
+                header("Location: index.php", true, 0);
+            }
+            exit();
+        } else {
+            $info = $result[1];
+        }
+        
+        // close sql connection
+        $connexion = null;
+    }
+
+
 ?>
-        <div class="card-row">
-            <div class="card card-red">
-                <canvas id="myChart"></canvas>
-            </div>
-            <div class="card card-blue">
-                <canvas id="chart2" width="50px" height="50px"></canvas>
-            </div>
-            <div class="card card-purple">
-                <canvas id="chart3" width="50px" height="50px"></canvas>
-            </div>
-            <div class="card card-green">
-                <canvas id="chart4" width="50px" height="50px"></canvas>
-            </div>
-        </div>
 
-        <div id="stylish-table">
-            <table>
-                <th>Vos Derniers Rapports</th>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="public/css/login.css" type="text/css" rel="stylesheet">
+    <title>Se Connecter</title>
+    <style>
+        #submit:hover {
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id='background'></div>
+    <div id="back-login" style="color: white;">
+            <!-- It's the form that the user will fill to login. -->
+            <form id="loginform" action="" method="post">
+                <h1>Authentication</h1>
+                <input type="text" placeholder="Nom d'utilisateur" name="username">
+                <br>
+                <input type="password" placeholder="Mot de passe" name="password">
+                <hr>
+                <input type="hidden" value="login" name="login">
+                <input id='submit' type=submit value="Se connecter">
 
                 <?php 
-                    /* A php code that is fetching rapports from the database and displaying it in a table. */
-                    $result = $connexion->query("SELECT * FROM rapportvisite WHERE visMatricule='{$_SESSION['userId']}' ORDER BY rapDate");
-                    $ligne = $result->fetch();
-
-                    while($ligne != false){
-                        echo("<tr>");
-                            echo("<td><a href='/views/Rapports.php?action=consult&rapid={$ligne['rapNum']}'>Rapport N°{$ligne['rapNum']}</a></td>");
-                        echo("</tr>");
-
-                        $ligne = $result->fetch();
-                    }
-
+                echo("<br><span style='color: red; margin-top: 10px'>$info</span>");
+                
+                if(isset($_GET["error"])){
+                    echo("<span>Une erreur est survenue: <b>ERR-". strtoupper(htmlspecialchars($_GET["error"])) ."</b></span>");
+                }
                 ?>
-            </table>
-        </div>
+            </form>
+    </div>
+</body>
+</html>
 
-        <script>
-            const ctx = document.getElementById('myChart');
-            const myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    maintainAspectRatio: false,
-                    responsive: true,
-                }
-            });
-
-            const chart2 = document.getElementById('chart2');
-            const data_chart2 = {
-                labels: [
-                    'Red',
-                    'Blue',
-                    'Yellow'
-                ],
-                datasets: [{
-                    label: 'My First Dataset',
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
-                    ],
-                    hoverOffset: 4
-                }]
-            };
-            const config = {
-                type: 'pie',
-                data: data_chart2,
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    maintainAspectRatio: false,
-                    responsive: true,
-                }
-            };
-            new Chart(chart2, config);
-
-        </script>
-
-<?php
-    $title = "GSB - Dashboard";
-    $content = ob_get_clean();
-    require("./views/layout/layout-index.php");

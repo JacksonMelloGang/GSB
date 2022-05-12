@@ -10,7 +10,7 @@
         $allowed = false;
 
         if(!isset($_SESSION['authorization'])){
-            header("Location: /login.php?&error=norank&page=". $_SERVER["PHP_SELF"]);
+            header("Location: /index.php?&error=norank&page=". $_SERVER["PHP_SELF"]);
             exit;
         }
 
@@ -36,7 +36,7 @@
 
         // if not allowed redirect to login.php otherwise do nothing 
         if($allowed == false){
-            header("Location: /login.php?&error=notallowed&page=". substr($_SERVER["PHP_SELF"], 1) . "&rank=". $_SESSION['authorization']);
+            header("Location: /index.php?&error=notallowed&page=". substr($_SERVER["PHP_SELF"], 1) . "&rank=". $_SESSION['authorization']);
         }
     }
 
@@ -60,22 +60,22 @@
         }
         
         // otherwise executer request to check if user is in the database
-        $query = $connexion->prepare("SELECT * FROM visiteur WHERE visNom = ? AND visDateembauche = ?");
-        $query->execute([$username, $password]);
+        $query = $connexion->prepare("SELECT motdepasse FROM utilisateur WHERE nom = ?");
+        $query->execute([$username]);
         $result = $query->fetch();
         
-        // close sql connexion
-        $connexion = null;
+        $checkup_password = password_verify($password, $result['motdepasse']);
 
         // if result empty / false return false & error message
-        if($result === false){
+        if($result === false || $checkup_password == false){
             return array(false, "Invalid Username / Password");
-        }
+        }      
 
         // return true as user passed all conditions
         return array(true, "Success");
     }
     
+
     /**
      * It takes a username and password, and returns an array with a boolean and a message
      * 

@@ -2,7 +2,7 @@
 
     // Restricted Access
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
-    check_if_allowed('USER'); // Rank Needed
+    check_if_allowed(array('USER')); // Rank Needed
 
     // require sql connection
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
