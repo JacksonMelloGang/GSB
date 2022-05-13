@@ -14,24 +14,24 @@
             exit;
         }
 
-        // check if it's an array
-        if(is_array($permission_needed)){
-            $i = 0;
-            while($i < sizeof($permission_needed) || $allowed == false){
-                if($_SESSION['authorization'] == $permission_needed[$i]){
-                    $allowed = true;   
-                }
-                $i++;
-            }
-        } 
-
         // check if $permission_needed is a string otherwise 'error'
         if(is_string($permission_needed)){
             if($_SESSION['authorization'] == $permission_needed){
                 $allowed = true;
             }
         } else {
-            die("value permission_needed($permission_needed) is not a string or an array !");
+            // check if it's an array
+            if(is_array($permission_needed)){
+                $i = 0;
+                while($i < sizeof($permission_needed) && $allowed == false){
+                    if($_SESSION['authorization'] == $permission_needed[$i]){
+                        $allowed = true;   
+                    }
+                    $i++;
+                }
+            } else {
+                die("value permission_needed($permission_needed) is not a string or an array !");
+            }
         }
 
         // if not allowed redirect to login.php otherwise do nothing 

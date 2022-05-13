@@ -63,7 +63,7 @@
                     <input type="text" size="10" name="RAP_NUM" class="zone" required/><br>
                     
                     <label class="titre">DATE VISITE :</label>
-                    <input type="date" size="10" name="RAP_DATEVISITE" class="zone" required/><br>
+                    <input type="datetime-local" size="10" name="RAP_DATEVISITE" class="zone" required/><br>
                     
                     <label class="titre">PRATICIEN :</label>
                     <select name="PRA_NUM" class="zone" required>

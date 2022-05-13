@@ -6,6 +6,7 @@ $code = htmlspecialchars($_POST["code"]);
 $password = htmlspecialchars($_POST["password"]);
 
 $connexion->beginTransaction();
+ob_start();
 
 $sqlcheckcode = "SELECT nom FROM utilisateur WHERE temp_setupcode=?";
 $stmt = $connexion->prepare($sqlcheckcode);
@@ -22,16 +23,18 @@ $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
 
 // Allow to proceed to the next step 
 $allownexstep = true;
+$commitornot = true;
 
+/* It's setting password of the user. */
 $sqlsetpassword = "UPDATE utilisateur SET motdepasse = '{$hashedpassword}' WHERE nom = '{$result["nom"]}'";
 $stmtupdatepassword = $connexion->exec($sqlsetpassword);
 
 if($stmtupdatepassword === false | $stmtupdatepassword == 0){
-    ob_start();
     echo("ERREUR: Couldn't update password.");
     echo($connexion->errorInfo());
     $content = ob_get_clean();
-    $connexion->rollBack();
+
+    $commitornot = false;
     $allownexstep = false;
 }
 
@@ -40,17 +43,21 @@ if($allownexstep == true){
     $stmtdeletepassword = $connexion->exec($deletesetupcodesql);
 
     if($stmtdeletepassword === false | $stmtdeletepassword == 0){
-        ob_start();
         echo("Couldn't Delete tempcode.");
         $content = ob_get_clean();
-        $connexion->rollBack();
+        
+        $commitornot = false;
     } else {
         $content = "Success !";
     }    
 
 }
 
-$connexion->commit();
+if($commitornot == false){
+    $connexion->rollBack();
+} else {
+    $connexion->commit();
+}
 ?>
 
 <!DOCTYPE html>

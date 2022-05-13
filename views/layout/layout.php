@@ -6,7 +6,7 @@
     $result = $connexion->query($sql);
     $ligne = $result->fetch();
     if($result->rowCount() == 0){
-        $user = "ERROR";
+        $user = "Erreur - Check Console";
         echo("<script>console.error(\"Couldn't get username from database.\")</script>");
     } else {
         $user = "{$ligne['visNom']} {$ligne['visPrenom']}";

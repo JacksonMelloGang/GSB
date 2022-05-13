@@ -96,9 +96,22 @@
 
     // motif
     if($_POST["RAP_MOTIF"] == "AUT"){
-        $motif = htmlspecialchars($_POST["RAP_MOTIFAUTRE"]);
+        $motif = htmlspecialchars("Autre: " + $_POST["RAP_MOTIFAUTRE"]);
     } else {
-        $motif = htmlspecialchars($_POST['RAP_MOTIF']); // sanitize motif
+        switch(htmlspecialchars($_POST['RAP_MOTIF'])){
+            case "PRD":
+                $motif = "Périodicité";
+                break;
+            case "ACT":
+                $motif = "Actualisation";
+                break;
+            case "REL":
+                $motif = "Relance";
+                break;
+            case "SOL":
+                $motif = "Solicitation Praticien";
+                break;            
+        }
     }
     
     $bilan = empty($_POST['RAP_BILAN']) == true ? die("Bilan obligatoire") : htmlspecialchars($_POST['RAP_BILAN']); // sanitize bilan
