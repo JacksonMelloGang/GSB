@@ -2,6 +2,7 @@
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/includes/DbConnexion.php");
 $searchfilter = isset($_GET['search']) ? $_GET['search'] : "";
+session_start();
 
 $medicquery = "SELECT medDepotlegal, medNomcommercial FROM medicament WHERE medDepotlegal LIKE :userinput OR medNomcommercial LIKE :userinput";
 $practicienquery = "SELECT praNum, praNom, praPrenom FROM praticien WHERE praNom LIKE :userinput OR praPrenom LIKE :userinput";
@@ -64,7 +65,11 @@ if (sizeof($resultpraticienquery) != 0) {
     echo("<a href='/views/Praticiens.php?fromsearch=true'>Praticiens</a><br>");
 }
 if (sizeof($resultvisiteurquery) != 0) {
-    echo("<a href='/views/Visiteurs.php?fromsearch=true'>Visiteurs</a><br>");
+    if($_SESSION["authorization"] == "USER"){
+        echo("<a>Visiteurs</a><br>");
+    } else {
+        echo("<a href='/views/Visiteurs.php?fromsearch=true'>Visiteurs</a><br>");
+    }
 }
 
 /* It's a loop that iterates through the result array and displays the results. */
@@ -83,7 +88,11 @@ for ($i = 0; $i < sizeof($resultarray); $i++) { // type (medic, rapport, pratici
                 echo("<a href='/views/Rapports.php?rapid={$resultarray[$i][$j][0]}' class='search-link'>Rapport N°{$resultarray[$i][$j][0]}</a><br>");
                 break;
             case 3:
-                echo("<a href='/views/Visiteurs.php?visiteurid={$resultarray[$i][$j][0]}' class='search-link'>Visiteur {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
+                if($_SESSION["authorization"] == "USER"){
+                    echo("<a class='search-link'>Visiteur {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
+                } else {
+                    echo("<a href='/views/Visiteurs.php?visiteurid={$resultarray[$i][$j][0]}' class='search-link'>Visiteur {$resultarray[$i][$j][1]} {$resultarray[$i][$j][2]}</a><br>");
+                }
                 break;
             default:
                 echo("<a href='index.php'>Element Inconnu</a><br>");

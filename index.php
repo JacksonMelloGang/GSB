@@ -5,6 +5,12 @@
     $info = "";
     session_start();
 
+
+    if(isset($_SESSION["authorization"])){
+        header("Location: /dashboard.php");
+        return;
+    }
+
     // When atempting to login
     /* It's checking if the user is trying to login, if so, it will check if the user is allowed to
     login, if so, it will set the user level to USER and set the userid, if not, it will display an

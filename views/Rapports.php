@@ -97,8 +97,10 @@
                         </select>
                     <br>
 
+                    <!--
                     <label class="titre">DATE :</label>
                     <input type="date" size="19" name="RAP_DATE" class="zone" required/><br>
+                    -->
                     
                     <label class="titre">MOTIF :</label>
                     <select name="RAP_MOTIF" class="zone" onClick="selectionne('AUT',this.value,'RAP_MOTIFAUTRE');" required> 
