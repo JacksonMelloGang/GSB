@@ -31,6 +31,7 @@ if($stmtupdatepassword === false | $stmtupdatepassword == 0){
     echo("ERREUR: Couldn't update password.");
     echo($connexion->errorInfo());
     $content = ob_get_clean();
+    $connexion->rollBack();
     $allownexstep = false;
 }
 
@@ -42,6 +43,7 @@ if($allownexstep == true){
         ob_start();
         echo("Couldn't Delete tempcode.");
         $content = ob_get_clean();
+        $connexion->rollBack();
     } else {
         $content = "Success !";
     }    

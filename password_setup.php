@@ -10,7 +10,7 @@
 <body style="background-color: rgb(233, 222, 222)">
     <div>
         <div style='display:flex;justify-content:center;flex-direction:column;text-align:center;'>
-            <form style="text-align:center" action="/controller/rapport_visite_controller.php" method="post" onsubmit="return verifpassword()">
+            <form style="text-align:center" action="/controller/password_setup_controller.php" method="post" onsubmit="return verifpassword()">
                 <h1>Définir un mot de passe</h1>
 
                 <label>Votre Code:</label>
