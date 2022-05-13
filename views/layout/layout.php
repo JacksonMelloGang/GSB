@@ -33,7 +33,7 @@
 <body>
     <nav class="sidebar">
             <img src="../public/img/gsblogo.png">
-            <li class="first-sidebar"><a href="/index.php">Acceuil</a></li>
+            <li class="first-sidebar"><a href="/dashboard.php">Acceuil</a></li>
             <hr>
             <div class="dropdown">
                     <span style="color: red"><a href="/views/Rapports.php">Rapports</a></span>

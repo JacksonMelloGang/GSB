@@ -5,5 +5,5 @@ session_start();
 // remove authorization
 unset($_SESSION["authorization"]);
 
-header("Location: /login.php");
+header("Location: /index.php");
 exit();

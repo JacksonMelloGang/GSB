@@ -64,7 +64,9 @@
         $query->execute([$username]);
         $result = $query->fetch();
         
-        $checkup_password = password_verify($password, $result['motdepasse']);
+        $mdpDb = isset($result["motdepasse"]) ? $result["motdepasse"] : "wrong";
+
+        $checkup_password = password_verify($password, $mdpDb);
 
         // if result empty / false return false & error message
         if($result === false || $checkup_password == false){
@@ -80,7 +82,6 @@
      * It takes a username and password, and returns an array with a boolean and a message
      * 
      * @param string username The username of the user
-     * @param string password The password to check.
      * @param PDO connexion the PDO object
      * 
      * @return array array with two values. The first value is a boolean, which is true if the user is
@@ -88,10 +89,10 @@
      * is null if the user is authenticated, and contains an error message if the user is not
      * authenticated.
      */
-    function setUserId($username, $password, $connexion){
+    function setUserId($username, $connexion){
 
-        $query = $connexion->prepare("SELECT visMatricule FROM visiteur WHERE visNom = ? AND visDateembauche = ?");
-        $query->execute([$username, $password]);
+        $query = $connexion->prepare("SELECT visMatricule FROM visiteur WHERE visNom = ?");
+        $query->execute([$username]);
         $result = $query->fetch();
         
         // close sql connexion

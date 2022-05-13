@@ -92,7 +92,7 @@
     }
 
     // Conversion en format date sql (US)
-    $date = converttodate($_POST['RAP_DATE']);
+    //$date = converttodate($_POST['RAP_DATE']);
 
     // motif
     if($_POST["RAP_MOTIF"] == "AUT"){
@@ -150,10 +150,14 @@
                 <td>Remplacant</td>
                 <td><?= $remplacant ?></td>
             </tr>
+            <!--
+
             <tr>
                 <td>Date</td>
                 <td><?= $date ?></td>
             </tr>
+
+            -->
             <tr>
                 <td>Motif</td>
                 <td><?= $motif ?></td>
@@ -190,6 +194,7 @@
                 <td><?= $saisiedef ?></td>
             </tr>
         </table>
+        <span style="color: black">Votre rapport a bien été enregistré.</span>
         <button onclick="history.go(-1)">Retour</button>
     </div>
 
@@ -228,7 +233,7 @@
     $connexion->commit();
     
     // Render default page
-    $title="GSB - Enregistrement du rapport..";
+    $title="GSB - Rapport   ..";
     $content = ob_get_clean();
     require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
 

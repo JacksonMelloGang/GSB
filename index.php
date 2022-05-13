@@ -21,12 +21,12 @@
             $_SESSION["authorization"] = "USER"; // set user level
 
             //set userid if we later, want to get information from the user like it's name from the database
-            setUserId($username, $password, $connexion);
+            setUserId($username, $connexion);
 
             if(isset($_GET["page"])){
                 header("Location: {$_GET["page"]}");
             } else {
-                header("Location: index.php", true, 0);
+                header("Location: dashboard.php", true, 0);
             }
             exit();
         } else {
@@ -74,6 +74,8 @@
                     echo("<span>Une erreur est survenue: <b>ERR-". strtoupper(htmlspecialchars($_GET["error"])) ."</b></span>");
                 }
                 ?>
+                
+                <a style="color: white;" href="password_setup.php">Nouveau ?</a>
             </form>
     </div>
 </body>
