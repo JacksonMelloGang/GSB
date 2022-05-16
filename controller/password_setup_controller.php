@@ -84,7 +84,11 @@ if($commitornot == false){
         </nav>
         
         <div class="content">
-            <div style="height:100%"><?= $content ?></div>
+            <div style="height:100%">
+                <span><?= $content ?></span>
+                <br>
+                <a href="" onclick="history.go(-1)">Se Connecter</a>
+            </div>
         </div>
     </div>
 </body>

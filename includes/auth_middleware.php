@@ -104,6 +104,46 @@
         }
 
         $_SESSION["userId"] = $result['visMatricule'];
+
         return array(true, null);
 
+    }
+
+    /**
+     * It returns the rank of a user, given his userId
+     * 
+     * @param string userId The user's ID
+     * @param PDO connexion the connection to the database
+     * 
+     * @return string The rank of the user.
+     */
+    function getrankbyuserid($userId, $connexion){
+        
+        $query = $connexion->query("SELECT rang FROM utilisateur WHERE visMatricule = '$userId'");
+        $result = $query->fetch();
+
+        if($result === false){
+            return "USER";
+        }
+
+        return $result["rang"];
+    }
+
+
+
+    /**
+     * It takes a user id, a message and a database connection as parameters, and returns the user's
+     * email address
+     * 
+     * @param string userId The user's ID
+     * @param string message The message you want to send to the user.
+     * @param PDO connexion The PDO object
+     */
+    function mailuser($userId, $message, $connexion){
+        $query = $connexion->query("SELECT mail FROM ustilisateur WHERE visMatricule = '$userId'");
+        $result = $query->fetch();
+        
+        if($result === false){
+            return false;
+        }
     }

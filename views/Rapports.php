@@ -28,18 +28,22 @@
                         }
                     echo("</table>");
                 echo("</div>");
-
+                echo("<hr style='width: 100%;margin-top: 10px; margin-bottom:10px;'>");
                 echo("<h2>Autres Rapports</h2>");
                 echo("<div class='table-center'>");
                     $resultrapport = $connexion->query($sqlrapport);
                         echo("<table>");
-                            echo("<th>Numéro Rapport</th><th>Nom</th><th>Prénom</th><th>Date</th><th>Bilan</th><th>Motif</th>");
                             $row = $resultrapport->fetch();
-                            while($row){
-                                echo("<tr>");
-                                    echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td>{$row['rapBilan']}</td><td>{$row['rapMotif']}</td>");
-                                echo("</tr>");
-                                $row = $resultrapport->fetch();
+                            if($row == false){
+                                echo("Aucun rapport.");
+                            } else {
+                                echo("<th>Numéro Rapport</th><th>Nom</th><th>Prénom</th><th>Date</th><th>Bilan</th><th>Motif</th>");
+                                while($row != false){
+                                    echo("<tr>");
+                                        echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td>{$row['rapBilan']}</td><td>{$row['rapMotif']}</td>");
+                                    echo("</tr>");
+                                    $row = $resultrapport->fetch();
+                            }
                         }
                     echo("</table>");
                 echo("</div>");

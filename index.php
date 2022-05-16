@@ -5,7 +5,6 @@
     $info = "";
     session_start();
 
-
     if(isset($_SESSION["authorization"])){
         header("Location: /dashboard.php");
         return;
@@ -24,16 +23,17 @@
         // Check if he is allowed to access if true, set auth & userid else, display invalid user/password 
         if($result[0] == true){
             $info = $result[1]; // = "success"
-            $_SESSION["authorization"] = "USER"; // set user level
 
             //set userid if we later, want to get information from the user like it's name from the database
             setUserId($username, $connexion);
+            $_SESSION["authorization"] = getrankbyuserid($_SESSION["userId"], $connexion); // set rank level
 
             if(isset($_GET["page"])){
                 header("Location: {$_GET["page"]}");
             } else {
                 header("Location: dashboard.php", true, 0);
             }
+
             exit();
         } else {
             $info = $result[1];

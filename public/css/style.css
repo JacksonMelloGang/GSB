@@ -252,7 +252,7 @@ body {
 
 .table-item a {
     color: rgb(24, 24, 92);
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 #table-info {
@@ -310,6 +310,9 @@ body {
 
 #stylish-table {
     width: auto;
+}
+.table-info-item > td {
+    color: rgb(24, 24, 92);
 }
 
 /********************************** MOBILE *********************************/

@@ -24,9 +24,17 @@
     ob_start();
 ?>
 
-    <div style="display:flex;justify-content:center;align-content:center">
+    <style>
+        tr {
+            
+        }
+        tr > td:nth-child(1) {
+            text-align: center;
+        }
+    </style>
 
-        <table>
+    <div style="display:flex;justify-content:center;align-content:center">
+        <table style="width:50%">
             <tr>
                 <td>Matricule</td><td><input type="text" value=<?php echo("\"{$matricule} \"") ?> disabled></td>
             </tr>
@@ -53,5 +61,3 @@
     $content = ob_get_clean();
     $title = "GSB - Paramètres";
     require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
-
-    

@@ -76,7 +76,7 @@
         case "showmedic":
             if(isset($_GET['medic'])) {
                 // Prepare Request to avoid SQL Injection
-                $stmt = $connexion->prepare("SELECT * FROM medicament WHERE medDepotLegal = :medic");
+                $stmt = $connexion->prepare("SELECT medDepotlegal, medNomcommercial, famLibelle, medComposition, medEffets, medContreindic, medPrixechantillon FROM medicament, famille WHERE medicament.famCode = famille.famCode AND medDepotLegal = :medic ");
                 $stmt->execute(array(':medic' => $_GET['medic']));
 
                 // Fetch data, supposed to have one row 
@@ -85,20 +85,46 @@
                 // if result from query is not empty, then start tempo & create table filled with data from the result set
                 // else, display, "no result"
                 ob_start(); // start temp
+
                 if ($stmt->rowCount() !== 0) {
-                    echo("<div style='display: flex; justify-content: center'>");
-                        echo("<table id='table-info'>");
-                            for ($i = 0; $i < $stmt->columnCount(); $i++) {
-                                $columndata = empty($result[$i]) == true ? "<b>Non définie dans la base de donnée.</b>" : $result[$i]; // check if data is not null --> Variable Conditonnel
-                                $columnname = substr($stmt->getColumnMeta($i)['name'], 3);
-                                
-                                echo ("<tr class='table-info-item'>");
-                                echo ("<td>$columnname</td>");
-                                echo ("<td>$columndata</td>");
-                                echo ("</tr>");
-                            }
-                        echo ("</table>");
-                    echo("</div");
+                    $depotlegal = $result["medDepotlegal"];
+                    $nom = $result["medNomcommercial"];
+                    $code = $result["famLibelle"];
+                    $compo = $result["medComposition"];
+                    $effets = $result["medEffets"];
+                    $contreindic = $result["medContreindic"];
+                    $prix = empty($result[""]) == true ? "<b>Non Renseigné.</b>" : $result[$i];
+                ?>
+                    <div style='display: flex; justify-content: center'>
+                        <table id='table-info'>
+                               
+                                <tr class='table-info-item'>
+                                    <td>Depot Légal</td><td><?= $depotlegal ?></td>
+                                </tr>
+
+                                <tr class='table-info-item'>
+                                    <td>Nom Commercial</td><td><?= $nom ?></td>
+                                </tr>
+
+                                <tr class='table-info-item'>
+                                    <td>Code</td><td><?= $code ?></td>
+                                </tr>
+
+                                <tr class='table-info-item'>
+                                    <td>Effets</td><td><?= $effets ?></td>
+                                </tr>
+
+                                <tr class='table-info-item'>
+                                    <td>Contre Indication</td><td><?= $contreindic ?></td>
+                                </tr>
+
+                                <tr class='table-info-item'>
+                                    <td>Prix</td><td><?= $prix ?></td>
+                                </tr>
+
+                        </table>
+                    </div>
+                <?php
                 } else {
                     // if no medic id (code legal)
                     echo("Aucun résultat ne correspond à votre recherche.");

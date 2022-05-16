@@ -7,12 +7,22 @@
     // require sql connection
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
-    function converttodate($datetoconvert){
+    function converttodate($datetoconvert, $timestamp = false){
         $year = substr($datetoconvert, 0, 4);
         $month = substr($datetoconvert, 5, 2);
         $day = substr($datetoconvert, 8, 2);
-        $date = "$year-$month-$day";
-        return date_format(new DateTime("{$date}"), "Y-m-d");
+        
+        if($timestamp == true){
+            $hour = substr($datetoconvert, 8, 2);;
+            $minute = substr($datetoconvert, 8, 2);;
+            $secondes = substr($datetoconvert, 8, 2);;
+
+            $date = "{$year}-{$month}-{$day}T{$hour}:{$minute}:{$secondes}";
+            return date_format(new DateTime("{$date}"), "Y-m-d\TH:i:s");
+        } else {
+            $date = "$year-$month-$day";
+            return date_format(new DateTime("{$date}"), "Y-m-d");
+        }     
     }
 
     // validate & sanitize user-inputs to avoid sql injection or exploits with filter_var() or htmlspecialchars()
@@ -128,13 +138,20 @@
         $nbechantillon = 0;
     } 
 
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     $prodarray = [];
     // insert each samples into an array
     for($i = 1; $i <= $nbechantillon; $i++){
         array_push($prodarray, $_POST["PRA_ECH{$i}"]);
         array_push($prodarray, $_POST["PRA_QTE{$i}"]);
     } 
+    // Example: ["AXOMIL", 2, "TRIMYCINE", 1]
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     
+
+
     $saisiedef = isset($_POST['RAP_LOCK']) ? "true" : "false";
 
     ob_start();
@@ -229,7 +246,7 @@
     */
 
     // query to insert database
-    $connexion->beginTransaction(); // permet d'effectuer un commit sur la db, et s'il n'y a pas eu d'erreur, push le commit 
+    $connexion->beginTransaction();
 
         // Insert Rapport
         $sql = "INSERT INTO rapportvisite(visMatricule, rapNum, praNum, rapDate, rapBilan, rapMotif) VALUES(?, ?, ?, ?, ?, ?);";
@@ -246,7 +263,7 @@
     $connexion->commit();
     
     // Render default page
-    $title="GSB - Rapport   ..";
+    $title="GSB - Status du Rapport";
     $content = ob_get_clean();
     require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
 
