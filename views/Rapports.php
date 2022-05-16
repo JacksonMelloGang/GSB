@@ -140,7 +140,7 @@
                             history.go(-1);
                         }
                     })
-
+ 
                     e.preventDefault();
                 });
             </script>
