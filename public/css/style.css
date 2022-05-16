@@ -1,0 +1,343 @@
+body {
+    margin: auto;
+    font-family: "Lato", sans-serif;
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+/***************************************************************************/
+/*                                 SIDE BAR
+/***************************************************************************/
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    transition: 0.5s;
+
+    background-color: rgb(24, 24, 92) !important;
+
+    padding: 0 8px 0 8px;   
+    height: 100vh;
+    /*width: 10%;*/
+}
+
+/* logo sidebar */
+.sidebar img {
+    height: 10%;
+    align-self: center;
+}
+
+/* First element of sidebar after image*/
+.first-sidebar {
+    margin-top: 20px !important;
+}
+
+.sidebar li {
+    list-style: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* link routing to differents pages */
+.sidebar a {
+    padding: 8px 8px 8px 8px;
+    
+    font-size: calc(.01em + 1vw) !important;
+    color: #77AADD;
+    text-decoration: none;
+}
+.sidebar span > a:hover,
+.sidebar li > a:hover {
+    border-bottom: 2px solid #77AADD;
+}
+
+.sidebar hr {
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.logout {
+    padding: 8px 8px 8px 8px;
+    margin-top: auto !important;
+    margin-bottom: 5% !important;
+}
+
+
+/************ DROPDOWN ************/
+.dropdown {
+    display: block;
+    width: 100%;
+}
+.dropdown:hover .dropdown-content {
+    position: absolute;
+    background-color: whitesmoke;
+
+    margin-bottom: 200px;
+    display: inline-flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+.dropdown:hover .dropdown-content > a:hover {
+    border-bottom: 2px solid #77AADD;
+}
+
+.dropdown-content {
+    display: none;
+}
+
+/***************************************************************************/
+
+.page-content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    background-color: rgb(247, 224, 224);
+}
+/*                  TOPBAR                  */
+.topbar {
+    width: 100%;
+    height: auto;
+    padding: 8px 0px 8px;
+    /*box-shadow: 1px 2px 5px black;*/
+
+    display: flex;
+    justify-content: center;
+
+    background-color: rgb(24, 24, 92) !important;
+    font-size: 10px;
+}
+
+/***************************************************************************/
+/*                              SEARCH BAR
+/***************************************************************************/
+
+#search {
+    display: block;
+}
+.search-input {
+    padding: 0px 8px 0px 8px;
+    border-radius: 8px;
+    background-color: white;
+    height: 20px;
+}
+
+#search-result {
+    overflow-y: scroll;
+    
+    background-color: rgb(24, 24, 92) !important;
+    transition: 0.5s;
+
+    height: 200px;
+    width: 20% !important;
+}
+#search-result a {
+    font-size: 20px;
+    color:#77AADD
+}
+
+/***************************************************************************/
+
+.content {
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+}
+
+/***************************************************************************/
+.card-row {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    overflow: hidden;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.card {
+    margin-left: 2%;
+    margin-right: 2%;
+
+    width: 15%;
+    height: 100%;
+    background-color: rgb(233, 222, 222);
+    box-shadow: 1px 3px 5px black;
+    border-radius: 5px;
+}
+.card-red {
+    border-left: 3px solid red;
+}
+.card-blue {
+    border-left: 3px solid blue;
+}
+.card-purple {
+    border-left: 3px solid purple;
+}
+.card-green {
+    border-left: 3px solid green;
+}
+/***************************************************************************/
+
+.loading-effect {
+    overflow: hidden;
+}
+
+.loading-effect:before {
+    content: " ";
+    height: 200px;
+    width: 100% !important;
+
+    backdrop-filter: blur(2px);
+    background-color: rgba(57, 63, 57, 0.5);
+    position: absolute;
+
+    overflow: hidden;
+    scrollbar-width: none;
+}
+.loading-effect:after {
+    content: " ";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+
+    left: 50%;
+    bottom: 50%;
+
+    /*border-top: 1px solid white;
+    border-bottom: 1px solid white;*/
+    border-left: 1px solid white;
+
+    border-radius: 80%;
+
+    animation: .75s loading infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    } 
+
+}
+
+.table {
+    text-align: center;
+    height: 95%;
+    width: 100%;
+}
+.table-center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+#pagination {
+    text-align: center;
+    height: 5%;
+}
+
+.table-item {
+    border: solid 1px black;
+    background-color: rgb(141, 133, 133);
+}
+
+.table-item a {
+    color: rgb(24, 24, 92);
+    text-decoration: underline;
+}
+
+#table-info {
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+}
+
+.table-info-item {
+    background-color: rgb(141, 133, 133);   
+}
+
+#new_rapportvisite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#new_rapportvisite form {
+    width: 50%;
+}
+
+#lignes {
+    display: block;
+}
+#table-recap-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.table-recap {
+    text-align: center;
+    width: 50%;
+    color: rgb(24, 24, 92);
+}
+.table-recap tr, .table-recap td {
+    border: 1px solid black;
+}
+#username {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: calc(.5em + 1vw);
+}
+
+#username > span {
+    font-size: calc(.01em + 1vw);
+    color: #77AADD;
+}
+
+#stylish-table {
+    width: auto;
+}
+.table-info-item > td {
+    color: rgb(24, 24, 92);
+}
+
+/********************************** MOBILE *********************************/
+
+
+@media screen and (max-width: 500px) {
+    .sidebar {
+        width: 10vh;
+    }
+    .card-row {
+        display: flex;
+        flex-direction: column !important;
+    }
+    .card {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        background-color: #77AADD;
+    }
+    .sidebar a {
+        font-size: 10px;
+    }
+
+    #username {
+        left: calc(.5em + 12vh);
+        right: 0px;
+    }
+}
