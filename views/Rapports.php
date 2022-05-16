@@ -73,7 +73,7 @@
             }
         }
 
-        $sql = "SELECT rapNum, rapDate, rapBilan, rapportvisite.praNum, praPrenom, praNom, praAdresse, rapMotif FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
+        $sql = "SELECT rapportvisite.id, rapNum, rapDate, rapBilan, rapportvisite.praNum, praPrenom, praNom, praAdresse, rapMotif FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
         $stmt = $connexion->query($sql);
         $result = $stmt->fetch();
 
@@ -113,6 +113,12 @@
 
                 </table>
 
+                <label for="saisiedef">Saisie Définitif ?</label>
+                <input type="checkbox" id="saisiedef" name="saisiedef">
+                <br>
+
+                <input type="hidden" id='rapid' value=<?php echo($result["id"]); ?> >
+                
                 <input type="submit" value="Enregistrer">
                 <input type="reset" value="Annuler">
             </form>
@@ -120,16 +126,21 @@
             <script>
                 $("#updateform").submit((e) => {
                     var formdata = {
-                        bilan: $("#bilan").val()
+                        bilan: $("#bilan").val(),
+                        rapid: $("#rapid").val(),
+                        saisiedef: $("#saisiedef").val()
                     };
 
                     $.ajax({
                         type: "POST",
-                        url: "https://beta-gsb-lycee.ga/controller/update_rapport_controller.php",
+                        url: "https://beta.gsb-lycee.ga/controller/update_rapport_controller.php",
                         data: formdata
-                        
+                    }).done((data) => {
+                        if(data = "Success"){
+                            history.go(-1);
+                        }
                     })
-
+ 
                     e.preventDefault();
                 });
             </script>
