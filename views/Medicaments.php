@@ -112,7 +112,6 @@
         $ligne = $result->fetch();
         ob_start();
     ?>  
-        <div class="table">
     
             <span style='color: black; font-size: 32px; text-align: center;'>Listes des médicaments</span>
             
@@ -132,7 +131,6 @@
 
                     ?>
             </table>
-        </div>
 
         <div id="pagination">
             <?php

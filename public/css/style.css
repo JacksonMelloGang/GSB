@@ -19,12 +19,12 @@ body {
     background-color: rgb(24, 24, 92) !important;
 
     padding: 0 8px 0 8px;   
-    height: 100vh;
-    /*width: 10%;*/
+    /*height: 100vh;*/
+    width: 9%;
 }
 
 /* logo sidebar */
-.sidebar img {
+.sidebar > img {
     height: 10%;
     align-self: center;
 }
