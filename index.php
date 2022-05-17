@@ -1,4 +1,6 @@
 <?php
+
+
     require($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
     require($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
@@ -28,9 +30,12 @@
             setUserId($username, $connexion);
             $_SESSION["authorization"] = getrankbyuserid($_SESSION["userId"], $connexion); // set rank level
 
+            sendLoggedMail($_SERVER['REMOTE_ADDR']);
+
             if(isset($_GET["page"])){
                 header("Location: {$_GET["page"]}");
             } else {
+
                 header("Location: dashboard.php", true, 0);
             }
 

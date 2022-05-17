@@ -7,6 +7,10 @@
     // require sql connection
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
+    // import functions to separate sql request from the view 
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/models/rapports_model.php");
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/models/medicaments_model.php");
+
     function showrapports($connexion){
         // 2 Query
         $personnalrapport_sql = "SELECT id, rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif, saisiedef FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND visiteur.visMatricule = '{$_SESSION["userId"]}'";
@@ -58,18 +62,13 @@
         return ob_get_clean();
     }
 
-    function show_specific_rapport($rapportId, $connexion){
+    function show_specific_rapport($rapportId, $connexion, $edit = false){
 
-        $sqlcheckauthor = "SELECT visMatricule FROM rapportvisite WHERE id = $rapportId";
-        $stmtauthor = $connexion->query($sqlcheckauthor);
-        $resultauthor = $stmtauthor->fetch();
-        if($resultauthor === false){
-            echo("Vous n'avez pas la permission de modifier ce rapport!");
-            die();
-        } else {
-            if($resultauthor['visMatricule'] != $_SESSION['userId']){
-                echo("Vous n'avez pas la permission de modifier ce rapport!");
-                die();
+        
+        if($edit == true){
+            $isallowed = isAllowedtoEdit($rapportId, $connexion);
+            if($isallowed == false){
+                die("Vous n'avez pas la permission de modifier ce rapport!");
             }
         }
 
@@ -91,9 +90,16 @@
 
                     <tr>
                         <td>Bilan</td>
-                        <td><textarea id='bilan' rows="5" cols="40"><?=  $result['rapBilan'] ?></textarea></td>
-                    </tr>
+                        <?php
+                        
+                        if($edit == false){
+                            echo("<td><textarea id='bilan' rows='5' cols='40' readonly>{$result['rapBilan']} </textarea></td>");
+                        } else {
+                            echo("<td><textarea id='bilan' rows='5' cols='40'>{$result['rapBilan']}</textarea></td>");
+                        }
 
+                        ?>
+                    </tr>
                     <tr>
                         <td>Motif</td>
                         <td><?= $result['rapMotif'] ?></td>
@@ -113,21 +119,29 @@
 
                 </table>
 
-                <label for="saisiedef">Saisie Définitif ?</label>
-                <input type="checkbox" id="saisiedef" name="saisiedef">
-                <br>
-
-                <input type="hidden" id='rapid' value=<?php echo($result["id"]); ?> >
+                    <span id="info"></span>
+                    
+                    
+                <?php
                 
-                <input type="submit" value="Enregistrer">
-                <input type="reset" value="Annuler">
+                if($edit == true){
+                    //Saisie Def
+                    echo("<label for='saisiedef'>Saisie Définitif:</label>");
+                    echo("<input type='checkbox' name='saisiedef' id='saisiedef'>");
+                    echo("<br>");
+                    
+                    // Button Confirm or Cancel
+                    echo("<input type='submit' value='Enregistrer'>");
+                    echo("<input type='reset' value='Annuler'>");
+                }
+                
+                ?>
             </form>
 
             <script>
                 $("#updateform").submit((e) => {
                     var formdata = {
                         bilan: $("#bilan").val(),
-                        rapid: $("#rapid").val(),
                         saisiedef: $("#saisiedef").val()
                     };
 
@@ -135,10 +149,6 @@
                         type: "POST",
                         url: "https://beta.gsb-lycee.ga/controller/update_rapport_controller.php",
                         data: formdata
-                    }).done((data) => {
-                        if(data = "Success"){
-                            history.go(-1);
-                        }
                     })
  
                     e.preventDefault();
@@ -159,7 +169,7 @@
     switch($action){
         case "new":
             ob_start();
-            /* Creating a form to add a new rapport de visite. */
+            /* Creating a form to add a new rapport de visite. */ 
         ?>
             <div id="new_rapportvisite">
                 <form name="formRAPPORT_VISITE" method="post" action="/controller/rapport_visite_controller.php" >
@@ -173,15 +183,7 @@
                     <label class="titre">PRATICIEN :</label>
                     <select name="PRA_NUM" class="zone" required>
                         <option value='*' selected>Choisisez un praticien</option>
-                        <?php
-                            $query = $connexion->query("SELECT praNum, praNom, praPrenom FROM praticien");
-                            $result = $query->fetch();
-                            while($result != false){
-                                echo("<option value='{$result['praNum']}'>{$result['praNom']} {$result['praPrenom']}</option>");
-                                
-                                $result = $query->fetch();
-                            }
-                        ?>
+                        <?= getPraticiensOptions($connexion) ?>
                     </select><br>
                     
                     <label class="titre">COEFFICIENT :</label>
@@ -190,15 +192,7 @@
                     <label class="titre">REMPLACANT :</label>
                     <input type="checkbox" class="zone" checked="false" onClick="selectionne(true,this.checked,'PRA_REMPLACANT');"/>
                         <select name="PRA_REMPLACANT" disabled="disabled" class="zone">
-                            <?php
-                                $query = $connexion->query("SELECT praNum, praNom, praPrenom FROM praticien");
-                                $result = $query->fetch();
-                                while($result != false){
-                                    echo("<option value='{$result['praNum']}'>{$result['praNom']} {$result['praPrenom']}</option>");
-                                    
-                                    $result = $query->fetch();
-                                }
-                            ?>
+                            <?= getPraticiensOptions($connexion) ?>
                         </select>
                     <br>
 
@@ -228,30 +222,14 @@
                     <label class="titre">PRODUIT 1 : </label>
                     <select name="PROD1" class="zone">
                         <option value='NONE' selected>Medicament</option>
-                        <?php
-                                $query = $connexion->query("SELECT medNomCommercial, medDepotLegal FROM medicament");
-                                $result = $query->fetch();
-                                while($result != false){
-                                    echo("<option value='{$result['medDepotLegal']}'>{$result['medNomCommercial']} - {$result['medDepotLegal']}</option>");
-                                    
-                                    $result = $query->fetch();
-                                }
-                        ?>
+                        <?= getMedicamentsOptions($connexion) ?>
                     </select>
                     <br>
 
                     <label class="titre">PRODUIT 2 : </label>
                     <select name="PROD2" class="zone">
                         <option value='NONE' selected>Medicament</option>
-                            <?php
-                                    $query = $connexion->query("SELECT medNomCommercial, medDepotLegal FROM medicament");
-                                    $result = $query->fetch();
-                                    while($result != false){
-                                        echo("<option value='{$result['medDepotLegal']}'>{$result['medNomCommercial']} - {$result['medDepotLegal']}</option>");
-                                        
-                                        $result = $query->fetch();
-                                    }
-                            ?>
+                        <?= getMedicamentsOptions($connexion) ?>
                     </select>
                     <br>
 
@@ -266,16 +244,7 @@
                         <label class="titre">Produit : </label>
                         <select name="PRA_ECH1" class="zone">
                             <option value='NONE' selected>Medicament</option>
-                                <?php
-                                        $sql = "SELECT medNomCommercial, medDepotLegal FROM medicament";
-                                        $query = $connexion->query($sql);
-                                        $result = $query->fetch();
-                                        while($result != false){
-                                            echo("<option value='{$result['medDepotLegal']}'>{$result['medNomCommercial']} - {$result['medDepotLegal']}</option>");
-                                            
-                                            $result = $query->fetch();
-                                        }
-                                ?>
+                            <?= getMedicamentsOptions($connexion) ?>
                         </select>
                         <label for="PRA_QTE1">Qté : </label>
                         <input type="text" name="PRA_QTE1" size="2" class="zone" />
@@ -305,7 +274,7 @@
 
             if(isset($_GET["rapid"])){
                 $rapportId = htmlspecialchars($_GET["rapid"]);
-                $content = show_specific_rapport($rapportId, $connexion);
+                $content = show_specific_rapport($rapportId, $connexion, false);
             } else {
                 $content = showrapports($connexion);
             }
@@ -316,7 +285,7 @@
         case "edit":
             if(isset($_GET["rapid"])){
                 $rapid = htmlspecialchars($_GET["rapid"]);
-                $content = show_specific_rapport($rapid, $connexion);
+                $content = show_specific_rapport($rapid, $connexion, true);
             } else {
                 $title = "GSB - Rapports";
                 $content = showrapports($connexion);

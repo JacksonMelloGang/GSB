@@ -15,13 +15,13 @@
 
                 <label>Votre Code:</label>
                 <br>
-                <input type="text" name="code">
+                <input type="text" id="code" name="code">
                 
                 <br><br>
 
                 <label>Mot de passe:</label>
                 <br>
-                <input type="password" name="password">
+                <input type="password" id="password" name="password">
 
                 <br><br>
 
@@ -50,6 +50,38 @@
             return true;
             
         }
+
+        $("form").submit((e) => {
+            e.preventDefault();
+
+            if(verifpassword() == false){
+                return;
+            }
+
+            var code = $("#code").val();
+            var mdp = $("#password").val();
+
+            formdata = {
+                code: code,
+                password: mdp
+            }
+
+            $.ajax({
+                type: "POST",
+                data: formdata,
+                url: "https://beta.gsb-lycee.ga/controller/password_setup_controller.php"
+            }).done((data) => {
+                if(data == "Code Invalide."){
+                    document.getElementById("info").innerText = "Code Invalide/Inexistant.";
+                } else {
+                    if(data == "Success !"){
+                        document.getElementById("info").innerText = "Votre mot de passe a bien été défini.";
+                    }
+                }
+            })
+
+        })
+
     </script>
 </body>
 

@@ -34,7 +34,7 @@
 
                     while($ligne != false){
                         echo("<tr>");
-                            echo("<td><a href='/views/Rapports.php?action=consult&rapid={$ligne['rapNum']}'>Rapport N°{$ligne['rapNum']}</a></td>");
+                            echo("<td><a href='/views/Rapports.php?action=consult&rapid={$ligne['id']}'>Rapport N°{$ligne['rapNum']}</a></td>");
                         echo("</tr>");
 
                         $ligne = $result->fetch();

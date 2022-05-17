@@ -147,3 +147,11 @@
             return false;
         }
     }
+
+    function sendLoggedMail($Ipadress){
+        $date = new DateTime();
+
+        
+
+
+    }
