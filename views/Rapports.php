@@ -30,7 +30,7 @@
                                 if($row["saisiedef"] == 0){
                                     $editable = "<td><a href='/views/Rapports.php?&action=edit&rapid={$row['id']}'>Editer</a></td>";
                                 }
-                                echo("<td>{$row['rapNum']}</td><td>{$row['rapDate']}</td><td>{$row['rapBilan']}</td><td>{$row['rapMotif']}</td>$editable");
+                                echo("<td>{$row['rapNum']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row['id']}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>$editable");
                             echo("</tr>");
                             $row = $personnalrapport_result->fetch();
                         }
@@ -72,20 +72,32 @@
             }
         }
 
-        $sql = "SELECT rapportvisite.id, rapNum, rapDate, rapBilan, rapportvisite.praNum, praPrenom, praNom, praAdresse, rapMotif FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
+        $sql = "SELECT rapportvisite.id, rapNum, rapDate, rapBilan, rapportvisite.praNum, rapMotif, rapDateSaisie, saisiedef, docfourni, praPrenom, praNom, praAdresse, praCp, praVille, praCoefnotoriete FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
         $stmt = $connexion->query($sql);
         $result = $stmt->fetch();
 
+        if($result === false){
+            die("Numéro de rapport invalide.");
+        }
+
+        $rapportnum = $result['rapNum'];
+        $datevisite = $result['rapDate'];
+        $bilan = $result['rapBilan'];
+        $motif = $result['rapMotif'];
+        $datesaisie = $result['rapDateSaisie'];
+        $saisiedef = $result['saisiedef'] == 1 ? "Oui" : "Non";
+        $docfourni = $result['docfourni'] == 1 ? "Oui" : "Non";
+
         ob_start();
         ?>
-        <h1>Rapport N°<?= $result['rapNum'] ?></h1>
+        <h1>Rapport N°<?= $rapportnum ?></h1>
         <div class='table-center'>
             <form id='updateform' method='POST'>
                 <h2>Rapport:</h2>
-                <table style='width: 50%;margin-left: auto;margin-right: auto'>
+                <table style='width: 50%;margin-left: auto;margin-right: auto' id="table-info">
                     <tr>
                         <td>Date</td>
-                        <td><?= $result['rapDate']?></td>
+                        <td><?= $datevisite ?></td>
                     </tr>
 
                     <tr>
@@ -93,21 +105,33 @@
                         <?php
                         
                         if($edit == false){
-                            echo("<td><textarea id='bilan' rows='5' cols='40' readonly>{$result['rapBilan']} </textarea></td>");
+                            echo("<td><textarea id='bilan' rows='5' cols='40' readonly>{$bilan} </textarea></td>");
                         } else {
-                            echo("<td><textarea id='bilan' rows='5' cols='40'>{$result['rapBilan']}</textarea></td>");
+                            echo("<td><textarea id='bilan' rows='5' cols='40'>{$bilan}</textarea></td>");
                         }
 
                         ?>
                     </tr>
                     <tr>
                         <td>Motif</td>
-                        <td><?= $result['rapMotif'] ?></td>
+                        <td><?= $motif ?></td>
+                    </tr>
+                    <tr>
+                        <td>Date de Saisie</td>
+                        <td><?= $datesaisie ?></td>
+                    </tr>
+                    <tr>
+                        <td>Saisie Définitif</td>
+                        <td><?=  $saisiedef ?></td>
+                    </tr>
+                    <tr>
+                        <td>Documentation Fourni</td>
+                        <td><?=  $docfourni ?></td>
                     </tr>
                 </table>
 
                 <h2>Praticien:</h2>
-                <table style='width: 50%;margin-left: auto;margin-right: auto'>
+                <table style='width: 50%;margin-left: auto;margin-right: auto' id="table-info">
                     <tr>
                         <td>Numéro</td>
                         <td><?= $result['rapNum'] ?></td>
@@ -115,6 +139,21 @@
                     <tr>
                         <td>Nom & Prénom</td>
                         <td><?= $result['praNom'] ?>-<?= $result['praPrenom'] ?></td>
+                    </tr>
+
+                    <tr>
+                        <td>Adresse</td>
+                        <td><?= str_replace(array(" r ", " av ", " pl "), array(" Rue ", " Avenue ", " Place "), $result['praAdresse']) ?></td>
+                    </tr>
+
+                    <tr>
+                        <td>Ville</td>
+                        <td><?= "{$result['praCp']} - {$result['praVille']}" ?></td>
+                    </tr>
+
+                    <tr>
+                        <td>Notoriété</td>
+                        <td><?= $result['praCoefnotoriete'] ?></td>
                     </tr>
 
                 </table>

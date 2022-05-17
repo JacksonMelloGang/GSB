@@ -38,7 +38,7 @@
                 // else, display, "no result"
                 ob_start(); // start temp
 
-                if ($stmt->rowCount() !== 0) {
+                if ($result === false) {
                     echo("<h1>Information à propos du praticien</h1>");
                         echo("<table style='text-align: center;' id=''>");
                                 echo("<tr><td>Numéro</td><td>{$praNumero}</td></tr>");

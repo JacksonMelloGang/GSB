@@ -23,7 +23,6 @@ function showPraticienstable($connexion){
     $ligne = $result->fetch();
     ob_start();
 ?>  
-    <div class="table">
 
         <span style='color: black; font-size: 32px; text-align: center;'>Listes des Praticiens</span>
         
@@ -56,7 +55,6 @@ function showPraticienstable($connexion){
                     echo"<a>$i</a>&nbsp";
             }
         ?>
-    </div>
 <?php
     return ob_get_clean();
 }

@@ -263,6 +263,12 @@ body {
     width: auto;
 }
 
+#table-info > tr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
 .table-info-item {
     background-color: rgb(141, 133, 133);   
 }
