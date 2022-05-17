@@ -70,7 +70,7 @@
 
         // if result empty / false return false & error message
         if($result === false || $checkup_password == false){
-            return array(false, "Invalid Username / Password");
+            return array(false, "Nom ou mot de passe non valide.");
         }      
 
         // return true as user passed all conditions

@@ -2,15 +2,17 @@
 
     header("Cache-Control: max-age=1"); 
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
-    $sql = "SELECT visNom, visPrenom FROM visiteur WHERE visMatricule = '{$_SESSION["userId"]}'";
-    $result = $connexion->query($sql);
-    $ligne = $result->fetch();
-    if($result->rowCount() == 0){
-        $user = "ERROR";
-        echo("<script>console.error(\"Couldn't get username from database.\")</script>");
+
+    // require sql model to get info from database
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/models/visiteurs_model.php");
+
+    if(isset($_SESSION["userId"])){
+        $userid = $_SESSION["userId"];
     } else {
-        $user = "{$ligne['visNom']} {$ligne['visPrenom']}";
+        $userid = "";
     }
+
+    $user = getUsernameByVisiteurId($connexion, $userid);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +37,7 @@
     <nav class="sidebar">
             <img src="/public/img/gsblogo.png">
             <div class="dropdown first-sidebar">
-                    <span><a href="./views/Rapports.php?action=consult">Rapports</a></span>
+                        <span><a href="./views/Rapports.php?action=consult">Rapports</a></span>
                     <div class="dropdown-content">
                             <a href="./views/Rapports.php?action=new">Nouveau</a>
                             <a href="./views/Rapports.php?action=consult">Consulter</a>
@@ -60,7 +62,7 @@
                 <div id="search-result" class='loading-effect' style="display:none; position: absolute; color: white; background-color: red;  "></div>
             </div>
             <div id="username">
-                <span><?= $user ?></span>
+                <span><a href="/views/UserSettings.php" style="text-decoration: none; color: #77AADD"><?= $user ?></a></span>
             </div>
         </nav>
         

@@ -148,7 +148,7 @@
     
 
 
-    $saisiedef = isset($_POST['RAP_LOCK']) ? "true" : "false";
+    $saisiedef = isset($_POST['RAP_LOCK']) ? "1" : "0";
 
     ob_start();
 ?>  

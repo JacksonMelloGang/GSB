@@ -119,36 +119,50 @@
 
                 </table>
 
-                    <span id="info"></span>
-                    
-                    
                 <?php
-                
-                if($edit == true){
-                    //Saisie Def
-                    echo("<label for='saisiedef'>Saisie Définitif:</label>");
-                    echo("<input type='checkbox' name='saisiedef' id='saisiedef'>");
-                    echo("<br>");
-                    
-                    // Button Confirm or Cancel
-                    echo("<input type='submit' value='Enregistrer'>");
-                    echo("<input type='reset' value='Annuler'>");
-                }
-                
-                ?>
+
+                    if($edit == true){
+
+                        echo("<input type='hidden' id='rapid' value='{$result['id']}'>");
+
+                        //Saisie Def
+                        echo("<label for='saisiedef'>Saisie Définitif:</label>");
+                        echo("<input type='checkbox' name='saisiedef' id='saisiedef'>");
+                        echo("<br>");
+                        
+                        // Button Confirm or Cancel
+                        echo("<input type='submit' value='Enregistrer'>");
+                        echo("<input type='reset' value='Annuler'>");
+                    }
+                ?>                
+
+                <br><br>
+                    <span id="info"></span>
+                <br>
+
             </form>
 
             <script>
+
                 $("#updateform").submit((e) => {
+
+                    var saisiedef = 0;
+                    if($("#saisiedef").prop('checked') == true){
+                        saisiedef = 1;
+                    }
+
                     var formdata = {
                         bilan: $("#bilan").val(),
-                        saisiedef: $("#saisiedef").val()
-                    };
+                        saisiedef: saisiedef,
+                        rapid:  $("#rapid").val()
+                    };  
 
                     $.ajax({
                         type: "POST",
-                        url: "https://beta.gsb-lycee.ga/controller/update_rapport_controller.php",
+                        url: "https://gsb-lycee.ga/controller/update_rapport_controller.php",
                         data: formdata
+                    }).done((data) => {
+                        document.getElementById("info").innerText = "Votre Rapport à été mis à jour.";
                     })
  
                     e.preventDefault();

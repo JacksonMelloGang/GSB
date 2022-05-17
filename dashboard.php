@@ -6,6 +6,14 @@
     // require sql connection
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
+    // require sql model to get info from database
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/models/medicaments_model.php");
+    require_once($_SERVER["DOCUMENT_ROOT"]. "/models/praticiens_model.php");
+
+
+    $samplesresult = getMostProposedSamples($connexion);
+    $reputationresult = getMostReputations($connexion);
+
     ob_start();
 ?>
         <div class="card-row">
@@ -23,23 +31,25 @@
             </div>
         </div>
 
-        <div id="stylish-table">
+        <div id="stylish-table" style="margin-top: 20px">
             <table>
-                <th>Vos Derniers Rapports</th>
-
                 <?php 
-                    /* A php code that is fetching rapports from the database and displaying it in a table. */
-                    $result = $connexion->query("SELECT * FROM rapportvisite WHERE visMatricule='{$_SESSION['userId']}' ORDER BY rapDate");
-                    $ligne = $result->fetch();
-
-                    while($ligne != false){
-                        echo("<tr>");
-                            echo("<td><a href='/views/Rapports.php?action=consult&rapid={$ligne['id']}'>Rapport N°{$ligne['rapNum']}</a></td>");
-                        echo("</tr>");
-
+                    if(!isset($_SESSION["userId"])){
+                        echo("<tr>Erreur, vous ne posséder pas de matricule.</tr>");
+                    } else {
+                        echo("<th>Vos Derniers Rapports</th>");
+                        /* A php code that is fetching rapports from the database and displaying it in a table. */
+                        $result = $connexion->query("SELECT * FROM rapportvisite WHERE visMatricule='{$_SESSION['userId']}' ORDER BY rapDate");
                         $ligne = $result->fetch();
-                    }
 
+                        while($ligne != false){
+                            echo("<tr>");
+                                echo("<td><a href='/views/Rapports.php?action=consult&rapid={$ligne['id']}'>Rapport N°{$ligne['rapNum']}</a></td>");
+                            echo("</tr>");
+
+                            $ligne = $result->fetch();
+                        }
+                    }
                 ?>
             </table>
         </div>
@@ -49,10 +59,27 @@
             const myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: [
+                        <?php
+                            for($i=0; $i < 4; $i++){
+                                for($j=0; $j < 1; $j++){
+                                    echo("'{$samplesresult[$i][1]}', ");
+                                }
+                            }    
+                        
+                        ?>
+                    ],
                     datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
+                        label: 'Nombre d\'échantillon',
+                        data: [
+                            <?php                                                               
+                                for($i=0; $i < 4; $i++){
+                                    for($j=0; $j < 1; $j++){
+                                        echo("{$samplesresult[$i][0]}, ");
+                                    }
+                                }
+                            ?>
+                        ],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -86,13 +113,27 @@
             const chart2 = document.getElementById('chart2');
             const data_chart2 = {
                 labels: [
-                    'Red',
-                    'Blue',
-                    'Yellow'
+                    <?php                                                               
+                                for($i=0; $i < 4; $i++){
+                                    for($j=0; $j < 1; $j++){
+                                        echo("'Réputation {$reputationresult[$i][0]}', ");
+                                    }
+                                }
+                    ?>
                 ],
                 datasets: [{
                     label: 'My First Dataset',
-                    data: [300, 50, 100],
+                    data: [
+
+                        <?php                                                               
+                                for($i=0; $i < 4; $i++){
+                                    for($j=0; $j < 1; $j++){
+                                        echo("{$reputationresult[$i][1]}, ");
+                                    }
+                                }
+                            ?>
+                        
+                    ],
                     backgroundColor: [
                     'rgb(255, 99, 132)',
                     'rgb(54, 162, 235)',
@@ -115,7 +156,6 @@
                 }
             };
             new Chart(chart2, config);
-
         </script>
 
 <?php

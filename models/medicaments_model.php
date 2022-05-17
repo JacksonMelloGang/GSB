@@ -12,3 +12,14 @@
 
         return ob_get_clean();
     }
+
+    function getMostProposedSamples($connexion){
+
+        $sql = "SELECT SUM(offQte), medicament.medNomcommercial FROM offrir, medicament WHERE offrir.medDepotlegal = medicament.medDepotlegal GROUP BY offrir.medDepotlegal ORDER BY SUM(offQte) DESC LIMIT 4";
+        $stmt = $connexion->query($sql);
+        $result = $stmt->fetchAll();
+
+        return $result;
+    
+
+    }
