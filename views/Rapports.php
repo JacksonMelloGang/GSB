@@ -169,7 +169,7 @@
     switch($action){
         case "new":
             ob_start();
-            /* Creating a form to add a new rapport de visite. */
+            /* Creating a form to add a new rapport de visite. */ 
         ?>
             <div id="new_rapportvisite">
                 <form name="formRAPPORT_VISITE" method="post" action="/controller/rapport_visite_controller.php" >
