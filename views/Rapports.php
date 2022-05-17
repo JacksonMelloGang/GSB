@@ -72,7 +72,7 @@
             }
         }
 
-        $sql = "SELECT rapNum, rapDate, rapBilan, rapportvisite.praNum, praPrenom, praNom, praAdresse, rapMotif FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
+        $sql = "SELECT rapportvisite.id, rapNum, rapDate, rapBilan, rapportvisite.praNum, praPrenom, praNom, praAdresse, rapMotif FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
         $stmt = $connexion->query($sql);
         $result = $stmt->fetch();
 
@@ -147,10 +147,10 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "https://beta-gsb-lycee.ga/controller/update_rapport_controller.php",
+                        url: "https://beta.gsb-lycee.ga/controller/update_rapport_controller.php",
                         data: formdata
                     })
-
+ 
                     e.preventDefault();
                 });
             </script>
