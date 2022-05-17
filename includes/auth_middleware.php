@@ -53,8 +53,6 @@
      * @return array array with a boolean and a string.
      */
     function check($username, $password, $connexion) {
-        
-        
 
         // if username or password is empty return false and error message
         if(empty($username) || empty($password)){
@@ -148,4 +146,12 @@
         if($result === false){
             return false;
         }
+    }
+
+    function sendLoggedMail($Ipadress){
+        $date = new DateTime();
+
+        
+
+
     }

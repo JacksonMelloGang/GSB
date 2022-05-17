@@ -7,22 +7,17 @@
     // require sql connection
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
-    function converttodate($datetoconvert, $timestamp = false){
+    function converttodate($datetoconvert){
         $year = substr($datetoconvert, 0, 4);
         $month = substr($datetoconvert, 5, 2);
         $day = substr($datetoconvert, 8, 2);
-        
-        if($timestamp == true){
-            $hour = substr($datetoconvert, 8, 2);;
-            $minute = substr($datetoconvert, 8, 2);;
-            $secondes = substr($datetoconvert, 8, 2);;
 
-            $date = "{$year}-{$month}-{$day}T{$hour}:{$minute}:{$secondes}";
-            return date_format(new DateTime("{$date}"), "Y-m-d\TH:i:s");
-        } else {
-            $date = "$year-$month-$day";
-            return date_format(new DateTime("{$date}"), "Y-m-d");
-        }     
+        $hour = substr($datetoconvert, 11, 2);
+        $minute = substr($datetoconvert, 14, 2);
+        $secondes = substr($datetoconvert, 15, 2);
+
+        $date = "{$year}-{$month}-{$day}T{$hour}:{$minute}:{$secondes}";
+        return date_format(new DateTime("{$date}"), "Y-m-d\TH:i:s");
     }
 
     // validate & sanitize user-inputs to avoid sql injection or exploits with filter_var() or htmlspecialchars()
@@ -68,6 +63,7 @@
     $nbechantillon = "";
     $prodarray = [];
     $saisiedef = "";
+    $documentation = "";
 
     // verify if it's an int first, and if yes, sanitize to convert into valid INT 
     if(filter_var($_POST['RAP_NUM'], FILTER_VALIDATE_INT) == true){
@@ -129,7 +125,7 @@
     // 2e partie
     $produit1 = htmlspecialchars($_POST['PROD1']);
     $produit2 = htmlspecialchars($_POST['PROD2']);
-    $documentation = isset($_POST['RAP_DOC']) ? "true" : "false";
+    $documentation = isset($_POST['RAP_DOC']) == true ? "1" : "0";
 
     // 3e partie
     if(filter_var($_POST['nbechantillon'], FILTER_VALIDATE_INT)){
@@ -249,9 +245,9 @@
     $connexion->beginTransaction();
 
         // Insert Rapport
-        $sql = "INSERT INTO rapportvisite(visMatricule, rapNum, praNum, rapDate, rapBilan, rapMotif) VALUES(?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO rapportvisite(visMatricule, rapNum, praNum, rapDate, rapBilan, rapMotif, saisiedef, docfourni) VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
         $stmt = $connexion->prepare($sql);
-        $stmt->execute([$_SESSION["userId"], $num, $praticien, $datevisite, $bilan, $motif]);
+        $stmt->execute([$_SESSION["userId"], $num, $praticien, $datevisite, $bilan, $motif, $saisiedef, $documentation]);
 
         /* It's inserting the samples into the database */
         $prodsql = "INSERT INTO offrir(visMatricule, rapNum, medDepotlegal, offQte) VALUES(?, ?, ?, ?);";
