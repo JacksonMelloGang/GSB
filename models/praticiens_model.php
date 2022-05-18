@@ -67,3 +67,7 @@ function getMostReputations($connexion){
 
     return $result;
 }
+
+function getPraticienById($connextion, $id){
+    
+}

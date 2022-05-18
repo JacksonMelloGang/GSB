@@ -38,7 +38,7 @@
             <img src="/public/img/gsblogo.png">
             <div class="dropdown first-sidebar">
                         <span><a href="./views/Rapports.php?action=consult">Rapports</a></span>
-                    <div class="dropdown-content">
+                        <div class="dropdown-content">
                             <a href="./views/Rapports.php?action=new">Nouveau</a>
                             <a href="./views/Rapports.php?action=consult">Consulter</a>
                     </div>

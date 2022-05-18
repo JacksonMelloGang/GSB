@@ -24,16 +24,7 @@
     ob_start();
 ?>
 
-    <style>
-        tr {
-            
-        }
-        tr > td:nth-child(1) {
-            text-align: center;
-        }
-    </style>
-
-    <div style="display:flex;justify-content:center;align-content:center">
+    <div id="userinfo">
             <form id="mdp">
                 <table style="width:80%">
                     <tr>

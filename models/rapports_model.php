@@ -12,12 +12,9 @@
         }
 
         while($result != false){
-            
             echo("<option value='{$result['praNum']}'>{$result['praNom']} {$result['praPrenom']}</option>");
-            
             $result = $query->fetch();
         } 
-
 
         $content = ob_get_clean();
         return $content;

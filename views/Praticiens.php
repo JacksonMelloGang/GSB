@@ -18,6 +18,9 @@
     switch ($action) {
         case "showprac": // show info about a prat
             if(isset($_GET['pratid'])) {
+
+                $sql = "SELECT praNum, praNom, praPrenom, praAdresse, praCp, praCoefNotoriete, typLibelle FROM praticien, typepraticien WHERE praticien.typCode = typepraticien.typCode AND praNum = {$_GET['pratid']}";
+
                 // Prepare Request to avoid SQL Injection
                 $stmt = $connexion->prepare("SELECT praNum, praNom, praPrenom, praAdresse, praCp, praCoefNotoriete, typLibelle FROM praticien, typepraticien WHERE praticien.typCode = typepraticien.typCode AND praNum = :pranum");
                 $stmt->execute(array(':pranum' => $_GET['pratid']));
@@ -38,7 +41,7 @@
                 // else, display, "no result"
                 ob_start(); // start temp
 
-                if ($result === false) {
+                if ($result !== false) {
                     echo("<h1>Information à propos du praticien</h1>");
                         echo("<table style='text-align: center;' id=''>");
                                 echo("<tr><td>Numéro</td><td>{$praNumero}</td></tr>");

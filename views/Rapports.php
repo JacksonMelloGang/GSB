@@ -72,7 +72,7 @@
             }
         }
 
-        $sql = "SELECT rapportvisite.id, rapNum, rapDate, rapBilan, rapportvisite.praNum, rapMotif, rapDateSaisie, saisiedef, docfourni, praPrenom, praNom, praAdresse, praCp, praVille, praCoefnotoriete FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
+        $sql = "SELECT rapportvisite.id, rapNum, rapDate, rapBilan, rapportvisite.praNum, rapMotif, rapDateSaisie, saisiedef, docfourni, prod1, prod2, praPrenom, praNom, praAdresse, praCp, praVille, praCoefnotoriete FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
         $stmt = $connexion->query($sql);
         $result = $stmt->fetch();
 
@@ -87,6 +87,14 @@
         $datesaisie = $result['rapDateSaisie'];
         $saisiedef = $result['saisiedef'] == 1 ? "Oui" : "Non";
         $docfourni = $result['docfourni'] == 1 ? "Oui" : "Non";
+        $produit1 = $result['prod1'];
+        if(empty($produit1)){
+            $produit1 = "Non renseignée.";
+        }
+        $produit2 = $result['prod2'];
+        if(empty($produit2)){
+            $produit2 = "Non renseignée.";
+        }
 
         ob_start();
         ?>
@@ -105,12 +113,20 @@
                         <?php
                         
                         if($edit == false){
-                            echo("<td><textarea id='bilan' rows='5' cols='40' readonly>{$bilan} </textarea></td>");
+                            echo("<td><textarea id='bilan' rows='5' cols='40' name='readonly-bilan' readonly'>{$bilan} </textarea></td>");
                         } else {
-                            echo("<td><textarea id='bilan' rows='5' cols='40'>{$bilan}</textarea></td>");
+                            echo("<td><textarea id='bilan' rows='5' cols='40' '>{$bilan}</textarea></td>");
                         }
 
                         ?>
+                    </tr>
+                    <tr>
+                        <td>Produit N°1:</td>
+                        <td><?=  $produit1 ?></td>
+                    </tr>
+                    <tr>
+                        <td>Produit N°2:</td>
+                        <td><?=  $produit2 ?></td>
                     </tr>
                     <tr>
                         <td>Motif</td>
@@ -131,7 +147,7 @@
                 </table>
 
                 <h2>Praticien:</h2>
-                <table style='width: 50%;margin-left: auto;margin-right: auto' id="table-info">
+                <table style='width: 50%;margin-left: auto;margin-right: auto' name='rapport-table-praticien' id="table-info">
                     <tr>
                         <td>Numéro</td>
                         <td><?= $result['rapNum'] ?></td>

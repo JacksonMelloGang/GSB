@@ -19,8 +19,8 @@ body {
     background-color: rgb(24, 24, 92) !important;
 
     padding: 0 8px 0 8px;   
-    /*height: 100vh;*/
-    width: 9%;
+    height: 100vh;
+    /*width: 9%;*/
 }
 
 /* logo sidebar */
@@ -321,6 +321,19 @@ body {
     color: rgb(24, 24, 92);
 }
 
+#userinfo {
+    display:flex;
+    justify-content:center;
+    align-content:center;
+}
+
+textarea[name="readonly-bilan"]{
+    resize: none;
+}
+
+#table-info[name="rapport-table-praticien"] {
+
+}
 /********************************** MOBILE *********************************/
 
 

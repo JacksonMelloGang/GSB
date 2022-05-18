@@ -135,7 +135,6 @@
     } 
 
 
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     $prodarray = [];
     // insert each samples into an array
@@ -245,9 +244,9 @@
     $connexion->beginTransaction();
 
         // Insert Rapport
-        $sql = "INSERT INTO rapportvisite(visMatricule, rapNum, praNum, rapDate, rapBilan, rapMotif, saisiedef, docfourni) VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO rapportvisite(visMatricule, rapNum, praNum, rapDate, rapBilan, rapMotif, saisiedef, docfourni, prod1, prod2) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $stmt = $connexion->prepare($sql);
-        $stmt->execute([$_SESSION["userId"], $num, $praticien, $datevisite, $bilan, $motif, $saisiedef, $documentation]);
+        $stmt->execute([$_SESSION["userId"], $num, $praticien, $datevisite, $bilan, $motif, $saisiedef, $documentation, $produit1, $produit2]);
 
         /* It's inserting the samples into the database */
         $prodsql = "INSERT INTO offrir(visMatricule, rapNum, medDepotlegal, offQte) VALUES(?, ?, ?, ?);";
