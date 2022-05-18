@@ -14,7 +14,7 @@
     function showrapports($connexion){
         // 2 Query
         $personnalrapport_sql = "SELECT id, rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif, saisiedef FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND visiteur.visMatricule = '{$_SESSION["userId"]}'";
-        $other_rapport_sql = "SELECT rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND NOT visiteur.visMatricule = '{$_SESSION["userId"]}'";
+        $other_rapport_sql = "SELECT id, rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND NOT visiteur.visMatricule = '{$_SESSION["userId"]}'";
 
         // Get Rapports from database & display in table
         $personnalrapport_result = $connexion->query($personnalrapport_sql);
@@ -52,7 +52,7 @@
                                 echo("<th>Numéro Rapport</th><th>Nom</th><th>Prénom</th><th>Date</th><th>Bilan</th><th>Motif</th>");
                                 while($row != false){
                                     echo("<tr>");
-                                        echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td>{$row['rapBilan']}</td><td>{$row['rapMotif']}</td>");
+                                        echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row{"id"}}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>");
                                     echo("</tr>");
                                     $row = $resultrapport->fetch();
                             }
@@ -64,7 +64,6 @@
 
     function show_specific_rapport($rapportId, $connexion, $edit = false){
 
-        
         if($edit == true){
             $isallowed = isAllowedtoEdit($rapportId, $connexion);
             if($isallowed == false){
@@ -95,6 +94,13 @@
         if(empty($produit2)){
             $produit2 = "Non renseignée.";
         }
+        $numpra = $result['rapNum'];
+        $pranom = $result['praNom'];
+        $praprenom = $result['praPrenom'];
+        $praadresse = $result['praAdresse'];
+        $pranotoriete = $result['praCoefnotoriete'];
+        $pracp = $result['praCp'];
+        $praville = $result['praVille'];
 
         ob_start();
         ?>
@@ -150,26 +156,26 @@
                 <table style='width: 50%;margin-left: auto;margin-right: auto' name='rapport-table-praticien' id="table-info">
                     <tr>
                         <td>Numéro</td>
-                        <td><?= $result['rapNum'] ?></td>
+                        <td><?= $numpra ?></td>
                     </tr>
                     <tr>
                         <td>Nom & Prénom</td>
-                        <td><?= $result['praNom'] ?>-<?= $result['praPrenom'] ?></td>
+                        <td><?= $pranom ?>-<?= $praprenom ?></td>
                     </tr>
 
                     <tr>
                         <td>Adresse</td>
-                        <td><?= str_replace(array(" r ", " av ", " pl "), array(" Rue ", " Avenue ", " Place "), $result['praAdresse']) ?></td>
+                        <td><?= str_replace(array(" r ", " av ", " pl "), array(" Rue ", " Avenue ", " Place "), $praadresse) ?></td>
                     </tr>
 
                     <tr>
                         <td>Ville</td>
-                        <td><?= "{$result['praCp']} - {$result['praVille']}" ?></td>
+                        <td><?= "$pracp - $praville" ?></td>
                     </tr>
 
                     <tr>
                         <td>Notoriété</td>
-                        <td><?= $result['praCoefnotoriete'] ?></td>
+                        <td><?= $pranotoriete ?></td>
                     </tr>
 
                 </table>
@@ -217,7 +223,11 @@
                         url: "https://gsb-lycee.ga/controller/update_rapport_controller.php",
                         data: formdata
                     }).done((data) => {
-                        document.getElementById("info").innerText = "Votre Rapport à été mis à jour.";
+                        if(data == "Success "){
+                            document.getElementById("info").innerText = "Votre Rapport à bien été mis à jour.";
+                        } else {
+                            document.getElementById("info").innerText = "Erreur: " + data;
+                        }
                     })
  
                     e.preventDefault();
@@ -353,7 +363,7 @@
         break;
         case "edit":
             if(isset($_GET["rapid"])){
-                $rapid = htmlspecialchars($_GET["rapid"]);
+                $rapid = htmlspecialchars($_GET["rapid"]);  
                 $content = show_specific_rapport($rapid, $connexion, true);
             } else {
                 $title = "GSB - Rapports";

@@ -61,7 +61,7 @@
                     $rapport_result = $rapport_stmt->fetch();
                     
                     echo("<h2>Rapports le concernant</h2>");
-                        if($rapport_stmt !== false){
+                        if($rapport_result !== false){
                             echo("<div>");
                             while($rapport_result != false){
 
@@ -72,7 +72,7 @@
 
                             echo("</div>");
                         } else {
-                            echo("&nbsp;&nbsp;&nbsp;&nbsp;Aucun Rapport le concernant");
+                            echo("&nbsp;&nbsp;&nbsp;&nbsp;Aucun Rapport le concernant.");
                         }
                     } else {
                     // if no result
@@ -91,7 +91,7 @@
         default:
             // Render default page
             $title="GSB - Liste des Praticiens";
-            $content = showPraticienstable($connexion);
+            $content = showAllPraticienstable($connexion);
             require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
         break;
     }
