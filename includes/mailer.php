@@ -12,7 +12,6 @@ try {
         
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'localhost';                     //Set the SMTP server to send through
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port       = 25;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
         $mail->SMTPAuth = false;
         $mail->SMTPSecure = 'tls';

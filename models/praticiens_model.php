@@ -26,7 +26,7 @@ function showAllPraticienstable($connexion){
 
         <span style='color: black; font-size: 32px; text-align: center;'>Listes des Praticiens</span>
         <div id="" style="text-align: left">
-            <select name="orderby">
+            <select id="orderby_type">
                 <option selected>Trier par</option>
                 <option>Ville</option>
                 <option>Code Postal</option>
@@ -34,8 +34,8 @@ function showAllPraticienstable($connexion){
                 <option>Type</option>
             </select>
 
-            <select name="type">
-
+            <select id="orderby_infotype">
+                <option selected>Séléctionner une option</option>
             </select>
 
             <input name="orderby_input" id="orderby_input" type="text">

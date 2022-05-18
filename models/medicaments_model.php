@@ -20,6 +20,4 @@
         $result = $stmt->fetchAll();
 
         return $result;
-    
-
     }

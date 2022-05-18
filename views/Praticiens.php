@@ -79,9 +79,6 @@
                     echo("Aucun résultat ne correspond à votre recherche.");
                 }
 
-                
-
-
                 // Define values for layout.php
                 $title= "GSB - Praticien " . $praNom;
                 $content = ob_get_clean();

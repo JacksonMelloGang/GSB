@@ -15,3 +15,20 @@ function getUsernameByVisiteurId($connexion, $userId){
     return $user;
 }
 
+
+function getVisiteurInfoById($connexion, $userId){
+    $sql = "SELECT * FROM visiteur WHERE visMatricule = '$userId'";
+    $result = $connexion->query($sql);
+    $ligne = $result->fetchAll();
+
+    return $ligne;
+}
+
+function getVisiteursInfos($connexion){
+    $sql = "SELECT * FROM visiteur";
+    $result = $connexion->query($sql);
+    $ligne = $result->fetchAll();
+
+    return $ligne;
+
+}

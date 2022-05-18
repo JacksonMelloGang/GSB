@@ -52,7 +52,7 @@
                                 echo("<th>Numéro Rapport</th><th>Nom</th><th>Prénom</th><th>Date</th><th>Bilan</th><th>Motif</th>");
                                 while($row != false){
                                     echo("<tr>");
-                                        echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row{"id"}}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>");
+                                        echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row["id"]}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>");
                                     echo("</tr>");
                                     $row = $resultrapport->fetch();
                             }

@@ -339,6 +339,12 @@ textarea[name="readonly-bilan"]{
 #table-info[name="rapport-table-praticien"] {
 
 }
+
+#table-info[name="rapport-table-praticien"] > tr {
+    border: 1px solid black;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
 /********************************** MOBILE *********************************/
 
 

@@ -82,14 +82,8 @@
         default:
             // Render default page
             $title="GSB - Liste des Medicaments";
-            $content = showMedicamentstable($connexion);
-            require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
-        break;
-    }
+            ob_start();
 
-
-
-    function showMedicamentstable($connexion){
         // user-input, define number of elements in page
         $nbr_elements_par_page= isset($_GET["nbpage"]) ? intval($_GET["nbpage"]) : 10;
         
@@ -143,6 +137,11 @@
                 }
             ?>
         </div>
+
     <?php
-        return ob_get_clean();
+            $content = ob_get_clean();
+            require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
+        break;
     }
+
+
