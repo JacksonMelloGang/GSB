@@ -43,11 +43,21 @@
 
                     /* == 2nd Part, Rapports == */
                     echo("<h2>Rapports le concernant</h2>");
+                        // get all rapports by Numero of praticien
                         $rapports = getRapportsByPraticiens($connexion, $pratinfo['Numero']);
                         echo("<div>");
+                            // if result is empty (false), then display "Aucun rapport...."
                             if($rapports == false){
                                 echo("&nbsp;&nbsp;&nbsp;&nbsp;Aucun rapport lui concernant n'a été trouvé.");
                             } else {
+                                /* otherwiste, as $rapports looks like 
+                                [
+                                    ['id' => '', 'rapDate' => '',...]
+                                    ['id' => '', 'rapDate' => '',...]
+                                    ['id' => '', 'rapDate' => '',...]
+                                    ['id' => '', 'rapDate' => '',...]
+                                ]
+                                */
                                 foreach($rapports as $row){
                                     echo("&nbsp;&nbsp;&nbsp;&nbsp;<a href='/views/Rapports.php?action=consult&rapid={$row['id']}'>Rapport N°{$row['id']} Datant du {$row['rapDate']}</a><br>");
                                 }

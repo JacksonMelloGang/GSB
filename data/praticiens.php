@@ -22,7 +22,8 @@ if(!isset($_POST['selectedinfotype'])){
     
     switch ($action) {
         case 0:
-            showAllPraticienstable($connexion);
+            echo("<script>document.getElementsByClassName('table')[0].innerHTML = " . showAllPraticienstable($connexion) . "</script>");
+            echo("<option selected=''>Séléctionner une option</option>");
             break;
         case 1:
             $sql = "SELECT praVille FROM praticien GROUP BY praVille";
@@ -91,8 +92,12 @@ if (isset($_POST['selectedinfotype'])) {
 
     $stmt = $connexion->query($sql);
     $result = $stmt->fetch();
-    echo("<th>N° Praticien</th><th>Nom</th><th>Prenom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Reputation</th><th>Type</th>");
     
+    if($result === false){
+        die("Pas de résultat trouvé.");
+    }
+
+    echo("<th>N° Praticien</th><th>Nom</th><th>Prenom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Reputation</th><th>Type</th>");
     while ($result != false) {
         echo("<tr>");
             for ($i = 0; $i < $stmt->columnCount(); $i++) {

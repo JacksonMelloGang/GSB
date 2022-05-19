@@ -80,6 +80,17 @@ function change_orderinfotype(){
                     'selectioned': value
             };
 
+            if(value == 0){              
+                $.ajax({
+                    url: "https://gsb-lycee.ga/data/praticiens.php",
+                    data: formdata,
+                    method: "POST"
+                }).done((data) => {
+                    document.getElementsByClassName("table")[0].innerHTML = data;
+                });
+                return;
+            }
+
             $.ajax({
                 url: "https://gsb-lycee.ga/data/praticiens.php",
                 data: formdata,
@@ -92,7 +103,7 @@ function change_orderinfotype(){
         // 2nd option
         $("#orderby_infotype").on('change', function(){
             var selectedtype = $("#orderby_type").find(':selected').val();
-            var selectedinfotype = $("#orderby_infotype").find(':selected').text();
+            var selectedinfotype = $("#orderby_infotype").find(':selected').val();
             
             var formdata = {
                 'selectioned': selectedtype,
