@@ -60,9 +60,56 @@ function askcookie(){
     var acceptcookies = $("#cookieaccept");
     var refusecookies = $("#cookiedeny");
 
-    
-
     acceptcookies.on("click", function(){
 
     });
 }
+
+function change_orderinfotype(){
+        // searchby, orderby_infotype, orderby_input
+        $("#orderby_type").on('change', function(){
+            
+        });
+}
+
+
+        // searchby, orderby_infotype, orderby_input
+        $("#orderby_type").on('change', function(){
+            var value = this.value;
+            var formdata = {
+                    'selectioned': value
+            };
+
+            $.ajax({
+                url: "https://gsb-lycee.ga/data/praticiens.php",
+                data: formdata,
+                method: "POST"
+            }).done((data) => {
+                document.getElementById("orderby_infotype").innerHTML = data;
+            });
+        });
+
+        // 2nd option
+        $("#orderby_infotype").on('change', function(){
+            var selectedtype = $("#orderby_type").find(':selected').val();
+            var selectedinfotype = $("#orderby_infotype").find(':selected').text();
+            
+            var formdata = {
+                'selectioned': selectedtype,
+                'selectedinfotype': selectedinfotype
+            }
+
+            $.ajax({
+                url: "https://gsb-lycee.ga/data/praticiens.php",
+                data: formdata,
+                method: "POST"
+            }).done((data) => {
+                document.getElementsByClassName("table")[0].innerHTML = data;
+                document.getElementById("pagination").innerHTML = "";
+            });
+
+        });
+
+        $("#orderby_input").on('input', function(){
+            
+        });

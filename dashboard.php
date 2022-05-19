@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div id="stylish-table" style="margin-top: 20px">
+        <div id="stylish-table" style="margin-top: auto;margin-bottom: 50px;border: 1px solid black; width: 50%">
             <table>
                 <?php 
                     if(!isset($_SESSION["userId"])){

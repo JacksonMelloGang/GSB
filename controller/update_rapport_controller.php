@@ -9,18 +9,15 @@ check_if_allowed('USER'); // Rank Needed
 // require sql connection
 require_once($_SERVER["DOCUMENT_ROOT"] . "/includes/DbConnexion.php");
 
-$bilan = "";
 $rapId = "";
+$bilan = "";
+$produit1 = "";
+$produit2 = "";
 $saisiedef = 0;
 
-if(isset($_POST["bilan"])){
-    $bilan = htmlspecialchars($_POST["bilan"]);
-} else {
-    $bilan = "Pas d'update.";
-}
 
 if(!isset($_POST['rapid'])){
-    die("Rapport ID Not Valid.");
+    die("Numéro de Rapport non-fourni.");
 }
 
 if(filter_var($_POST['rapid'], FILTER_VALIDATE_INT) == true){
@@ -29,7 +26,32 @@ if(filter_var($_POST['rapid'], FILTER_VALIDATE_INT) == true){
     die("Numéro de rapport Non Valide");
 }
 
-if(isset($_POST['saisiedef'])){
+if(!isset($_POST["bilan"])){
+    die("Pas de bilan");
+} 
+
+if(!isset($_POST["produit1"])){
+    die("Pas Produit N°1");
+}
+
+if(!isset($_POST["produit2"])){
+    die("Pas Produit N°2");
+}
+
+if(!isset($_POST['saisiedef'])){
+    die("Saisie Définitive Non définie.");
+}
+
+
+////////////////////////////////////////////////
+$bilan = htmlspecialchars($_POST["bilan"]);
+$produit1 = htmlspecialchars($_POST["produit1"]);
+$produit2 = htmlspecialchars($_POST["produit2"]);
+$saisiedef = $_POST['saisiedef'];
+
+if($saisiedef == 0){
+    $saisiedef = 0;
+} else {
     $saisiedef = 1;
 }
 
@@ -46,16 +68,15 @@ if($resultauthor['visMatricule'] != $_SESSION['userId']){
     die("Vous n'êtes pas l'auteur !");
 }
 
-
-$sqlupdate = "UPDATE rapportvisite SET rapBilan = ? WHERE id = ?";
+$sqlupdate = "UPDATE rapportvisite SET rapBilan = ?, prod1 = ?, prod2 = ?  WHERE id = ?";
 $stmtupdate= $connexion->prepare($sqlupdate);
-$stmtupdate->execute([$bilan, $rapId]);
+$stmtupdate->execute([$bilan, $produit1, $produit2, $rapId]);
 
 $sqllockrap = "UPDATE rapportvisite SET saisiedef = ? WHERE id = ?";
 $stmtlockrap = $connexion->prepare($sqllockrap);
 $stmtlockrap->execute([$saisiedef, $rapId]);
 
-if($stmtupdate === false){
+if($stmtupdate === false || $stmtlockrap === false){
     die("Couldn't update rapport");
 } else {
     echo("Success");

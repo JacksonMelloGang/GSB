@@ -21,7 +21,7 @@
     }
 
 
-    function isAllowedtoEdit($rapportId, $connexion){
+    function isAllowedtoEdit($connexion, $rapportId){
 
         $allowed = true;
 
@@ -38,4 +38,22 @@
         }
 
         return $allowed;
+    }
+
+    function isEditable($connexion, $rapportId){
+        $editable = true;
+
+        $sqlcheckauthor = "SELECT saisiedef FROM rapportvisite WHERE id = $rapportId";
+        $stmtauthor = $connexion->query($sqlcheckauthor);
+        $resultauthor = $stmtauthor->fetch();
+
+        if($resultauthor === false){
+            $editable = false;
+        } else {
+            if($resultauthor['saisiedef'] != 0){
+                $editable = false;
+            }
+        }
+
+        return $editable;
     }

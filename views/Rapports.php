@@ -65,9 +65,14 @@
     function show_specific_rapport($rapportId, $connexion, $edit = false){
 
         if($edit == true){
-            $isallowed = isAllowedtoEdit($rapportId, $connexion);
+            $isallowed = isAllowedtoEdit($connexion, $rapportId);
             if($isallowed == false){
-                die("Vous n'avez pas la permission de modifier ce rapport!");
+                die("Vous n'avez pas la permission de modifier ce rapport !");
+            }
+
+            $isEditable = isEditable($connexion, $rapportId);
+            if($isEditable == false){
+                die("Ce Rapport n'es pas modifiable !");
             }
         }
 
@@ -128,11 +133,25 @@
                     </tr>
                     <tr>
                         <td>Produit N°1:</td>
-                        <td><?=  $produit1 ?></td>
+                        <td>
+                            <select id="produit1">
+                                <option value="">Aucun Médicament Séléctioné</option>
+                                <?=
+                                   getSelectedMedicamentsAsOption($connexion, $produit1);
+                                ?>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>Produit N°2:</td>
-                        <td><?=  $produit2 ?></td>
+                        <td>
+                            <select id="produit2">
+                                <option value="">Aucun Médicament Séléctioné</option>
+                                <?=
+                                    getSelectedMedicamentsAsOption($connexion, $produit2); 
+                                ?>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>Motif</td>
@@ -179,6 +198,7 @@
                     </tr>
 
                 </table>
+                <br>
 
                 <?php
 
@@ -215,7 +235,9 @@
                     var formdata = {
                         bilan: $("#bilan").val(),
                         saisiedef: saisiedef,
-                        rapid:  $("#rapid").val()
+                        rapid:  $("#rapid").val(),
+                        produit1: $("#produit1").find("option:selected").val(),
+                        produit2: $("#produit2").find("option:selected").val()
                     };  
 
                     $.ajax({
@@ -223,7 +245,7 @@
                         url: "https://gsb-lycee.ga/controller/update_rapport_controller.php",
                         data: formdata
                     }).done((data) => {
-                        if(data == "Success "){
+                        if(data == "Success"){
                             document.getElementById("info").innerText = "Votre Rapport à bien été mis à jour.";
                         } else {
                             document.getElementById("info").innerText = "Erreur: " + data;
@@ -274,11 +296,6 @@
                             <?= getPraticiensOptions($connexion) ?>
                         </select>
                     <br>
-
-                    <!--
-                    <label class="titre">DATE :</label>
-                    <input type="date" size="19" name="RAP_DATE" class="zone" required/><br>
-                    -->
                     
                     <label class="titre">MOTIF :</label>
                     <select name="RAP_MOTIF" class="zone" onClick="selectionne('AUT',this.value,'RAP_MOTIFAUTRE');" required> 
@@ -349,18 +366,22 @@
             require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
         break;
 
+        // https://gsb-lycee.ga/views/Rapports.php?&action=consult&rapid=<RAPID>
         case "consult":
-
+            //if rapid is set, show rapports without edit mode
             if(isset($_GET["rapid"])){
                 $rapportId = htmlspecialchars($_GET["rapid"]);
                 $content = show_specific_rapport($rapportId, $connexion, false);
             } else {
+                //if rapid not set
                 $content = showrapports($connexion);
             }
 
             $title = "GSB - Rapports";
             require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
         break;
+
+        // https://gsb-lycee.ga/views/Rapports.php?&action=edit&rapid=<RAPID>
         case "edit":
             if(isset($_GET["rapid"])){
                 $rapid = htmlspecialchars($_GET["rapid"]);  
@@ -373,6 +394,8 @@
             $title = "GSB - Rapports";
             require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
         break;
+
+
         /* It's the default case, if no action is specified, it will show the default page. */
         default:
             $title = "GSB - Rapports";

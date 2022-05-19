@@ -18,20 +18,23 @@ function showAllPraticienstable($connexion){
 
 
     // Get Data from medicament table
-    $sql = "SELECT *  FROM praticien LIMIT $debut, $nbr_elements_par_page";
+    $sql = "SELECT * FROM praticien LIMIT $debut, $nbr_elements_par_page";
     $result = $connexion->query($sql);
     $ligne = $result->fetch();
     ob_start();
 ?>  
 
         <span style='color: black; font-size: 32px; text-align: center;'>Listes des Praticiens</span>
-        <div id="" style="text-align: left">
+
+
+        <!-- Fonction Recherche -->
+
+        <div id="searchby" style="text-align: left">
             <select id="orderby_type">
-                <option selected>Trier par</option>
-                <option>Ville</option>
-                <option>Code Postal</option>
-                <option>Réputation</option>
-                <option>Type</option>
+                <option value='0' selected>Trier par</option>
+                <option value='1'>Ville</option>
+                <option value='2' >Code Postal</option>
+                <option value='3' >Type</option>
             </select>
 
             <select id="orderby_infotype">
@@ -41,6 +44,10 @@ function showAllPraticienstable($connexion){
             <input name="orderby_input" id="orderby_input" type="text">
             <button id="startorderby">Rechercher</button>
         </div>
+
+
+
+
         <table class='table'>
            <th>N° Praticien</th><th>Nom</th><th>Prenom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Reputation</th><th>Type</th>
             <?php
@@ -70,19 +77,58 @@ function showAllPraticienstable($connexion){
                     echo"<a>$i</a>&nbsp";
             }
         ?>
+    </div>
+
+
+
 <?php
     return ob_get_clean();
 }
 
 
 function getMostReputations($connexion){
-    $sql = "SELECT praNom, praticien.praCoefnotoriete FROM praticien ORDER BY praCoefnotoriete DESC LIMIT 4 ";
+    $sql = "SELECT praNom, praCoefnotoriete FROM praticien ORDER BY praCoefnotoriete DESC LIMIT 4 ";
     $stmt = $connexion->query($sql);
     $result = $stmt->fetchAll();
 
     return $result;
 }
 
-function getPraticienById($connextion, $id){
+function getPraticienInfosById($connexion, $praNum){
+    $sql = "SELECT praNum, praNom, praPrenom, praAdresse, praCp, praVille, praCoefnotoriete, typLibelle, typLieu FROM praticien, typepraticien WHERE praNum = ? AND praticien.typCode = typepraticien.typCode";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array($praNum));
     
+    $result = $stmt->fetch();
+
+    if($result == false){
+        $returned = false;
+    } else {
+        $praNumero = $result['praNum'];
+        $praNom = $result['praNom'];
+        $praPrenom = $result['praPrenom'];
+        $praAdresse = $result['praAdresse'];
+        $praAdresse = str_replace(array(" r ", " av ", " pl "), array(" Rue ", " Avenue ", " Place "), $praAdresse);
+        $praCp = $result['praCp'];
+        $praCoefNotoriete = $result['praCoefnotoriete'];
+        $typLibelle = $result['typLibelle'];
+
+        $returned = ['Numero' => $praNumero, 'Nom' => $praNom, 'Prenom' => $praPrenom, 'Adresse' => $praAdresse, 'Cp' => $praCp, 'Notoriete' => $praCoefNotoriete, 'Libelle' => $typLibelle];
+
+    }
+
+    return $returned;
+}
+
+function getRapportsByPraticiens($connexion, $praNum){
+    $sql = "SELECT id, rapDate FROM praticien, rapportvisite WHERE praticien.praNum = rapportvisite.praNum AND rapportvisite.praNum = ?";
+    $rapport_stmt = $connexion->prepare($sql);
+    $rapport_stmt->execute(array($praNum));
+    $result = $rapport_stmt->fetchAll();
+
+    if($result === false){
+        $result = false;
+    }
+
+    return $result;
 }
