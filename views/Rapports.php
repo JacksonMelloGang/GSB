@@ -16,21 +16,25 @@
         $personnalrapport_sql = "SELECT id, rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif, saisiedef FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND visiteur.visMatricule = '{$_SESSION["userId"]}'";
         $other_rapport_sql = "SELECT id, rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND NOT visiteur.visMatricule = '{$_SESSION["userId"]}'";
 
-        // Get Rapports from database & display in table
+        // Get User Rapport's from database & display in table
         $personnalrapport_result = $connexion->query($personnalrapport_sql);
         ob_start();
                 echo("<h1>Vos Rapports</h1>");
+                echo("<div><label>Activer le mode suppression: </label><input type='checkbox' id='toggledeleterap'></div><br>");
+                
                 echo("<div class='table-center'>");
                     echo("<table>");
-                        echo("<th>Numéro Rapport</th><th>Date</th><th>Bilan</th><th>Motif</th>");
+                        echo("<th>Numéro Rapport</th><th>Date de visite</th><th>Bilan</th><th>Motif</th>");
                         $row = $personnalrapport_result->fetch();
-                        while($row){
+
+                        while($row != false){
                             echo("<tr>");
-                                $editable = "";
+                                $editable = "<td></td>";
                                 if($row["saisiedef"] == 0){
                                     $editable = "<td><a href='/views/Rapports.php?&action=edit&rapid={$row['id']}'>Editer</a></td>";
                                 }
-                                echo("<td>{$row['rapNum']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row['id']}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>$editable");
+
+                                echo("<td>{$row['rapNum']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row['id']}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>$editable <td><a class='deleterap' href='/views/Rapports.php?action=delete&rapid={$row['id']}'>Supprimer</a></td>");
                             echo("</tr>");
                             $row = $personnalrapport_result->fetch();
                         }
@@ -41,6 +45,7 @@
                 echo("<hr style='width: 100%;margin-top: 10px; margin-bottom:10px;'>");
                 ///////////////////////////////////////////////////////////////////////
 
+                // get Other user rapport's
                 echo("<h2>Autres Rapports</h2>");
                 echo("<div class='table-center'>");
                     $resultrapport = $connexion->query($other_rapport_sql);
@@ -49,7 +54,7 @@
                             if($row == false){
                                 echo("Aucun rapport.");
                             } else {
-                                echo("<th>Numéro Rapport</th><th>Nom</th><th>Prénom</th><th>Date</th><th>Bilan</th><th>Motif</th>");
+                                echo("<th>Numéro Rapport</th><th>Nom</th><th>Prénom</th><th>Date de visite</th><th>Bilan</th><th>Motif</th>");
                                 while($row != false){
                                     echo("<tr>");
                                         echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row["id"]}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>");
@@ -72,7 +77,7 @@
 
             $isEditable = isEditable($connexion, $rapportId);
             if($isEditable == false){
-                die("Ce Rapport n'es pas modifiable !");
+                die("Ce Rapport n'est pas modifiable !");
             }
         }
 
@@ -115,7 +120,7 @@
                 <h2>Rapport:</h2>
                 <table style='width: 50%;margin-left: auto;margin-right: auto' id="table-info">
                     <tr>
-                        <td>Date</td>
+                        <td>Date de visite</td>
                         <td><?= $datevisite ?></td>
                     </tr>
 
@@ -124,7 +129,7 @@
                         <?php
                         
                         if($edit == false){
-                            echo("<td><textarea id='bilan' rows='5' cols='40' name='readonly-bilan' readonly'>{$bilan} </textarea></td>");
+                            echo("<td><textarea id='bilan' rows='5' cols='40' name='readonly-bilan' readonly>{$bilan} </textarea></td>");
                         } else {
                             echo("<td><textarea id='bilan' rows='5' cols='40' '>{$bilan}</textarea></td>");
                         }
@@ -134,21 +139,31 @@
                     <tr>
                         <td>Produit N°1:</td>
                         <td>
-                            <select id="produit1">
-                                <option value="">Aucun Médicament Séléctioné</option>
-                                <?=
-                                   getSelectedMedicamentsAsOption($connexion, $produit1);
+                                <?php
+                                   if($edit == true){
+                                        echo("<select id='produit1'>");
+                                            echo("<option value=''>Aucun Médicament Séléctioné</option>");
+                                            echo(getSelectedMedicamentsAsOption($connexion, $produit1));
+                                        echo("</select>");
+                                    } else {
+                                        echo("$produit1");
+                                    }
                                 ?>
-                            </select>
+
                         </td>
                     </tr>
                     <tr>
                         <td>Produit N°2:</td>
                         <td>
-                            <select id="produit2">
-                                <option value="">Aucun Médicament Séléctioné</option>
-                                <?=
-                                    getSelectedMedicamentsAsOption($connexion, $produit2); 
+                                <?php
+                                   if($edit == true){
+                                        echo("<select id='produit2'>");
+                                            echo("<option value=''>Aucun Médicament Séléctioné</option>");
+                                            echo(getSelectedMedicamentsAsOption($connexion, $produit2));
+                                        echo("</select>");
+                                    } else {
+                                       echo("$produit1");
+                                    }
                                 ?>
                             </select>
                         </td>
@@ -223,148 +238,24 @@
 
             </form>
 
-            <script>
-
-                $("#updateform").submit((e) => {
-
-                    var saisiedef = 0;
-                    if($("#saisiedef").prop('checked') == true){
-                        saisiedef = 1;
-                    }
-
-                    var formdata = {
-                        bilan: $("#bilan").val(),
-                        saisiedef: saisiedef,
-                        rapid:  $("#rapid").val(),
-                        produit1: $("#produit1").find("option:selected").val(),
-                        produit2: $("#produit2").find("option:selected").val()
-                    };  
-
-                    $.ajax({
-                        type: "POST",
-                        url: "https://gsb-lycee.ga/controller/update_rapport_controller.php",
-                        data: formdata
-                    }).done((data) => {
-                        if(data == "Success"){
-                            document.getElementById("info").innerText = "Votre Rapport à bien été mis à jour.";
-                        } else {
-                            document.getElementById("info").innerText = "Erreur: " + data;
-                        }
-                    })
- 
-                    e.preventDefault();
-                });
-            </script>
-
         </div>
         
 <?php
         return ob_get_clean();
     }
 
+
+
+
+
+
+    // PARTIE: ACTION (AFFICHER / MODIFIER RAPPORTS)
     $action = "";
     if(isset($_GET["action"])){
         $action = $_GET["action"];
     }
 
     switch($action){
-        case "new":
-            ob_start();
-            /* Creating a form to add a new rapport de visite. */ 
-        ?>
-            <div id="new_rapportvisite">
-                <form name="formRAPPORT_VISITE" method="post" action="/controller/rapport_visite_controller.php" >
-                    <h1> Rapport de visite </h1>
-                    <label class="titre">NUMERO :</label>
-                    <input type="text" size="10" name="RAP_NUM" class="zone" required/><br>
-                    
-                    <label class="titre">DATE VISITE :</label>
-                    <input type="datetime-local" size="10" name="RAP_DATEVISITE" class="zone" required/><br>
-                    
-                    <label class="titre">PRATICIEN :</label>
-                    <select name="PRA_NUM" class="zone" required>
-                        <option value='*' selected>Choisisez un praticien</option>
-                        <?= getPraticiensOptions($connexion) ?>
-                    </select><br>
-                    
-                    <label class="titre">COEFFICIENT :</label>
-                    <input type="text" size="6" name="PRA_COEFF" class="zone" required/><br>
-                    
-                    <label class="titre">REMPLACANT :</label>
-                    <input type="checkbox" class="zone" checked="false" onClick="selectionne(true,this.checked,'PRA_REMPLACANT');"/>
-                        <select name="PRA_REMPLACANT" disabled="disabled" class="zone">
-                            <?= getPraticiensOptions($connexion) ?>
-                        </select>
-                    <br>
-                    
-                    <label class="titre">MOTIF :</label>
-                    <select name="RAP_MOTIF" class="zone" onClick="selectionne('AUT',this.value,'RAP_MOTIFAUTRE');" required> 
-                        <option value="PRD">Périodicité</option>
-                        <option value="ACT">Actualisation</option>
-                        <option value="REL">Relance</option>
-                        <option value="SOL">Sollicitation praticien</option>
-                        <option value="AUT">Autre</option>
-                    </select>
-                    <input type="text" name="RAP_MOTIFAUTRE" class="zone" disabled="disabled" />
-                    <br>
-                    
-                    <label class="titre">BILAN :</label>
-                    <br><textarea rows="5" cols="50" name="RAP_BILAN" class="zone" spellcheck="true" required ></textarea><br>
-                    
-                    <label class="titre">
-                        <h3> Eléments présentés </h3>
-                    </label>
-                    
-                    <label class="titre">PRODUIT 1 : </label>
-                    <select name="PROD1" class="zone">
-                        <option value='NONE' selected>Medicament</option>
-                        <?= getMedicamentsOptions($connexion) ?>
-                    </select>
-                    <br>
-
-                    <label class="titre">PRODUIT 2 : </label>
-                    <select name="PROD2" class="zone">
-                        <option value='NONE' selected>Medicament</option>
-                        <?= getMedicamentsOptions($connexion) ?>
-                    </select>
-                    <br>
-
-                    <label class="titre">DOCUMENTATION OFFERTE :</label>
-                    <input name="RAP_DOC" type="checkbox" class="zone" checked="false" /><br>
-                    
-                    <!-- 3e Partie, Echantillon -->
-                    <label class="titre">
-                        <h3>Echantillons</h3>
-                    </label>
-                    <div class="titre" id="lignes">
-                        <label class="titre">Produit : </label>
-                        <select name="PRA_ECH1" class="zone">
-                            <option value='NONE' selected>Medicament</option>
-                            <?= getMedicamentsOptions($connexion) ?>
-                        </select>
-                        <label for="PRA_QTE1">Qté : </label>
-                        <input type="text" name="PRA_QTE1" size="2" class="zone" />
-                        <input type="button" id="but1" value="+" onclick="ajoutLigne(1);" class="zone" />
-                    </div>
-                    <input type="hidden" value="1" name="nbechantillon">
-
-                    <label class="titre">SAISIE DEFINITIVE :</label>
-                    <input name="RAP_LOCK" type="checkbox" class="zone" checked="false" /><br>
-
-                    <label class="titre"></label>
-                    <div class="zone">
-                        <input type="reset" value="Annuler"></input>    
-                        <input type="submit" value="Envoyer"></input>
-                    </div>
-                </form>
-            </div>
-
-        <?php
-            // still action = new
-            $title = "GSB - Rapports";
-            $content = ob_get_clean();
-            require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
-        break;
 
         // https://gsb-lycee.ga/views/Rapports.php?&action=consult&rapid=<RAPID>
         case "consult":
@@ -374,6 +265,7 @@
                 $content = show_specific_rapport($rapportId, $connexion, false);
             } else {
                 //if rapid not set
+                // https://gsb-lycee.ga/views/Rapports.php?&action=consult
                 $content = showrapports($connexion);
             }
 
@@ -384,19 +276,36 @@
         // https://gsb-lycee.ga/views/Rapports.php?&action=edit&rapid=<RAPID>
         case "edit":
             if(isset($_GET["rapid"])){
+                //get rapport id from url
                 $rapid = htmlspecialchars($_GET["rapid"]);  
+
                 $content = show_specific_rapport($rapid, $connexion, true);
+                $title = "GSB - Rapports";
+                require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
             } else {
                 $title = "GSB - Rapports";
                 $content = showrapports($connexion);
                 require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
             }
-            $title = "GSB - Rapports";
-            require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
         break;
 
+        // https://gsb-lycee.ga/views/Rapports.php?&action=delete&rapid=<RAPID>
+        case "delete":
+            if(isset($_GET["rapid"])){
+                $rapid = htmlspecialchars($_GET["rapid"]);
+
+                $title = "GSB - Rapports";
+                $content = deleteRapportByID($connexion, $rapid);
+                require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
+            } else {
+                $title = "GSB - Rapports";
+                $content = showrapports($connexion);
+                require($_SERVER["DOCUMENT_ROOT"]. "/views/layout/layout.php");
+            }
+            break;
 
         /* It's the default case, if no action is specified, it will show the default page. */
+        // https://gsb-lycee.ga/views/Rapports.php?&action=consult
         default:
             $title = "GSB - Rapports";
             $content = showrapports($connexion);

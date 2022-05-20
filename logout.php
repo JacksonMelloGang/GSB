@@ -2,9 +2,8 @@
 echo("Login out...");
 session_start();
 
-// remove authorization
-unset($_SESSION["authorization"]);
-unset($_SESSION["userId"]);
+// delete session
+session_destroy();
 
 header("Location: /index.php");
 exit();

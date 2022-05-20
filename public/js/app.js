@@ -56,71 +56,116 @@ function ajoutLigne(pNumero){//ajoute une ligne de produits/qt� � la div "li
     laDiv.appendChild(bouton); // Ajouter
 }
 
-function askcookie(){
-    var acceptcookies = $("#cookieaccept");
-    var refusecookies = $("#cookiedeny");
+// searchby, orderby_infotype, orderby_input
+$("#orderby_type").on('change', function(){
 
-    acceptcookies.on("click", function(){
+    if(selectedtype == 0){
+        $(this).find('option:selected').remove();
+        return;
+    }
+    
+    var value = this.value;
+    var formdata = {
+            'selectioned': value
+    };
 
+    if(value == 0){              
+        $.ajax({
+            url: "https://gsb-lycee.ga/data/praticiens.php",
+            data: formdata,
+            method: "POST"
+        }).done((data) => {
+            document.getElementsByClassName("table")[0].innerHTML = data;
+        });
+    } else {
+        $.ajax({
+            url: "https://gsb-lycee.ga/data/praticiens.php",
+            data: formdata,
+            method: "POST"
+        }).done((data) => {
+            console.log(data);
+            document.getElementById("orderby_infotype").innerHTML = data;
+        });
+    }
+}
+
+
+// 2nd option
+$("#orderby_infotype").on('change', function(){
+
+    var selectedtype = $("#orderby_type").find(':selected').val();
+    var selectedinfotype = $("#orderby_infotype").find(':selected').val();
+
+    var formdata = {
+        'selectioned': selectedtype,
+        'selectedinfotype': selectedinfotype
+    }
+
+    $.ajax({
+        url: "https://gsb-lycee.ga/data/praticiens.php",
+        data: formdata,
+        method: "POST"
+    }).done((data) => {
+        document.getElementsByClassName("table")[0].innerHTML = data;
+        console.log(data);
+        document.getElementById("pagination").innerHTML = "";
     });
-}
 
-function change_orderinfotype(){
-        // searchby, orderby_infotype, orderby_input
-        $("#orderby_type").on('change', function(){
-            
-        });
-}
+});
+
+$("#updateform").submit((e) => {
+
+    var saisiedef = 0;
+    if($("#saisiedef").prop('checked') == true){
+        saisiedef = 1;
+    }
+
+    var formdata = {
+        bilan: $("#bilan").val(),
+        saisiedef: saisiedef,
+        rapid:  $("#rapid").val(),
+        produit1: $("#produit1").find("option:selected").val(),
+        produit2: $("#produit2").find("option:selected").val()
+    };  
+
+    $.ajax({
+        type: "POST",
+        url: "https://gsb-lycee.ga/controller/update_rapport_controller.php",
+        data: formdata
+    }).done((data) => {
+        if(data == "Success"){
+            document.getElementById("info").innerText = "Votre Rapport à bien été mis à jour.";
+        } else {
+            document.getElementById("info").innerText = "Erreur: " + data;
+        }
+    })
+
+    e.preventDefault();
+});
 
 
-        // searchby, orderby_infotype, orderby_input
-        $("#orderby_type").on('change', function(){
-            var value = this.value;
-            var formdata = {
-                    'selectioned': value
-            };
+$(".deleterap").click(function(e) {
 
-            if(value == 0){              
-                $.ajax({
-                    url: "https://gsb-lycee.ga/data/praticiens.php",
-                    data: formdata,
-                    method: "POST"
-                }).done((data) => {
-                    document.getElementsByClassName("table")[0].innerHTML = data;
-                });
-                return;
-            }
+    var confirmdelete = confirm("Etes vous sûr de supprimer votre rapport ? Toute suppression est définitif !");
+    if(confirmdelete != true){
+        e.preventDefault();
+    }
+});
 
-            $.ajax({
-                url: "https://gsb-lycee.ga/data/praticiens.php",
-                data: formdata,
-                method: "POST"
-            }).done((data) => {
-                document.getElementById("orderby_infotype").innerHTML = data;
-            });
-        });
+$('#toggledeleterap').click(function() {
 
-        // 2nd option
-        $("#orderby_infotype").on('change', function(){
-            var selectedtype = $("#orderby_type").find(':selected').val();
-            var selectedinfotype = $("#orderby_infotype").find(':selected').val();
-            
-            var formdata = {
-                'selectioned': selectedtype,
-                'selectedinfotype': selectedinfotype
-            }
 
-            $.ajax({
-                url: "https://gsb-lycee.ga/data/praticiens.php",
-                data: formdata,
-                method: "POST"
-            }).done((data) => {
-                document.getElementsByClassName("table")[0].innerHTML = data;
-                document.getElementById("pagination").innerHTML = "";
-            });
 
-        });
+    if($(this).prop('checked') == true){
+        var confirmdelete = confirm("Etes vous sûr d'activer le mode suppression ? Toute suppression est définitif !");
+        if(confirmdelete == true){
+            $(".deleterap").css('display', 'block');
+        }
+    } else {
+        $(".deleterap").css('display', 'none');
+    }
 
-        $("#orderby_input").on('input', function(){
-            
-        });
+});
+
+
+

@@ -39,9 +39,9 @@
             <li class="first-sidebar"><a href="/dashboard.php">Accueil</a></li>
             <hr>
             <div class="dropdown">
-                    <span style="color: red"><a href="/views/Rapports.php">Rapports</a></span>
+                    <span><a href="/views/Rapports.php">Rapports</a></span>
                     <div class="dropdown-content">
-                            <a href="/views/Rapports.php?action=new">Nouveau</a>
+                            <a href="/views/CreateRapports.php">Nouveau</a>
                             <a href="/views/Rapports.php?action=consult">Consulter</a>
                     </div>
             </div>

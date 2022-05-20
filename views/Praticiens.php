@@ -28,7 +28,8 @@
                 // else, display, "no result"
                 ob_start(); // start temp
 
-                if ($pratinfo !== false) {
+                // if praticien exist
+                if ($pratinfo != false) {
                     echo("<h1>Information à propos du praticien</h1>");
                         echo("<table style='text-align: center;' id=''>");
                                 echo("<tr><td>Numéro</td><td>{$pratinfo['Numero']}</td></tr>");
@@ -50,7 +51,7 @@
                             if($rapports == false){
                                 echo("&nbsp;&nbsp;&nbsp;&nbsp;Aucun rapport lui concernant n'a été trouvé.");
                             } else {
-                                /* otherwiste, as $rapports looks like 
+                                /* otherwise, as $rapports looks like 
                                 [
                                     ['id' => '', 'rapDate' => '',...]
                                     ['id' => '', 'rapDate' => '',...]

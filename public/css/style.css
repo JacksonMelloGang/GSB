@@ -48,7 +48,7 @@ body {
 .sidebar a {
     padding: 8px 8px 8px 8px;
     
-    font-size: calc(.01em + 1vw) !important;
+    font-size: 20px !important;
     color: #77AADD;
     text-decoration: none;
 }
@@ -345,6 +345,11 @@ textarea[name="readonly-bilan"]{
     margin-top: 2px;
     margin-bottom: 2px;
 }
+
+.deleterap {
+    display: none;
+}
+
 /********************************** MOBILE *********************************/
 
 

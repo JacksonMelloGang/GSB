@@ -17,7 +17,7 @@ try {
         //$mail->SMTPSecure = 'tls';
         
         $mail->setFrom('mail@gsb-lycee.ga', 'GSB Mailer');
-        $mail->addAddress("espriityt@gmail.com");
+        $mail->addAddress("test@allaboutspam.com");
         
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Nouvelle connexion';

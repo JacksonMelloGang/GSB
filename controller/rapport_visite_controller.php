@@ -91,7 +91,8 @@
         echo("<a href='#' onClick='history.go(-1)'>Retour en arriere</a><br>");
         die("Coefficient Non Valide");
     }
-    if(isset($_POST['PRA_REMPLACANT']) == true){
+    
+    if(isset($_POST['PRA_REMPLACANT']) == true && !empty($_POST['PRA_REMPLACANT']) == true){
         $remplacant = htmlspecialchars($_POST['PRA_REMPLACANT']);
     } else {
         $remplacant = "Pas de Remplacant";
