@@ -61,23 +61,37 @@
                 data: {
                     labels: [
                         <?php
-                            for($i=0; $i < 4; $i++){
-                                for($j=0; $j < 1; $j++){
-                                    echo("'{$samplesresult[$i][1]}', ");
+                            // echo name of medic
+                            if(sizeof($samplesresult) == 0){
+                                for($i=0; $i < 4; $i++){
+                                    echo("'NO DATA', ");
                                 }
-                            }    
+                            } else {
+                                for($i=0; $i < 4; $i++){
+                                    for($j=0; $j < 1; $j++){
+                                        echo("'{$samplesresult[$i][1]}', ");
+                                    }
+                                }    
+                            }
                         
                         ?>
                     ],
                     datasets: [{
                         label: 'Nombre d\'échantillon',
                         data: [
-                            <?php                                                               
-                                for($i=0; $i < 4; $i++){
-                                    for($j=0; $j < 1; $j++){
-                                        echo("{$samplesresult[$i][0]}, ");
+                            <?php
+                                // echo number of medic               
+                                if(sizeof($samplesresult) == 0){
+                                    for($i=0; $i < 4; $i++){
+                                        echo("0, ");
                                     }
-                                }
+                                } else {
+                                    for($i=0; $i < 4; $i++){
+                                        for($j=0; $j < 1; $j++){
+                                            echo("{$samplesresult[$i][0]}, ");
+                                        }
+                                    }
+                                }                                                                                
                             ?>
                         ],
                         backgroundColor: [
@@ -114,24 +128,43 @@
             const data_chart2 = {
                 labels: [
                     <?php                                                               
-                                for($i=0; $i < 4; $i++){
-                                    for($j=0; $j < 1; $j++){
-                                        echo("'Réputation {$reputationresult[$i][0]}', ");
-                                    }
+                        /* This is a php code that is checking if the size of the reputation result
+                        is equal to 0, if it is, it will display 0, else it will display the
+                        reputation result. */
+                        if(sizeof($reputationresult) == 0){
+                            for($i=0; $i < 4; $i++){
+                                echo("'NO DATA', ");
+                            }
+                        } else {
+                            for($i=0; $i < 4; $i++){
+                                for($j=0; $j < 1; $j++){
+                                    echo("'Réputation {$reputationresult[$i][0]}', ");
                                 }
+                            }
+                        }
                     ?>
                 ],
                 datasets: [{
                     label: 'My First Dataset',
                     data: [
 
-                        <?php                                                               
+                        <?php           
+                            // if no data from mysql request, only display fill var data of 0 value, else set value from request
+                            /* This is a php code that is checking if the size of the reputation result
+                            is equal to 0, if it is, it will display 0, else it will display the
+                            reputation result. */
+                            if(sizeof($reputationresult) == 0){
+                                for($i=0; $i < 4; $i++){
+                                    echo("0, ");
+                                }
+                            } else {
                                 for($i=0; $i < 4; $i++){
                                     for($j=0; $j < 1; $j++){
                                         echo("{$reputationresult[$i][1]}, ");
                                     }
                                 }
-                            ?>
+                            }
+                        ?>
                         
                     ],
                     backgroundColor: [

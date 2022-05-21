@@ -7,19 +7,19 @@
     // require sql connection
     require_once($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
 
+    // require visiteur model
+    require_once($_SERVER['DOCUMENT_ROOT'] . "/models/visiteurs_model.php");
+
     $userId = $_SESSION["userId"];
 
-    $query = $connexion->prepare("SELECT visMatricule, visNom, visPrenom, visAdresse, visCp, visVille, visDateembauche, secCode, labNom FROM visiteur, labo WHERE visMatricule=? AND labo.labCode = visiteur.labCode");
-    $query->execute([$userId]);
-
-    $result = $query->fetch();
+    $userInfo = getVisiteurInfoById($connexion, $userId);
     
-    $matricule = $result["visMatricule"];
-    $nom = $result["visNom"];
-    $prenom = $result["visPrenom"];
-    $adresse = $result["visAdresse"];
-    $ville = "{$result["visCp"]} - {$result["visVille"]}";
-    $laboratoire = $result["labNom"];
+    $matricule = $userInfo["visMatricule"];
+    $nom = $userInfo["visNom"];
+    $prenom = $userInfo["visPrenom"];
+    $adresse = $userInfo["visAdresse"];
+    $ville = "{$userInfo["visCp"]} - {$userInfo["visVille"]}";
+    $laboratoire = $userInfo["labNom"];
 
     ob_start();
 ?>

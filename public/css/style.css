@@ -244,6 +244,10 @@ body {
     text-align: center;
     flex-direction: column;
 }
+.table-center > table > tr {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+}
 
 #pagination {
     text-align: center;
@@ -334,10 +338,6 @@ body {
 
 textarea[name="readonly-bilan"]{
     resize: none;
-}
-
-#table-info[name="rapport-table-praticien"] {
-
 }
 
 #table-info[name="rapport-table-praticien"] > tr {

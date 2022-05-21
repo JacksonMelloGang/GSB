@@ -17,9 +17,11 @@ function getUsernameByVisiteurId($connexion, $userId){
 
 
 function getVisiteurInfoById($connexion, $userId){
-    $sql = "SELECT * FROM visiteur WHERE visMatricule = '$userId'";
-    $result = $connexion->query($sql);
-    $ligne = $result->fetchAll();
+    $sql = "SELECT visMatricule, visNom, visPrenom, visAdresse, visCp, visVille, visDateembauche, secCode, labNom FROM visiteur, labo WHERE visMatricule = ? AND labo.labCode = visiteur.labCode";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array($userId));
+
+    $ligne = $stmt->fetch();
 
     return $ligne;
 }
@@ -30,5 +32,4 @@ function getVisiteursInfos($connexion){
     $ligne = $result->fetchAll();
 
     return $ligne;
-
 }

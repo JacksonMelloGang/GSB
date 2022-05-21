@@ -49,7 +49,7 @@
     // si la condition est vraie, nous "sanitizons" / retire les caractères non valides et nous assigne le résultat du sanitize à la variable
     // si la condition est fausse, on prévient l'utilisateur (ex: Numéro Non Valide), et on arrête le script
     
-    $num = "";
+    $rapnum = "";
     $datevisite = "";
     $praticien = "";
     $coefficient = "";
@@ -67,7 +67,7 @@
 
     // verify if it's an int first, and if yes, sanitize to convert into valid INT 
     if(filter_var($_POST['RAP_NUM'], FILTER_VALIDATE_INT) == true){
-        $num = filter_var($_POST['RAP_NUM'], FILTER_SANITIZE_NUMBER_INT);
+        $rapnum = filter_var($_POST['RAP_NUM'], FILTER_SANITIZE_NUMBER_INT);
     } else {
         echo("<a href='#' onClick='history.go(-1)'>Retour en arriere</a><br>");
         die("Numéro de rapport Non Valide");
@@ -158,7 +158,7 @@
             <th>Donnée</th><th>Entrée Utilisateur</th>
             <tr>
                 <td>Numéro</td>
-                <td><?= $num ?></td>
+                <td><?= $rapnum ?></td>
             </tr>
             <tr>
                 <td>Date de visite</td>
@@ -205,14 +205,16 @@
                 <td><?= $documentation ?></td>
             </tr> 
             <?php
-                $numeroechantillon = 1;
+                $rapnumeroechantillon = 1;
                 for($i=0; $i < sizeof($prodarray); $i+=2){
                     $echantillon = empty($prodarray[$i]) ? "Pas d'échantillon proposé" : $prodarray[$i];
                     $qte = intval($prodarray[$i+1]);
+
                     echo("<tr>");
-                    echo("<td>Echantillon N°". intval($numeroechantillon) ."</td><td>{$echantillon}, Qté: {$qte}</td>");
+                    echo("<td>Echantillon N°". intval($rapnumeroechantillon) ."</td><td>{$echantillon}, Qté: {$qte}</td>");
                     echo("</td>");
-                    $numeroechantillon+=1;
+
+                    $rapnumeroechantillon+=1;
                 }
             ?>
             <tr>
@@ -238,7 +240,6 @@
             $stmt = $connexion->prepare($sql);
             $stmt->execute(array(":param1" => $variable1, ":param2" => $variable2)); ou $stlt->execute([$variable1, $variable2]);
         
-            $result = $stmt->exec();
     */
 
     // query to insert database
@@ -247,15 +248,18 @@
         // Insert Rapport
         $sql = "INSERT INTO rapportvisite(visMatricule, rapNum, praNum, rapDate, rapBilan, rapMotif, saisiedef, docfourni, prod1, prod2) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $stmt = $connexion->prepare($sql);
-        $stmt->execute([$_SESSION["userId"], $num, $praticien, $datevisite, $bilan, $motif, $saisiedef, $documentation, $produit1, $produit2]);
+        $stmt->execute([$_SESSION["userId"], $rapnum, $praticien, $datevisite, $bilan, $motif, $saisiedef, $documentation, $produit1, $produit2]);
+
+        $rapid = $connexion->lastInsertId();
 
         /* It's inserting the samples into the database */
         $prodsql = "INSERT INTO offrir(visMatricule, rapNum, medDepotlegal, offQte) VALUES(?, ?, ?, ?);";
         $echantillonnumeroqte = 0;
         for($i = 0; $i < sizeof($prodarray); $i+=2){
             $stmt = $connexion->prepare($prodsql);
-            $stmt->execute([$_SESSION["userId"], $num, $echantillon, $prodarray[$i+1]]);
+            $stmt->execute([$_SESSION["userId"], $rapid, $prodarray[$i], $prodarray[$i+1]]);
         }
+
     $connexion->commit();
     
     // Render default page

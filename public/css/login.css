@@ -55,9 +55,6 @@ body {
     color: rgb(255, 255, 255);
     font-family: 'Urbanist', sans-serif;
 }
-#loginform input[id="username"]::before{
-    content: 'TT';
-}
 #loginform input[type="submit"]{
     height: 5vh;
     width: 100%;

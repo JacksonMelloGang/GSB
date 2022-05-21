@@ -103,6 +103,7 @@
             return array(false, "Invalid Username / Password");
         }
 
+        // return 
         $_SESSION["userId"] = $result['visMatricule'];
 
         return array(true, null);
@@ -122,36 +123,40 @@
         $query = $connexion->query("SELECT rang FROM utilisateur WHERE visMatricule = '$userId'");
         $result = $query->fetch();
 
+        // if rank empty or rank null, return USER
         if($result === false){
             return "USER";
+        } else {
+            if(empty($result["rang"])){
+                return "USER";
+            } else {
+                return $result["rang"];
+            }
         }
-
-        return $result["rang"];
     }
+
 
 
 
     /**
-     * It takes a user id, a message and a database connection as parameters, and returns the user's
-     * email address
+     * It returns the email address of a user, given their user ID
      * 
+     * @param PDO connexion The connection to the database.
      * @param string userId The user's ID
-     * @param string message The message you want to send to the user.
-     * @param PDO connexion The PDO object
+     * 
+     * @return string the email of the user.
      */
-    function mailuser($userId, $message, $connexion){
-        $query = $connexion->query("SELECT mail FROM ustilisateur WHERE visMatricule = '$userId'");
+    function getUserMail($connexion, $userId){
+        $query = $connexion->query("SELECT mail FROM utilisateur WHERE visMatricule = '$userId'");
         $result = $query->fetch();
         
         if($result === false){
-            return false;
+            return "espriityt@gmail.com";
+        } else {
+            if(empty($result['mail'])){
+                return "espriityt@gmail.com";
+            } else {
+                return $result['mail'];
+            }
         }
-    }
-
-    function sendLoggedMail($Ipadress){
-        $date = new DateTime();
-
-        
-
-
     }

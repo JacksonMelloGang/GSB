@@ -10,6 +10,9 @@
     require_once($_SERVER["DOCUMENT_ROOT"]. "/models/medicaments_model.php");
     require_once($_SERVER["DOCUMENT_ROOT"]. "/models/praticiens_model.php");
 
+    $praticiensoptions = getPraticiensOptions($connexion);
+    $medicamentoptions = getMedicamentsOptions($connexion);
+
     ob_start();
 ?>
 
@@ -25,7 +28,7 @@
         <label class="titre">PRATICIEN :</label>
         <select name="PRA_NUM" class="zone" required>
             <option value='NULL' selected>Choisisez un praticien</option>
-            <?= getPraticiensOptions($connexion) ?>
+            <?= $praticiensoptions ?>
         </select><br>
 
         <label class="titre">COEFFICIENT :</label>
@@ -57,14 +60,14 @@
         <label class="titre">PRODUIT 1 : </label>
         <select name="PROD1" class="zone">
             <option value='NULL' selected>Medicament</option>
-            <?= getMedicamentsOptions($connexion) ?>
+            <?= $medicamentoptions ?>
         </select>
         <br>
 
         <label class="titre">PRODUIT 2 : </label>
         <select name="PROD2" class="zone">
             <option value='NULL' selected>Medicament</option>
-            <?= getMedicamentsOptions($connexion) ?>
+            <?= $medicamentoptions ?>
         </select>
         <br>
 
@@ -78,8 +81,8 @@
         <div class="titre" id="lignes">
             <label class="titre">Produit : </label>
             <select name="PRA_ECH1" class="zone">
-                <option value='NONE' selected>Medicament</option>
-                <?= getMedicamentsOptions($connexion) ?>
+                <option value='NULL' selected>Medicament</option>
+                <?= $medicamentoptions ?>
             </select>
             <label for="PRA_QTE1">Qté : </label>
             <input type="text" name="PRA_QTE1" size="2" class="zone" />

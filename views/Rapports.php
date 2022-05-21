@@ -11,33 +11,46 @@
     require_once($_SERVER["DOCUMENT_ROOT"]. "/models/rapports_model.php");
     require_once($_SERVER["DOCUMENT_ROOT"]. "/models/medicaments_model.php");
 
+    /**
+     * It displays a table with all the reports written by the user and a table with all the reports
+     * written by other users
+     * 
+     * @param PDO connexion The connection to the database.
+     * 
+     * @return string every written reports grouped by user
+     */
     function showrapports($connexion){
-        // 2 Query
-        $personnalrapport_sql = "SELECT id, rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif, saisiedef FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND visiteur.visMatricule = '{$_SESSION["userId"]}'";
-        $other_rapport_sql = "SELECT id, rapNum, visNom, visPrenom, rapDate, rapBilan, rapMotif FROM rapportvisite, visiteur WHERE rapportvisite.visMatricule = visiteur.visMatricule AND NOT visiteur.visMatricule = '{$_SESSION["userId"]}'";
+        // 2 Query to get rapport written by the user and rapports written by others people
+        $personnalrapport = getPersonnalRapports($connexion, $_SESSION["userId"]);
+        $otherrapport = getOthersRapport($connexion, $_SESSION["userId"]);
 
         // Get User Rapport's from database & display in table
-        $personnalrapport_result = $connexion->query($personnalrapport_sql);
         ob_start();
                 echo("<h1>Vos Rapports</h1>");
                 echo("<div><label>Activer le mode suppression: </label><input type='checkbox' id='toggledeleterap'></div><br>");
                 
                 echo("<div class='table-center'>");
                     echo("<table>");
-                        echo("<th>Numéro Rapport</th><th>Date de visite</th><th>Bilan</th><th>Motif</th>");
-                        $row = $personnalrapport_result->fetch();
+                            // if we have some rapports written by the user
+                            if($personnalrapport != false){
+                                echo("<th>Numéro Rapport</th><th>Date de visite</th><th>Bilan</th><th>Motif</th>");
+                                // display each rapports
+                                foreach($personnalrapport as $row){
+                                    echo("<tr>");
 
-                        while($row != false){
-                            echo("<tr>");
-                                $editable = "<td></td>";
-                                if($row["saisiedef"] == 0){
-                                    $editable = "<td><a href='/views/Rapports.php?&action=edit&rapid={$row['id']}'>Editer</a></td>";
+                                        // we check if the report is editable, if that's the case it automatically add a button 'Editer'
+                                        $editable = "<td></td>";
+                                        if($row["saisiedef"] == 0){
+                                            $editable = "<td><a href='/views/Rapports.php?&action=edit&rapid={$row['id']}'>Editer</a></td>";
+                                        }
+
+                                        // we create a line in the table
+                                        echo("<td>{$row['rapNum']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row['id']}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>$editable <td><a class='deleterap' href='/views/Rapports.php?action=delete&rapid={$row['id']}'>Supprimer</a></td>");
+                                    echo("</tr>");                                    
                                 }
-
-                                echo("<td>{$row['rapNum']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row['id']}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>$editable <td><a class='deleterap' href='/views/Rapports.php?action=delete&rapid={$row['id']}'>Supprimer</a></td>");
-                            echo("</tr>");
-                            $row = $personnalrapport_result->fetch();
-                        }
+                            } else {
+                                echo("Aucun rapport saisi par l'utilisateur n'a été trouvé.");
+                            }
                     echo("</table>");
                 echo("</div>");
 
@@ -48,25 +61,32 @@
                 // get Other user rapport's
                 echo("<h2>Autres Rapports</h2>");
                 echo("<div class='table-center'>");
-                    $resultrapport = $connexion->query($other_rapport_sql);
                         echo("<table>");
-                            $row = $resultrapport->fetch();
-                            if($row == false){
-                                echo("Aucun rapport.");
-                            } else {
-                                echo("<th>Numéro Rapport</th><th>Nom</th><th>Prénom</th><th>Date de visite</th><th>Bilan</th><th>Motif</th>");
-                                while($row != false){
+                            if($otherrapport != false){
+                                echo("<th>Numéro Rapport</th><th>Date de visite</th><th>Nom</th><th>Prénom</th><th>Bilan</th><th>Motif</th>");
+                                foreach($otherrapport as $rowother){
                                     echo("<tr>");
-                                        echo("<td>{$row['rapNum']}</td><td>{$row['visNom']}</td><td>{$row['visPrenom']}</td><td>{$row['rapDate']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$row["id"]}'>{$row['rapBilan']}</a></td><td>{$row['rapMotif']}</td>");
+                                        echo("<td>{$rowother['rapNum']}</td><td>{$rowother['rapDate']}</td><td>{$rowother['visNom']}</td><td>{$rowother['visPrenom']}</td><td><a href='/views/Rapports.php?action=consult&rapid={$rowother["id"]}'>{$rowother['rapBilan']}</a></td><td>{$rowother['rapMotif']}</td>");
                                     echo("</tr>");
-                                    $row = $resultrapport->fetch();
+                                }
+                            } else {
+                                echo("Aucun rapport écrit par d'autre utilisateur n'a été trouvé.");
                             }
-                        }
+                        
                     echo("</table>");
                 echo("</div>");
         return ob_get_clean();
     }
 
+    /**
+     * It returns a string containing a HTML table with the informations of a specific rapport
+     * 
+     * @param inrapportId The id of the report you want to show.
+     * @param connexion The database connection.
+     * @param edit boolean, if true, the user can edit the rapport.
+     * 
+     * @return The HTML code for the page.
+     */
     function show_specific_rapport($rapportId, $connexion, $edit = false){
 
         if($edit == true){
@@ -81,36 +101,35 @@
             }
         }
 
-        $sql = "SELECT rapportvisite.id, rapNum, rapDate, rapBilan, rapportvisite.praNum, rapMotif, rapDateSaisie, saisiedef, docfourni, prod1, prod2, praPrenom, praNom, praAdresse, praCp, praVille, praCoefnotoriete FROM rapportvisite, praticien WHERE rapportvisite.praNum = praticien.praNum AND rapportvisite.id = '{$rapportId}';";
-        $stmt = $connexion->query($sql);
-        $result = $stmt->fetch();
+        $row = getRapportInformationsById($connexion, $rapportId);
+        
 
-        if($result === false){
+        if($row == false){
             die("Numéro de rapport invalide.");
         }
 
-        $rapportnum = $result['rapNum'];
-        $datevisite = $result['rapDate'];
-        $bilan = $result['rapBilan'];
-        $motif = $result['rapMotif'];
-        $datesaisie = $result['rapDateSaisie'];
-        $saisiedef = $result['saisiedef'] == 1 ? "Oui" : "Non";
-        $docfourni = $result['docfourni'] == 1 ? "Oui" : "Non";
-        $produit1 = $result['prod1'];
+        $rapportnum = $row['rapNum'];
+        $datevisite = $row['rapDate'];
+        $bilan = $row['rapBilan'];
+        $motif = $row['rapMotif'];
+        $datesaisie = $row['rapDateSaisie'];
+        $saisiedef = $row['saisiedef'] == 1 ? "Oui" : "Non";
+        $docfourni = $row['docfourni'] == 1 ? "Oui" : "Non";
+        $produit1 = $row['prod1'];
         if(empty($produit1)){
             $produit1 = "Non renseignée.";
         }
-        $produit2 = $result['prod2'];
+        $produit2 = $row['prod2'];
         if(empty($produit2)){
             $produit2 = "Non renseignée.";
         }
-        $numpra = $result['rapNum'];
-        $pranom = $result['praNom'];
-        $praprenom = $result['praPrenom'];
-        $praadresse = $result['praAdresse'];
-        $pranotoriete = $result['praCoefnotoriete'];
-        $pracp = $result['praCp'];
-        $praville = $result['praVille'];
+        $numpra = $row['rapNum'];
+        $pranom = $row['praNom'];
+        $praprenom = $row['praPrenom'];
+        $praadresse = $row['praAdresse'];
+        $pranotoriete = $row['praCoefnotoriete'];
+        $pracp = $row['praCp'];
+        $praville = $row['praVille'];
 
         ob_start();
         ?>
@@ -219,7 +238,7 @@
 
                     if($edit == true){
 
-                        echo("<input type='hidden' id='rapid' value='{$result['id']}'>");
+                        echo("<input type='hidden' id='rapid' value='{$row['id']}'>");
 
                         //Saisie Def
                         echo("<label for='saisiedef'>Saisie Définitif:</label>");
@@ -240,7 +259,7 @@
 
         </div>
         
-<?php
+    <?php
         return ob_get_clean();
     }
 

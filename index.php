@@ -3,6 +3,8 @@
 
     require($_SERVER["DOCUMENT_ROOT"]. "/includes/auth_middleware.php");
     require($_SERVER["DOCUMENT_ROOT"]. "/includes/DbConnexion.php");
+    require($_SERVER["DOCUMENT_ROOT"]. "/includes/mailer.php");
+
 
     $info = "";
     session_start();
@@ -27,10 +29,12 @@
             $info = $result[1]; // = "success"
 
             //set userid if we later, want to get information from the user like it's name from the database
-            setUserId($username, $connexion);
+            setUserId($username, $connexion); // assign $_SESSION["userId"] a value
+
             $_SESSION["authorization"] = getrankbyuserid($_SESSION["userId"], $connexion); // set rank level
 
-            sendLoggedMail($_SERVER['REMOTE_ADDR']);
+            // send email that user connected on his account
+            //sendLoginConnectionMail($_SERVER['REMOTE_ADDR'], getUserMail($connexion, $_SESSION["userId"]));
 
             if(isset($_GET["page"])){
                 header("Location: {$_GET["page"]}");
