@@ -47,7 +47,7 @@
 
     // check if report is editable & is allowed to edit the report, if not return error
     if($edit == true) {
-        $isallowed = isAllowedtoEdit($connexion, $rapportId);
+        $isallowed = isAllowedtoEdit($connexion, $rapportId, $_SESSION['userId']);
         if ($isallowed == false) {
             die("Vous n'avez pas la permission de modifier ce rapport !");
         }
@@ -161,7 +161,7 @@
         <table style='width: 50%;margin-left: auto;margin-right: auto' id="table-info">
             <?php
             $echantillon = getEchantillonsByRapport($connexion, $rapportId);
-
+                
             if ($echantillon == false) {
                 echo ("<tr><td>Pas d'échantillon.</td></tr>");
             } else {

@@ -34,6 +34,7 @@
                             $prix = empty($med["medPrix"]) == true ? "<b>Non Renseigné.</b>" : $result[$i];
                         
                     ?>
+                        <h1>Informations à propos du médicaments</h1>
                         <div style='display: flex; justify-content: center'>
                             <table id='table-info'>
                                 

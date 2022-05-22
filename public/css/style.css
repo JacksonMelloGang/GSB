@@ -249,11 +249,6 @@ body {
     flex-direction: column;
 }
 
-.table-center > table > tbody > tr {
-    border-bottom: 1px solid black;
-    border-top: 1px solid black;
-}
-
 #pagination {
     text-align: center;
     height: 5%;
@@ -297,7 +292,7 @@ body {
     align-items: center;
 }
 
-#new_rapportvisite form {
+#new_rapportvisite > form {
     width: 50%;
 }
 

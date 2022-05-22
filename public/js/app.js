@@ -70,11 +70,6 @@ function ajoutLigne(pNumero){//ajoute une ligne de produits/qt� � la div "li
 $("#orderby_type").on('change', function(){
     
     var selectedtype = $("#orderby_type").find(':selected').val();
-
-    if(selectedtype == 0){
-        $(this).find('option:selected').remove();
-        return;
-    }
     
     var value = this.value;
     var formdata = {
@@ -119,7 +114,6 @@ $("#orderby_infotype").on('change', function(){
         method: "POST"
     }).done((data) => {
         document.getElementsByClassName("table")[0].innerHTML = data;
-        console.log(data);
         document.getElementById("pagination").innerHTML = "";
     });
 
@@ -133,15 +127,17 @@ $("#orderby_infotype").on('change', function(){
 
 
 
-// When trying to update form
+// When trying to update report
 $("#updateform").submit((e) => {
     e.preventDefault();
 
+    // check if it's a def saisie
     var saisiedef = 0;
     if($("#saisiedef").prop('checked') == true){
         saisiedef = 1;
     }
 
+    // get number of echantillons
     var nb_echantillonjs = $("[name='nbechantillon']").val();
     var nbarray = {};
 
@@ -151,10 +147,10 @@ $("#updateform").submit((e) => {
         var elementmedic = $(`[name='PRA_ECH${i}']`).find("option:selected").val();    
         var elementqte = $(`[name='PRA_QTE${i}']`).val();
 
-        console.log(elementname, elementmedic, elementqte);
+        nbarray[`PRA_ECH${i}`] = `${elementmedic}`;
+        nbarray[`PRA_QTE${i}`] = `${elementqte}`;
 
-        nbarray[`${elementname}`] = `${elementmedic}:${elementqte}`;
-
+        console.log(elementmedic, elementqte);
     }
 
     var formdata = {

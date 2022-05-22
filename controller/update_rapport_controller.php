@@ -9,11 +9,15 @@ check_if_allowed('USER'); // Rank Needed
 // require sql connection
 require_once($_SERVER["DOCUMENT_ROOT"] . "/includes/DbConnexion.php");
 
+// require rapport model
+require_once($_SERVER["DOCUMENT_ROOT"] . "/models/rapports_model.php");
+
 $rapId = "";
 $bilan = "";
 $produit1 = "";
 $produit2 = "";
 $saisiedef = 0;
+$nbechantillon = 1;
 
 // check if value are good 
 if(!isset($_POST['rapid'])){
@@ -41,6 +45,11 @@ if(!isset($_POST["produit2"])){
 if(!isset($_POST['saisiedef'])){
     die("Saisie Définitive Non définie.");
 }
+if(filter_var($_POST['nbechantillon'], FILTER_VALIDATE_INT) == true){
+    $nbechantillon = filter_var($_POST['nbechantillon'], FILTER_SANITIZE_NUMBER_INT);
+} else {
+    die("Nombre d'échantillon Non Valide");
+}
 
 
 ////////////////////////////////////////////////
@@ -56,6 +65,8 @@ if($saisiedef == 0){
 }
 
 // check if rapport exist and if the user who want to update is the right
+
+
 
 $sqlcheckauthor = "SELECT visMatricule FROM rapportvisite WHERE id = ?";
 $stmtauthor = $connexion->prepare($sqlcheckauthor);
@@ -77,8 +88,11 @@ $sqlupdate = "UPDATE rapportvisite SET rapBilan = ?, prod1 = ?, prod2 = ?, saisi
 $stmtupdate= $connexion->prepare($sqlupdate);
 $stmtupdate->execute([$bilan, $produit1, $produit2, $saisiedef, $rapId]);
 
-if($stmtupdate === false){
-    die("Couldn't update rapport");
-} else {
-    echo("Success");
+/* It's inserting the samples into the database */
+$prodsql = "INSERT INTO offrir(visMatricule, rapNum, medDepotlegal, offQte) VALUES(?, ?)";
+for($i = 1; $i <= $nbechantillon; $i+=2){
+    $stmt = $connexion->prepare($prodsql);
+    $stmt->execute(array("PRA_ECH{$i}", "PRA_QTE{$i}", $rapId));
 }
+
+echo("Success");

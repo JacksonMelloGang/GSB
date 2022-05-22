@@ -1,6 +1,6 @@
 <?php
 
-    function isAllowedtoEdit($connexion, $rapportId){
+    function isAllowedtoEdit($connexion, $rapportId, $userId){
 
         $allowed = true;
 
@@ -11,7 +11,7 @@
         if($resultauthor === false){
             $allowed = false;
         } else {
-            if($resultauthor['visMatricule'] != $_SESSION['userId']){
+            if($resultauthor['visMatricule'] != $userId){
                 $allowed = false;
             }
         }
@@ -25,7 +25,7 @@
      * @param PDO connexion the connection to the database
      * @param int rapportId the id of the report you want to check
      * 
-     * @return booleanThe function isEditable is returning a boolean value.
+     * @return boolean The function isEditable is returning a boolean value.
      */
     function isEditable($connexion, $rapportId){
         $editable = true;
@@ -173,19 +173,16 @@
         $stmt = $connexion->prepare($sql);
         $resultmedic = $stmt->execute(array($rapId));
 
+        
         if($resultmedic === false){
             $result = false;
         } else {
-            if(empty($resultmedic)){
-                $result = false;
-            } else {
                 $array = $stmt->fetch();
-                if($array["counted"] == 0){
+                if($array["counted"] == "0"){
                     return false;
                 } else {
                     $result = $stmt->fetchAll();
                 }
-            }
         }
         return $result;
     }
