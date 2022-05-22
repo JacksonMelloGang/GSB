@@ -168,18 +168,24 @@
         return $result;
     }
 
-    function getEchantillonByRapport($connexion, $rapNum){
-        $sql = "SELECT offrir.medDepotlegal, medicament.medNomCommercial FROM offrir, medicament WHERE rapNum = ?";
+    function getEchantillonsByRapport($connexion, $rapId){
+        $sql = "SELECT offrir.medDepotlegal, medicament.medNomCommercial, COUNT(offrir.medDepotlegal) AS counted FROM offrir, medicament WHERE rapNum = ? AND offrir.medDepotlegal = medicament.medDepotlegal";
         $stmt = $connexion->prepare($sql);
-        $resultmedic = $stmt->execute(array($rapNum));
+        $resultmedic = $stmt->execute(array($rapId));
 
         if($resultmedic === false){
             $result = false;
         } else {
-            $result = $stmt->fetch();
+            if(empty($resultmedic)){
+                $result = false;
+            } else {
+                $array = $stmt->fetch();
+                if($array["counted"] == 0){
+                    return false;
+                } else {
+                    $result = $stmt->fetchAll();
+                }
+            }
         }
-
         return $result;
-
-
     }

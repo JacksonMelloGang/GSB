@@ -10,8 +10,6 @@ body {
     flex-direction: row;
 }
 
-
-
 /***************************************************************************/
 /*                                 SIDE BAR
 /***************************************************************************/
@@ -99,6 +97,8 @@ body {
     width: 100%;
     flex-direction: column;
     background-color: rgb(247, 224, 224);
+    overflow-y: scroll;
+    scrollbar-width: 2px;
 }
 /*                  TOPBAR                  */
 .topbar {
@@ -155,6 +155,7 @@ body {
 }
 
 /***************************************************************************/
+/* DASHBOARD.PHP */
 .card-row {
     display: flex;
     flex-flow: row;
@@ -187,8 +188,9 @@ body {
 .card-green {
     border-left: 3px solid green;
 }
-/***************************************************************************/
 
+/***************************************************************************/
+/* ANIMATION ROTATING CIRCLE */
 .loading-effect {
     overflow: hidden;
 }
@@ -233,6 +235,8 @@ body {
 
 }
 
+/******************************************************/
+
 .table {
     text-align: center;
     height: 95%;
@@ -244,7 +248,8 @@ body {
     text-align: center;
     flex-direction: column;
 }
-.table-center > table > tr {
+
+.table-center > table > tbody > tr {
     border-bottom: 1px solid black;
     border-top: 1px solid black;
 }
@@ -275,6 +280,10 @@ body {
 #table-info > tr {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+#table-info > tr > td {
+    border: 1px solid black;
 }
 
 

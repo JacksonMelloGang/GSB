@@ -44,7 +44,7 @@
 
                         while($ligne != false){
                             echo("<tr>");
-                                echo("<td><a href='/views/Rapports.php?action=consult&rapid={$ligne['id']}'>Rapport N°{$ligne['rapNum']}</a></td>");
+                                echo("<td><a href='/views/EditRapport.php?&rapid={$ligne['id']}'>Rapport N°{$ligne['rapNum']}</a></td>");
                             echo("</tr>");
 
                             $ligne = $result->fetch();
@@ -62,7 +62,7 @@
                     labels: [
                         <?php
                             // echo name of medic
-                            if(sizeof($samplesresult) == 0){
+                            if(sizeof($samplesresult) < 5){
                                 for($i=0; $i < 4; $i++){
                                     echo("'NO DATA', ");
                                 }
@@ -81,7 +81,7 @@
                         data: [
                             <?php
                                 // echo number of medic               
-                                if(sizeof($samplesresult) == 0){
+                                if(sizeof($samplesresult) < 5){
                                     for($i=0; $i < 4; $i++){
                                         echo("0, ");
                                     }

@@ -56,7 +56,17 @@ function ajoutLigne(pNumero){//ajoute une ligne de produits/qt� � la div "li
     laDiv.appendChild(bouton); // Ajouter
 }
 
+
+
+
+//////////////////////////////////////////////////////////////////////////
 // searchby, orderby_infotype, orderby_input
+//
+//  FILTER SYSTEM 'TRIER PAR' ON PRATICIENS PAGE
+//
+//
+//////////////////////////////////////////////////////////////////////////
+
 $("#orderby_type").on('change', function(){
     
     var selectedtype = $("#orderby_type").find(':selected').val();
@@ -115,11 +125,36 @@ $("#orderby_infotype").on('change', function(){
 
 });
 
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+// When trying to update form
 $("#updateform").submit((e) => {
+    e.preventDefault();
 
     var saisiedef = 0;
     if($("#saisiedef").prop('checked') == true){
         saisiedef = 1;
+    }
+
+    var nb_echantillonjs = $("[name='nbechantillon']").val();
+    var nbarray = {};
+
+    // insert each echantillon into a json list (nbarray)
+    for(i=1; i <= nb_echantillonjs; i++){
+        var elementname = $(`[name='PRA_ECH${i}']`).attr('name');
+        var elementmedic = $(`[name='PRA_ECH${i}']`).find("option:selected").val();    
+        var elementqte = $(`[name='PRA_QTE${i}']`).val();
+
+        console.log(elementname, elementmedic, elementqte);
+
+        nbarray[`${elementname}`] = `${elementmedic}:${elementqte}`;
+
     }
 
     var formdata = {
@@ -127,8 +162,15 @@ $("#updateform").submit((e) => {
         saisiedef: saisiedef,
         rapid:  $("#rapid").val(),
         produit1: $("#produit1").find("option:selected").val(),
-        produit2: $("#produit2").find("option:selected").val()
+        produit2: $("#produit2").find("option:selected").val(),
+        nbechantillon: nb_echantillonjs
+    
     };  
+
+
+    var formdata = $.extend(true, formdata, nbarray);
+
+    console.log(formdata);
 
     $.ajax({
         type: "POST",
@@ -142,8 +184,20 @@ $("#updateform").submit((e) => {
         }
     })
 
-    e.preventDefault();
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 $(".deleterap").click(function(e) {

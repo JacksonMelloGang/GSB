@@ -15,7 +15,7 @@ $produit1 = "";
 $produit2 = "";
 $saisiedef = 0;
 
-
+// check if value are good 
 if(!isset($_POST['rapid'])){
     die("Numéro de Rapport non-fourni.");
 }
@@ -55,6 +55,8 @@ if($saisiedef == 0){
     $saisiedef = 1;
 }
 
+// check if rapport exist and if the user who want to update is the right
+
 $sqlcheckauthor = "SELECT visMatricule FROM rapportvisite WHERE id = ?";
 $stmtauthor = $connexion->prepare($sqlcheckauthor);
 $stmtauthor->execute([$rapId]);
@@ -68,15 +70,14 @@ if($resultauthor['visMatricule'] != $_SESSION['userId']){
     die("Vous n'êtes pas l'auteur !");
 }
 
-$sqlupdate = "UPDATE rapportvisite SET rapBilan = ?, prod1 = ?, prod2 = ?  WHERE id = ?";
+//////////////////////////////////////////////////////////////////////////
+// update rapport in sql
+
+$sqlupdate = "UPDATE rapportvisite SET rapBilan = ?, prod1 = ?, prod2 = ?, saisiedef = ?  WHERE id = ?";
 $stmtupdate= $connexion->prepare($sqlupdate);
-$stmtupdate->execute([$bilan, $produit1, $produit2, $rapId]);
+$stmtupdate->execute([$bilan, $produit1, $produit2, $saisiedef, $rapId]);
 
-$sqllockrap = "UPDATE rapportvisite SET saisiedef = ? WHERE id = ?";
-$stmtlockrap = $connexion->prepare($sqllockrap);
-$stmtlockrap->execute([$saisiedef, $rapId]);
-
-if($stmtupdate === false || $stmtlockrap === false){
+if($stmtupdate === false){
     die("Couldn't update rapport");
 } else {
     echo("Success");

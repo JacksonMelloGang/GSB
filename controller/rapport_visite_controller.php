@@ -245,7 +245,7 @@
     // query to insert database
     $connexion->beginTransaction();
 
-        // Insert Rapport
+        // Insert Report
         $sql = "INSERT INTO rapportvisite(visMatricule, rapNum, praNum, rapDate, rapBilan, rapMotif, saisiedef, docfourni, prod1, prod2) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $stmt = $connexion->prepare($sql);
         $stmt->execute([$_SESSION["userId"], $rapnum, $praticien, $datevisite, $bilan, $motif, $saisiedef, $documentation, $produit1, $produit2]);
@@ -254,7 +254,6 @@
 
         /* It's inserting the samples into the database */
         $prodsql = "INSERT INTO offrir(visMatricule, rapNum, medDepotlegal, offQte) VALUES(?, ?, ?, ?);";
-        $echantillonnumeroqte = 0;
         for($i = 0; $i < sizeof($prodarray); $i+=2){
             $stmt = $connexion->prepare($prodsql);
             $stmt->execute([$_SESSION["userId"], $rapid, $prodarray[$i], $prodarray[$i+1]]);
