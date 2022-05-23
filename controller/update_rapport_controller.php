@@ -100,7 +100,6 @@ for($i = 1; $i <= $nbechantillon; $i++){
     if(empty($echantillon) || empty($qteechantillon)){
         return;
     }
-    
 
     $stmt->execute(array($_SESSION["userId"], $rapId, $echantillon, $qteechantillon));
 }
