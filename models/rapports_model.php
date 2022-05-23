@@ -1,5 +1,14 @@
 <?php
 
+    /**
+     * It checks if the user is allowed to edit a report
+     * 
+     * @param PDO connexion the PDO connection object
+     * @param int rapportId the id of the report to be edited
+     * @param int userId the id of the user who is trying to edit the report
+     * 
+     * @return boolean a boolean value.
+     */
     function isAllowedtoEdit($connexion, $rapportId, $userId){
 
         $allowed = true;
@@ -168,6 +177,14 @@
         return $result;
     }
 
+    /**
+     * It returns an array of all the medicines that were offered to a patient during a visit.
+     * 
+     * @param PDO connexion the connection to the database
+     * @param int rapId the id of the report
+     * 
+     * @return array|false the result of the query.
+     */
     function getEchantillonsByRapport($connexion, $rapId){
         $sql = "SELECT offrir.medDepotlegal, medicament.medNomCommercial, COUNT(offrir.medDepotlegal) AS counted FROM offrir, medicament WHERE rapNum = ? AND offrir.medDepotlegal = medicament.medDepotlegal";
         $stmt = $connexion->prepare($sql);
@@ -177,11 +194,9 @@
         if($resultmedic === false){
             $result = false;
         } else {
-                $array = $stmt->fetch();
-                if($array["counted"] == "0"){
-                    return false;
-                } else {
-                    $result = $stmt->fetchAll();
+                $result = $stmt->fetchAll();
+                if($result[0]["counted"] == 0){
+                    $result = false;
                 }
         }
         return $result;

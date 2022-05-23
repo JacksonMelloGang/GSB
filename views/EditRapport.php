@@ -187,7 +187,7 @@
                 echo("<div class='titre' id='lignes'>");
                     echo("<label class='titre'>Produit : </label>");
                         echo("<select name='PRA_ECH1' class='zone'>");
-                            echo("<option value='NULL' selected>Medicament</option>");
+                            echo("<option value='' selected>Medicament</option>");
                                 echo("$medicamentoptions");
                         echo("</select>");
                     echo("<label for='PRA_QTE1'>Qté : </label>");
@@ -245,7 +245,7 @@
             echo ("<input type='hidden' name='rapid' id='rapid' value='{$row['id']}'>");
             
             if($echantillon == false){
-                echo ("<input type='hidden' value='0' name='nbechantillon'>");
+                echo ("<input type='hidden' value='1' name='nbechantillon'>");
             } else {
                 echo ("<input type='hidden' value='{$echantillon[0]['counted']}' name='nbechantillon'>");
             }

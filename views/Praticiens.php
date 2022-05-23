@@ -60,7 +60,7 @@
                                 ]
                                 */
                                 foreach($rapports as $row){
-                                    echo("&nbsp;&nbsp;&nbsp;&nbsp;<a href='/views/Rapports.php?action=consult&rapid={$row['id']}'>Rapport N°{$row['id']} Datant du {$row['rapDate']}</a><br>");
+                                    echo("&nbsp;&nbsp;&nbsp;&nbsp;<a href='/views/EditRapport.php?rapid={$row['id']}'>Rapport N°{$row['rapNum']} Datant du {$row['rapDate']}</a><br>");
                                 }
                             }
                         echo("</div>");

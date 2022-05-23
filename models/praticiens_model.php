@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * It gets all the praticiens from the database and returns them as options for a select input
+ * 
+ * @param PDO connexion The PDO object that is connected to the database.
+ * 
+ * @return string A string containing the HTML code for the options of the select element.
+ */
 function getPraticiensOptions($connexion)
 {
 
@@ -21,6 +28,13 @@ function getPraticiensOptions($connexion)
     return $content;
 }
 
+/**
+ * It displays the list of all the praticiens in the database in a table.
+ * 
+ * @param PDO connexion the database connection
+ * 
+ * @return string the content of the ob_start() function.
+ */
 function showAllPraticienstable($connexion)
 {
     // user-input, define number of elements in page
@@ -113,6 +127,13 @@ function showAllPraticienstable($connexion)
 }
 
 
+/**
+ * It returns the 4 most reputed doctors.
+ * 
+ * @param PDO connexion the connection to the database
+ * 
+ * @return array the 4 most reputed doctors.
+ */
 function getMostReputations($connexion)
 {
     $sql = "SELECT praNom, praCoefnotoriete FROM praticien ORDER BY praCoefnotoriete DESC LIMIT 4 ";
@@ -122,6 +143,14 @@ function getMostReputations($connexion)
     return $result;
 }
 
+/**
+ * It returns an array containing the informations of a practitioner, given its id.
+ * 
+ * @param PDO connexion PDO object
+ * @param int praNum the id of the practitioner
+ * 
+ * @return array|boolean An array with the following keys: Numero, Nom, Prenom, Adresse, Cp, Notoriete, Libelle
+ */
 function getPraticienInfosById($connexion, $praNum)
 {
     $sql = "SELECT praNum, praNom, praPrenom, praAdresse, praCp, praVille, praCoefnotoriete, typLibelle, typLieu FROM praticien, typepraticien WHERE praNum = ? AND praticien.typCode = typepraticien.typCode";
@@ -148,9 +177,17 @@ function getPraticienInfosById($connexion, $praNum)
     return $returned;
 }
 
+/**
+ * It returns an array of all the reports for a given practitioner.
+ * 
+ * @param PDO connexion PDO object
+ * @param int praNum the id of the practitioner
+ * 
+ * @return array|boolean An array of associative arrays.
+ */
 function getRapportsByPraticiens($connexion, $praNum)
 {
-    $sql = "SELECT id, rapDate FROM praticien, rapportvisite WHERE praticien.praNum = rapportvisite.praNum AND rapportvisite.praNum = ?";
+    $sql = "SELECT id, rapNum, rapDate FROM praticien, rapportvisite WHERE praticien.praNum = rapportvisite.praNum AND rapportvisite.praNum = ?";
     $rapport_stmt = $connexion->prepare($sql);
     $rapport_stmt->execute(array($praNum));
     $result = $rapport_stmt->fetchAll();

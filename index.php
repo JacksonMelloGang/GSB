@@ -74,7 +74,7 @@
     <div id="back-login" style="color: white;">
             <!-- It's the form that the user will fill to login. -->
             <form id="loginform" action="" method="post">
-                <h1>Authentication</h1>
+                <h1>Page de connexion</h1>
                 <input type="text" placeholder="Nom d'utilisateur" name="username">
                 <br>
                 <input type="password" placeholder="Mot de passe" name="password">

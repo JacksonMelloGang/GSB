@@ -131,6 +131,8 @@ $("#orderby_infotype").on('change', function(){
 $("#updateform").submit((e) => {
     e.preventDefault();
 
+    var selectedtype = $("[name='PRA_ECH1']").find(':selected').val();
+
     // check if it's a def saisie
     var saisiedef = 0;
     if($("#saisiedef").prop('checked') == true){
@@ -143,14 +145,11 @@ $("#updateform").submit((e) => {
 
     // insert each echantillon into a json list (nbarray)
     for(i=1; i <= nb_echantillonjs; i++){
-        var elementname = $(`[name='PRA_ECH${i}']`).attr('name');
         var elementmedic = $(`[name='PRA_ECH${i}']`).find("option:selected").val();    
         var elementqte = $(`[name='PRA_QTE${i}']`).val();
 
         nbarray[`PRA_ECH${i}`] = `${elementmedic}`;
         nbarray[`PRA_QTE${i}`] = `${elementqte}`;
-
-        console.log(elementmedic, elementqte);
     }
 
     var formdata = {
@@ -160,14 +159,13 @@ $("#updateform").submit((e) => {
         produit1: $("#produit1").find("option:selected").val(),
         produit2: $("#produit2").find("option:selected").val(),
         nbechantillon: nb_echantillonjs
-    
+        
     };  
 
-
+    // concatenate formdata and nbarray
     var formdata = $.extend(true, formdata, nbarray);
 
-    console.log(formdata);
-
+    // create post request with formdata
     $.ajax({
         type: "POST",
         url: "https://gsb-lycee.ga/controller/update_rapport_controller.php",
@@ -194,20 +192,19 @@ $("#updateform").submit((e) => {
 
 
 
-
-
+// When clicking on 'Supprimer', ask if he really want to do it
 $(".deleterap").click(function(e) {
 
     var confirmdelete = confirm("Etes vous sûr de supprimer votre rapport ? Toute suppression est définitif !");
     if(confirmdelete != true){
         e.preventDefault();
+        return;
     }
 });
 
+// when checking the checkbox (to toggle delete mode), ask if he really wants to delete a report
 $('#toggledeleterap').click(function() {
-
-
-
+    // prompt and if he keeps saying yes, display 'Supprimer' button
     if($(this).prop('checked') == true){
         var confirmdelete = confirm("Etes vous sûr d'activer le mode suppression ? Toute suppression est définitif !");
         if(confirmdelete == true){

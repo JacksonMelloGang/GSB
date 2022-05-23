@@ -45,11 +45,12 @@ if(!isset($_POST["produit2"])){
 if(!isset($_POST['saisiedef'])){
     die("Saisie Définitive Non définie.");
 }
-if(filter_var($_POST['nbechantillon'], FILTER_VALIDATE_INT) == true){
+
+/*if(filter_var($_POST['nbechantillon'], FILTER_VALIDATE_INT) == true){
     $nbechantillon = filter_var($_POST['nbechantillon'], FILTER_SANITIZE_NUMBER_INT);
 } else {
     die("Nombre d'échantillon Non Valide");
-}
+}*/
 
 
 ////////////////////////////////////////////////
@@ -88,11 +89,20 @@ $sqlupdate = "UPDATE rapportvisite SET rapBilan = ?, prod1 = ?, prod2 = ?, saisi
 $stmtupdate= $connexion->prepare($sqlupdate);
 $stmtupdate->execute([$bilan, $produit1, $produit2, $saisiedef, $rapId]);
 
+
 /* It's inserting the samples into the database */
-$prodsql = "INSERT INTO offrir(visMatricule, rapNum, medDepotlegal, offQte) VALUES(?, ?)";
-for($i = 1; $i <= $nbechantillon; $i+=2){
+$prodsql = "INSERT INTO offrir(visMatricule, rapNum, medDepotlegal, offQte) VALUES(?, ?, ?, ?)";
+for($i = 1; $i <= $nbechantillon; $i++){
     $stmt = $connexion->prepare($prodsql);
-    $stmt->execute(array("PRA_ECH{$i}", "PRA_QTE{$i}", $rapId));
+    $echantillon = $_POST["PRA_ECH{$i}"];
+    $qteechantillon = $_POST["PRA_QTE{$i}"];
+
+    if(empty($echantillon) || empty($qteechantillon)){
+        return;
+    }
+    
+
+    $stmt->execute(array($_SESSION["userId"], $rapId, $echantillon, $qteechantillon));
 }
 
 echo("Success");

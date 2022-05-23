@@ -1,5 +1,14 @@
 <?php
 
+    /**
+     * It takes a connection to the database and a medicament id as parameters, and returns the
+     * medicament's data as an array
+     * 
+     * @param connexion the PDO object
+     * @param medicId The ID of the medicament we want to get
+     * 
+     * @return string an array with the data of the medicament.
+     */
     function getMedicamentById($connexion, $medicId){
         // Prepare Request to avoid SQL Injection
         $stmt = $connexion->prepare("SELECT medDepotlegal, medNomcommercial, famLibelle, medComposition, medEffets, medContreindic, medPrixechantillon FROM medicament, famille WHERE medicament.famCode = famille.famCode AND medDepotLegal = :medic ");
@@ -16,6 +25,13 @@
         return $result;
     }
 
+    /**
+     * It gets the medicaments from the database and returns them as options for a select element
+     * 
+     * @param PDO connexion the connection to the database
+     * 
+     * @return string the options for the medicaments.
+     */
     function getMedicamentsOptions($connexion){
         ob_start();
         $query = $connexion->query("SELECT medNomCommercial, medDepotLegal FROM medicament");
@@ -29,6 +45,17 @@
         return ob_get_clean();
     }
 
+    /**
+     * It returns a string containing the HTML code for a <code>&lt;select&gt;</code> element, with the
+     * <code>&lt;option&gt;</code> elements being the names of the medicaments in the database.
+     * The <code></code> parameter is the name of the medicament that should be selected by
+     * default.
+     * 
+     * @param PDO connexion the PDO object
+     * @param string medicname the name of the medicament that is selected
+     * 
+     * @return string the selected medicaments as an option.
+     */
     function getSelectedMedicamentsAsOption($connexion, $medicname){
         ob_start();
         $query = $connexion->query("SELECT medNomCommercial, medDepotLegal FROM medicament");
@@ -48,7 +75,13 @@
     }
 
 
-
+    /**
+     * It returns the 4 most proposed samples.
+     * 
+     * @param PDO connexion the connection to the database
+     * 
+     * @return array the 4 most proposed samples.
+     */
     function getMostProposedSamples($connexion){
 
         $sql = "SELECT SUM(offQte), medicament.medNomcommercial FROM offrir, medicament WHERE offrir.medDepotlegal = medicament.medDepotlegal GROUP BY offrir.medDepotlegal ORDER BY SUM(offQte) DESC LIMIT 4";
@@ -59,6 +92,14 @@
     }
 
 
+
+    /**
+     * It displays a table with all the medicaments from the database
+     * 
+     * @param PDO connexion the database connection
+     * 
+     * @return string The content of the function is being returned.
+     */
     function showAllMedicamentsTable($connexion){
         ob_start();
 
