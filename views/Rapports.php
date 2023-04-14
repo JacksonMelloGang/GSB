@@ -87,7 +87,7 @@
 
     switch($action){
 
-        // https://gsb-lycee.ga/views/Rapports.php?&action=delete&rapid=<RAPID>
+        // http://gsb.test:8080/views/Rapports.php?&action=delete&rapid=<RAPID>
         case "delete":
             if(isset($_GET["rapid"])){
                 $rapid = htmlspecialchars($_GET["rapid"]);
@@ -103,7 +103,7 @@
             break;
 
         /* It's the default case, if no action is specified, it will show the default page. */
-        // https://gsb-lycee.ga/views/Rapports.php?&action=consult
+        // http://gsb.test:8080/views/Rapports.php?&action=consult
         default:
             $title = "GSB - Rapports";
             $content = showrapports($connexion);

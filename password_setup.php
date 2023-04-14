@@ -69,7 +69,7 @@
             $.ajax({
                 type: "POST",
                 data: formdata,
-                url: "https://gsb-lycee.ga/controller/password_setup_controller.php"
+                url: "http://gsb.test:8080/controller/password_setup_controller.php"
             }).done((data) => {
                 if(data == "Code Invalide."){
                     document.getElementById("info").innerText = "Code Invalide/Inexistant.";

@@ -13,7 +13,7 @@
     require_once($_SERVER["DOCUMENT_ROOT"]. "/models/praticiens_model.php");
 
 
-    // rapid required, so we check if rapid is in the url (exemple: https://gsb-lycee.ga/views/EditRapport.php&rapid=38)
+    // rapid required, so we check if rapid is in the url (exemple: http://gsb.test:8080/views/EditRapport.php&rapid=38)
     if(isset($_GET['rapid'])){
         $rapportId = $_GET['rapid'];
     } else {
@@ -162,7 +162,7 @@
             <?php
             $echantillon = getEchantillonsByRapport($connexion, $rapportId);
                 
-            if ($echantillon == false) {
+            if ($echantillon === false) {
                 echo ("<tr><td>Pas d'échantillon.</td></tr>");
             } else {
                 echo ("<th>N° Echantillon</th><th>Nom Echantillon</th>");

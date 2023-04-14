@@ -19,7 +19,7 @@
 
         case "showprac": // show info about a prat
 
-            // https://gsb-lycee.ga/views/Praticiens.php?action=showprac&pratid=3
+            // http://gsb.test:8080/views/Praticiens.php?action=showprac&pratid=3
             if(isset($_GET['pratid'])) {
                     
                 $pratinfo = getPraticienInfosById($connexion, $_GET['pratid']);
@@ -76,7 +76,7 @@
             }
             break;
         
-        // https://gsb-lycee.ga/views/Praticiens.php?action=consult
+        // http://gsb.test:8080/views/Praticiens.php?action=consult
         default:
             // Render default page
             $title="GSB - Liste des Praticiens";

@@ -186,7 +186,7 @@
      * @return array|false the result of the query.
      */
     function getEchantillonsByRapport($connexion, $rapId){
-        $sql = "SELECT offrir.medDepotlegal, medicament.medNomCommercial, COUNT(offrir.medDepotlegal) AS counted FROM offrir, medicament WHERE rapNum = ? AND offrir.medDepotlegal = medicament.medDepotlegal";
+        $sql = "SELECT offrir.medDepotlegal, medicament.medNomCommercial, COUNT(offrir.medDepotlegal) AS counted FROM offrir, medicament WHERE rapNum = ? AND offrir.medDepotlegal = medicament.medDepotlegal GROUP BY offrir.medDepotlegal, medicament.medNomcommercial";
         $stmt = $connexion->prepare($sql);
         $resultmedic = $stmt->execute(array($rapId));
 
@@ -195,8 +195,12 @@
             $result = false;
         } else {
                 $result = $stmt->fetchAll();
-                if($result[0]["counted"] == 0){
+                if(sizeof($result) == 0){
                     $result = false;
+                } else {
+                    if($result[0]["counted"] == 0){
+                        $result = false;
+                    }    
                 }
         }
         return $result;

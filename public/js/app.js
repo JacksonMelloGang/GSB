@@ -78,7 +78,7 @@ $("#orderby_type").on('change', function(){
 
     if(value == 0){              
         $.ajax({
-            url: "https://gsb-lycee.ga/data/praticiens.php",
+            url: "http://gsb.test:8080/data/praticiens.php",
             data: formdata,
             method: "POST"
         }).done((data) => {
@@ -86,7 +86,7 @@ $("#orderby_type").on('change', function(){
         });
     } else {
         $.ajax({
-            url: "https://gsb-lycee.ga/data/praticiens.php",
+            url: "http://gsb.test:8080/data/praticiens.php",
             data: formdata,
             method: "POST"
         }).done((data) => {
@@ -109,7 +109,7 @@ $("#orderby_infotype").on('change', function(){
     }
 
     $.ajax({
-        url: "https://gsb-lycee.ga/data/praticiens.php",
+        url: "http://gsb.test:8080/data/praticiens.php",
         data: formdata,
         method: "POST"
     }).done((data) => {
@@ -168,7 +168,7 @@ $("#updateform").submit((e) => {
     // create post request with formdata
     $.ajax({
         type: "POST",
-        url: "https://gsb-lycee.ga/controller/update_rapport_controller.php",
+        url: "http://gsb.test:8080/controller/update_rapport_controller.php",
         data: formdata
     }).done((data) => {
         if(data == "Success"){

@@ -1,7 +1,7 @@
 <?php
 
 define("DB_HOST", "localhost");
-define("DB_USER", "gsb");
-define("DB_PASSWORD", "gsb-cr");
+define("DB_USER", "root");
+define("DB_PASSWORD", "");
 define("DB_NAME", "gsb");
 define("DB_PORT", 3306);
